@@ -8,10 +8,11 @@
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.softeng206.vidivox.Controller">
     <children>
-        <Pane fx:id="mediaPane" prefHeight="269.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
+      <StackPane fx:id="mediaPane" style="-fx-background-color: black;" VBox.vgrow="ALWAYS">
          <children>
             <MediaView fx:id="mediaView" fitHeight="266.0" fitWidth="600.0" />
-         </children></Pane>
+         </children>
+      </StackPane>
       <ToolBar prefHeight="40.0" prefWidth="200.0" VBox.vgrow="NEVER">
         <items>
           <Button fx:id="browseVideoButton" mnemonicParsing="false" onAction="#browseVideo" text="Browse" />
