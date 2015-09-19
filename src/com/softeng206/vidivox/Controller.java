@@ -41,7 +41,6 @@ public class Controller {
         mediaView.fitHeightProperty().bind(mediaPane.heightProperty());
         mediaView.fitWidthProperty().bind(mediaPane.widthProperty());
 
-
         mediaPane.setVisible(true);
 
 
