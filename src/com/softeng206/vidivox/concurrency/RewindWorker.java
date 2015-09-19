@@ -1,20 +1,17 @@
-package com.softeng206.vidivox;
+package com.softeng206.vidivox.concurrency;
 
 import javafx.concurrent.Task;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
 import javafx.util.Duration;
-
 
 /**
  * Created by jay on 19/09/15.
  */
-public class rewindWorker extends Task<Void> {
+public class RewindWorker extends Task<Void> {
+    private MediaPlayer player;
 
-    private MediaView mediaView;
-
-    public rewindWorker(MediaView mview){
-        this.mediaView = mview;
+    public RewindWorker(MediaPlayer player) {
+        this.player = player;
     }
 
     public void runTask() {
@@ -25,14 +22,11 @@ public class rewindWorker extends Task<Void> {
 
     @Override
     protected Void call() throws Exception {
-        MediaPlayer mplayer = mediaView.getMediaPlayer();
-
         while (!isCancelled()) {
-            mplayer.setMute(true);
-            mplayer.seek(mplayer.getCurrentTime().subtract(Duration.seconds(1.5)));
+            player.setMute(true);
+            player.seek(player.getCurrentTime().subtract(Duration.seconds(1.5)));
             Thread.sleep(200);
         }
-
 
         return null;
     }
