@@ -29,12 +29,12 @@
                 <VBox alignment="CENTER" prefHeight="100.0" prefWidth="444.0" HBox.hgrow="ALWAYS">
                     <children>
                         <Label text="Text to speech" />
-                        <TextArea prefHeight="46.0" prefWidth="444.0" />
+                        <TextArea fx:id="ttsPreviewText" prefHeight="46.0" prefWidth="444.0" />
                         <ToolBar prefHeight="40.0" prefWidth="200.0">
                             <items>
-                                <Button mnemonicParsing="false" text="Preview" />
-                                <Button mnemonicParsing="false" text="Save to MP3" />
-                                <Button mnemonicParsing="false" text="Add to video" />
+                                <Button fx:id="ttsPreviewButton" mnemonicParsing="false" onAction="#ttsPreview" text="Preview" />
+                        <Button fx:id="ttsCancelPreviewButton" disable="true" mnemonicParsing="false" onAction="#ttsPreviewCancel" text="Cancel Preview" />
+                                <Button mnemonicParsing="false" onAction="#ttsMp3" text="Save to MP3" />
                             </items>
                         </ToolBar>
                     </children>
