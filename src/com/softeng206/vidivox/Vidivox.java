@@ -2,19 +2,14 @@ package com.softeng206.vidivox;
 
 import javafx.application.Application;
 
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.media.MediaView;
 
 import javafx.stage.Stage;
 
 
 public class Vidivox extends Application {
-    @FXML
-    MediaView mediaView;
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("Gui.fxml"));
@@ -24,13 +19,9 @@ public class Vidivox extends Application {
         primaryStage.setMinHeight(400);
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.show();
-
-
     }
-
 
     public static void main(String[] args) {
         launch(args);
     }
-
 }

@@ -1,8 +1,5 @@
 package com.softeng206.vidivox;
 
-import com.sun.org.apache.xpath.internal.SourceTree;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.Button;
@@ -15,7 +12,6 @@ import javafx.stage.FileChooser;
 import java.io.File;
 
 public class Controller {
-
     @FXML
     public MediaView mediaView;
 
@@ -33,7 +29,6 @@ public class Controller {
             mediaView.getMediaPlayer().dispose();
         }
 
-
         mediaView.setMediaPlayer(player);
 
         player.setAutoPlay(true);
@@ -43,12 +38,7 @@ public class Controller {
 
         mediaPane.setVisible(true);
 
-
         player.play();
-
-        //System.out.println(mediaPane.boundsInLocalProperty().toString());
-
-
     }
 
     public void browseVideo() {
