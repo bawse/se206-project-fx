@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
+<?import javafx.scene.media.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.softeng206.vidivox.Controller">
     <children>
-        <Pane prefHeight="269.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
+        <Pane fx:id="mediaPane" prefHeight="269.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
          <children>
-            <Canvas height="266.0" width="600.0" />
+            <MediaView fx:id="mediaView" blendMode="RED" fitHeight="266.0" fitWidth="600.0" onMouseClicked="#playMedia" />
          </children></Pane>
       <ToolBar prefHeight="40.0" prefWidth="200.0" VBox.vgrow="NEVER">
         <items>
-          <Button mnemonicParsing="false" text="Browse" />
+          <Button fx:id="browseVideoButton" mnemonicParsing="false" onAction="#browseVideo" text="Browse" />
             <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="0.0" />
             <Button mnemonicParsing="false" text="Play / Pause" />
             <Button mnemonicParsing="false" text="Stop" />
