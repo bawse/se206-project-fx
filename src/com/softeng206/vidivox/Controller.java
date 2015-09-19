@@ -12,6 +12,16 @@ import javafx.stage.FileChooser;
 import java.io.File;
 
 public class Controller {
+    MediaPlayer player;
+    boolean forward;
+
+
+    @FXML
+    public Button playPauseButton;
+
+    @FXML
+    public Button rewindButton;
+
     @FXML
     public MediaView mediaView;
 
@@ -21,8 +31,12 @@ public class Controller {
     @FXML
     public Button browseVideoButton;
 
+    @FXML
+    public Button stopVideoButton;
+
     private void playMedia(File video) {
-        MediaPlayer player = new MediaPlayer(new Media(video.toURI().toString()));
+
+        player = new MediaPlayer(new Media(video.toURI().toString()));
         player.setAutoPlay(true);
 
         if (mediaView.getMediaPlayer() != null) {
@@ -37,9 +51,35 @@ public class Controller {
         player.play();
     }
 
+    public void stopVideo() {
+        player.stop();
+    }
+
     public void browseVideo() {
         FileChooser fc = new FileChooser();
         File file = fc.showOpenDialog(browseVideoButton.getScene().getWindow());
         playMedia(file);
     }
+
+    public void fastForwardVideo(){
+        if (mediaView.getMediaPlayer() != null){
+            player.setMute(true);
+            player.setRate(10.0);
+        }
+    }
+
+    public void rewindVideo(){
+       // To do
+    }
+
+    public void playButtonPressed(){
+        // player.getStatus().equals(MediaPlayer.Status.PLAYING) can be used to check if
+        // the player is already playing. Useful for pause functionality for the project.
+        if (mediaView.getMediaPlayer() != null && (mediaView.getMediaPlayer().getRate() != 1.0)){
+            mediaView.getMediaPlayer().setMute(false);
+            mediaView.getMediaPlayer().setRate(1.0);
+
+        }
+    }
+
 }
