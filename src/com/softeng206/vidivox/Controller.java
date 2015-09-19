@@ -21,28 +21,25 @@ public class Controller {
     @FXML
     public Button browseVideoButton;
 
-    public void playMedia(){
-        Media media = new Media("file:///home/jay/Downloads/beenon.mp4");
-        MediaPlayer player = new MediaPlayer(media);
+    private void playMedia(File video) {
+        MediaPlayer player = new MediaPlayer(new Media(video.toURI().toString()));
+        player.setAutoPlay(true);
 
         if (mediaView.getMediaPlayer() != null) {
             mediaView.getMediaPlayer().dispose();
         }
 
         mediaView.setMediaPlayer(player);
-
-        player.setAutoPlay(true);
-
         mediaView.fitHeightProperty().bind(mediaPane.heightProperty());
         mediaView.fitWidthProperty().bind(mediaPane.widthProperty());
 
         mediaPane.setVisible(true);
-
         player.play();
     }
 
     public void browseVideo() {
         FileChooser fc = new FileChooser();
         File file = fc.showOpenDialog(browseVideoButton.getScene().getWindow());
+        playMedia(file);
     }
 }
