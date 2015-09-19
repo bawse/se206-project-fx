@@ -1,20 +1,24 @@
 package com.softeng206.vidivox;
 
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.Button;
+import javafx.scene.input.TouchEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
+import javafx.util.Duration;
 
 import java.io.File;
 
 public class Controller {
     MediaPlayer player;
-    boolean forward;
-
+    rewindWorker rewindBackground;
 
     @FXML
     public Button playPauseButton;
@@ -64,16 +68,26 @@ public class Controller {
     public void fastForwardVideo(){
         if (mediaView.getMediaPlayer() != null){
             player.setMute(true);
-            player.setRate(10.0);
+            player.setRate(8.0);
         }
     }
 
-    public void rewindVideo(){
-       // To do
+    public void rewindVideo() {
+        rewindBackground = new rewindWorker(mediaView);
+        rewindBackground.runTask();
+
     }
 
     public void playButtonPressed(){
-        // player.getStatus().equals(MediaPlayer.Status.PLAYING) can be used to check if
+
+        if (rewindBackground != null && rewindBackground.isRunning()){
+            Duration playtime = mediaView.getMediaPlayer().getCurrentTime();
+            rewindBackground.cancel(true);
+            mediaView.getMediaPlayer().setMute(false);
+            mediaView.getMediaPlayer().seek(playtime);
+        }
+        
+         // player.getStatus().equals(MediaPlayer.Status.PLAYING) can be used to check if
         // the player is already playing. Useful for pause functionality for the project.
         if (mediaView.getMediaPlayer() != null && (mediaView.getMediaPlayer().getRate() != 1.0)){
             mediaView.getMediaPlayer().setMute(false);
