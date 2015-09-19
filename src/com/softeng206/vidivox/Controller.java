@@ -23,7 +23,7 @@ public class Controller {
     public Button browseVideoButton;
 
     public void playMedia(){
-        Media media = new Media("file:///home/jay/Downloads/bigbuckbunny206_2.mp4");
+        Media media = new Media("file:///C:/Users/Harsh/Desktop/test.mp4");
         MediaPlayer player = new MediaPlayer(media);
 
         if (mediaView.getMediaPlayer() != null) {
