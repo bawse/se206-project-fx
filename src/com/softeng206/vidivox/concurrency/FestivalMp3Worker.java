@@ -18,7 +18,7 @@ public class FestivalMp3Worker extends BashWorker {
         // FFMPEG command from Nasser's followup to https://piazza.com/class/icl94md3xuv6n9?cid=92
         // Makes temporary wav with text2wave, then converts to MP3 using ffmpeg
         return "rm -f .output.wav && echo \"" + message + "\" | text2wave -o .output.wav && ffmpeg -i .output.wav " +
-                "-f mp3 " + destination.getAbsolutePath() + " && rm .output.wav";
+                "-f mp3 \"" + destination.getAbsolutePath() + "\" && rm .output.wav";
     }
 
     protected int getKillPID(int mainPid) {

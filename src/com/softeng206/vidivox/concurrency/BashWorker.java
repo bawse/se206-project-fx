@@ -1,6 +1,8 @@
 package com.softeng206.vidivox.concurrency;
 
 import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
+import javafx.event.EventHandler;
 
 import java.lang.reflect.Field;
 
@@ -14,6 +16,12 @@ abstract public class BashWorker extends Task<Integer> {
         Thread thread = new Thread(this);
         thread.setDaemon(true);
         thread.start();
+    }
+
+    public void setOnFinished(EventHandler<WorkerStateEvent> value) {
+        setOnCancelled(value);
+        setOnFailed(value);
+        setOnSucceeded(value);
     }
 
     protected Integer call() throws Exception {
