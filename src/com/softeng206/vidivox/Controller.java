@@ -63,6 +63,8 @@ public class Controller {
 
         if (selectedVideo != null) {
             playMedia(selectedVideo);
+        } else {
+            showAlert(Alert.AlertType.WARNING, "Error", "Please select a video file to preview.");
         }
     }
 
@@ -97,11 +99,8 @@ public class Controller {
 
     private boolean checkTextSuitability() {
         if (ttsPreviewText.getText().split(" ").length > 35) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Warning");
-            alert.setHeaderText(null);
-            alert.setContentText("Please use less than 35 words in your text. Long phrases tend to sound unnatural.");
-            alert.show();
+            showAlert(Alert.AlertType.WARNING, "Warning",
+                    "Please use less than 35 words in your text. Long phrases tend to sound unnatural.");
             return false;
         }
 
@@ -140,18 +139,13 @@ public class Controller {
         File target = fc.showSaveDialog(ttsPreviewButton.getScene().getWindow());
 
         if (target == null) {
+            showAlert(Alert.AlertType.WARNING, "Error", "Please select a valid destination file.");
             return;
         }
 
         mp3Worker = new FestivalMp3Worker(ttsPreviewText.getText(), target);
         mp3Worker.setOnSucceeded(
-                event -> {
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Done!");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Your MP3 was saved successfully.");
-                    alert.show();
-                }
+                event -> showAlert(Alert.AlertType.INFORMATION, "Done!", "Your MP3 was saved successfully.")
         );
 
         mp3Worker.setOnFailed(
@@ -163,6 +157,11 @@ public class Controller {
 
     public void browseAudio() {
         selectedAudio = fc.showOpenDialog(browseVideoButton.getScene().getWindow());
+
+        if (selectedAudio == null) {
+            showAlert(Alert.AlertType.WARNING, "Error", "Please select an audio file to use.");
+            return;
+        }
     }
 
     public void renderVideo() {
@@ -170,6 +169,7 @@ public class Controller {
             File destination = fc.showSaveDialog(browseVideoButton.getScene().getWindow());
 
             if (destination == null) {
+                showAlert(Alert.AlertType.WARNING, "Error", "Please select a valid destination file.");
                 return;
             }
 
@@ -178,14 +178,20 @@ public class Controller {
             progressBar.progressProperty().bind(worker.progressProperty());
             worker.setOnSucceeded(
                     event -> {
-                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                        alert.setTitle("Done!");
-                        alert.setHeaderText(null);
-                        alert.setContentText("Your video was saved successfully.");
-                        alert.show();
+                        showAlert(Alert.AlertType.INFORMATION, "Done!", "Your video was saved successfully.");
                     }
             );
             worker.runTask();
+        } else {
+            showAlert(Alert.AlertType.ERROR, "Error", "You must select a video file and an audio file to combine.");
         }
+    }
+
+    private void showAlert(Alert.AlertType type, String title, String message) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.show();
     }
 }
