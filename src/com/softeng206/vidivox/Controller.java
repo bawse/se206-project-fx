@@ -6,10 +6,7 @@ import com.softeng206.vidivox.concurrency.RewindWorker;
 import com.softeng206.vidivox.concurrency.VideoRenderWorker;
 import javafx.fxml.FXML;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -28,6 +25,7 @@ public class Controller {
     private File selectedAudio, selectedVideo;
 
     @FXML public Button browseVideoButton;
+    @FXML public Label currentAudio;
     @FXML public MediaView mediaView;
     @FXML public Pane mediaPane;
     @FXML public Button playPauseButton;
@@ -159,9 +157,12 @@ public class Controller {
         selectedAudio = fc.showOpenDialog(browseVideoButton.getScene().getWindow());
 
         if (selectedAudio == null) {
+            currentAudio.setText("(none)");
             showAlert(Alert.AlertType.WARNING, "Error", "Please select an audio file to use.");
             return;
         }
+
+        currentAudio.setText(selectedAudio.getName());
     }
 
     public void renderVideo() {
