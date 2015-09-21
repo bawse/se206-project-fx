@@ -36,9 +36,10 @@ public class VideoRenderWorker extends Task<Void> {
          * apad filter setup from below link, to pad audio track with silence to match video length
          * http://superuser.com/questions/801547/ffmpeg-add-audio-but-keep-video-length-the-same-not-shortest
          */
-        String command = "ffmpeg -i \"" + video.getAbsolutePath() + "\" -i \"" + audio.getAbsolutePath() + "\" -acodec aac " +
+        String command = "ffmpeg -i \"" + BashWorker.escapeChars(video.getAbsolutePath()) + "\" -i \"" +
+                BashWorker.escapeChars(audio.getAbsolutePath()) + "\" -acodec aac " +
                 "-vcodec libx264 -filter_complex \" [1:0] apad \" -f mp4 -strict -2 -shortest \"" +
-                destination.getAbsolutePath() + "\"";
+                BashWorker.escapeChars(destination.getAbsolutePath()) + "\"";
         ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", command);
 
         try {

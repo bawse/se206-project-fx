@@ -54,6 +54,13 @@ abstract public class BashWorker extends Task<Void> {
         }
     }
 
+    /**
+     * Escape bash special characters " and $
+     */
+    public static String escapeChars(String text) {
+        return text.replaceAll("\"","\\\\\"").replaceAll("\\$", "\\\\\\$");
+    }
+
     protected abstract String getBashCommand();
     protected abstract int getKillPID(int mainPid);
 }
