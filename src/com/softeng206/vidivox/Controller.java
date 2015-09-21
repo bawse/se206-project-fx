@@ -179,6 +179,7 @@ public class Controller {
             progressBar.progressProperty().bind(worker.progressProperty());
             worker.setOnSucceeded(
                     event -> {
+                        progressBar.progressProperty().unbind();
                         progressBar.setProgress(0);
                         showAlert(Alert.AlertType.INFORMATION, "Done!", "Your video was saved successfully.");
                     }
