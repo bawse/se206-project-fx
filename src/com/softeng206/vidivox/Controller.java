@@ -173,8 +173,10 @@ public class Controller {
                 return;
             }
 
-            VideoRenderWorker worker = new VideoRenderWorker(selectedVideo, selectedAudio, destination);
-            worker.setOnFinished(
+            VideoRenderWorker worker = new VideoRenderWorker(selectedVideo, selectedAudio, destination,
+                    mediaView.getMediaPlayer().getMedia().getDuration().toMillis());
+            progressBar.progressProperty().bind(worker.progressProperty());
+            worker.setOnSucceeded(
                     event -> {
                         Alert alert = new Alert(Alert.AlertType.INFORMATION);
                         alert.setTitle("Done!");
