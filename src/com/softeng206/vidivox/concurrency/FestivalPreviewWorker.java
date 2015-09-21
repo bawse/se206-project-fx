@@ -15,7 +15,7 @@ public class FestivalPreviewWorker extends BashWorker {
 
     protected String getBashCommand() {
         // TODO: escape message for characters like "
-        return "echo \"" + message + "\" | festival --tts";
+        return "echo \"" + escapeChars(message) + "\" | festival --tts";
     }
 
     protected int getKillPID(int mainPid) {
