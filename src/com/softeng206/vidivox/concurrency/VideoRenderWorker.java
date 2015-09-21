@@ -32,6 +32,11 @@ public class VideoRenderWorker extends Task<Void> {
             return null;
         }
 
+        // If we get here, the overwrite option in the file chooser was accepted
+        if (destination.exists()) {
+            destination.delete();
+        }
+
         /*
          * apad filter setup from below link, to pad audio track with silence to match video length
          * http://superuser.com/questions/801547/ffmpeg-add-audio-but-keep-video-length-the-same-not-shortest
