@@ -3,6 +3,7 @@ package com.softeng206.vidivox;
 import com.softeng206.vidivox.concurrency.FestivalMp3Worker;
 import com.softeng206.vidivox.concurrency.FestivalPreviewWorker;
 import com.softeng206.vidivox.concurrency.RewindWorker;
+import com.softeng206.vidivox.concurrency.VideoRenderWorker;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.Alert;
@@ -24,6 +25,7 @@ public class Controller {
     private MediaPlayer player;
     private FestivalPreviewWorker previewWorker;
     private RewindWorker rewindBackground;
+    private File selectedAudio, selectedVideo;
 
     @FXML public Button browseVideoButton;
     @FXML public MediaView mediaView;
@@ -57,11 +59,10 @@ public class Controller {
     }
 
     public void browseVideo() {
-        FileChooser fc = new FileChooser();
-        File file = fc.showOpenDialog(browseVideoButton.getScene().getWindow());
+        selectedVideo = fc.showOpenDialog(browseVideoButton.getScene().getWindow());
 
-        if (file != null) {
-            playMedia(file);
+        if (selectedVideo != null) {
+            playMedia(selectedVideo);
         }
     }
 
@@ -158,5 +159,31 @@ public class Controller {
         );
 
         mp3Worker.runTask();
+    }
+
+    public void browseAudio() {
+        selectedAudio = fc.showOpenDialog(browseVideoButton.getScene().getWindow());
+    }
+
+    public void renderVideo() {
+        if (selectedAudio != null && selectedVideo != null) {
+            File destination = fc.showSaveDialog(browseVideoButton.getScene().getWindow());
+
+            if (destination == null) {
+                return;
+            }
+
+            VideoRenderWorker worker = new VideoRenderWorker(selectedVideo, selectedAudio, destination);
+            worker.setOnFinished(
+                    event -> {
+                        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                        alert.setTitle("Done!");
+                        alert.setHeaderText(null);
+                        alert.setContentText("Your video was saved successfully.");
+                        alert.show();
+                    }
+            );
+            worker.runTask();
+        }
     }
 }
