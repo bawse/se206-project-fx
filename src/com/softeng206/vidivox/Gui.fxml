@@ -48,9 +48,11 @@
                     <children>
                         <Label text="Audio" />
                   <Separator orientation="VERTICAL" prefHeight="200.0" visible="false" />
-                        <Button mnemonicParsing="false" text="Browse" />
+                  <Label text="Currently selected:" />
+                  <Label fx:id="currentAudio" text="(none)" />
+                        <Button mnemonicParsing="false" onAction="#browseAudio" text="Browse" />
                   <Separator orientation="VERTICAL" prefHeight="200.0" visible="false" />
-                        <Button mnemonicParsing="false" text="Add to video" />
+                        <Button mnemonicParsing="false" onAction="#renderVideo" text="Add to video" />
                   <Separator orientation="VERTICAL" prefHeight="200.0" visible="false" />
                     </children>
                 </VBox>
