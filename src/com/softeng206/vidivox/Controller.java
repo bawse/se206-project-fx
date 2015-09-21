@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
@@ -28,6 +29,7 @@ public class Controller {
     @FXML public MediaView mediaView;
     @FXML public Pane mediaPane;
     @FXML public Button playPauseButton;
+    @FXML public ProgressBar progressBar;
     @FXML public Button rewindButton;
     @FXML public Button stopVideoButton;
     @FXML public Button ttsCancelPreviewButton;

@@ -16,8 +16,8 @@ public class Vidivox extends Application {
 
         primaryStage.setTitle("Vidivox - hcho928 / jpan889");
         primaryStage.setMinWidth(600);
-        primaryStage.setMinHeight(400);
-        primaryStage.setScene(new Scene(root, 600, 400));
+        primaryStage.setMinHeight(450);
+        primaryStage.setScene(new Scene(root, 600, 450));
         primaryStage.show();
     }
 

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.media.*?>
 <?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.softeng206.vidivox.Controller">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.softeng206.vidivox.Controller">
     <children>
       <Pane fx:id="mediaPane" style="-fx-background-color: black;" VBox.vgrow="ALWAYS">
          <children>
@@ -24,12 +25,12 @@
             <Button mnemonicParsing="false" onAction="#fastForwardVideo" text="&gt;&gt;" />
         </items>
       </ToolBar>
-        <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
+        <HBox prefHeight="130.0" prefWidth="200.0" VBox.vgrow="NEVER">
             <children>
                 <VBox alignment="CENTER" prefHeight="100.0" prefWidth="444.0" HBox.hgrow="ALWAYS">
                     <children>
                         <Label text="Text to speech" />
-                        <TextArea fx:id="ttsPreviewText" prefHeight="46.0" prefWidth="444.0" />
+                        <TextArea fx:id="ttsPreviewText" prefHeight="46.0" prefWidth="200.0" />
                         <ToolBar prefHeight="40.0" prefWidth="200.0">
                             <items>
                                 <Button fx:id="ttsPreviewButton" mnemonicParsing="false" onAction="#ttsPreview" text="Preview" />
@@ -37,6 +38,10 @@
                                 <Button mnemonicParsing="false" onAction="#ttsMp3" text="Save to MP3" />
                             </items>
                         </ToolBar>
+                  <ProgressBar fx:id="progressBar" prefHeight="18.0" prefWidth="1136.0" progress="0.0">
+                     <padding>
+                        <Insets top="3.0" />
+                     </padding></ProgressBar>
                     </children>
                 </VBox>
                 <VBox alignment="CENTER" prefHeight="100.0" prefWidth="157.0" HBox.hgrow="NEVER">
