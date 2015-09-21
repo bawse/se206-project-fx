@@ -17,6 +17,7 @@ import javafx.stage.FileChooser;
 import javafx.util.Duration;
 
 import java.io.File;
+import java.util.regex.Pattern;
 
 public class Controller {
     private FileChooser fc = new FileChooser();
@@ -112,7 +113,9 @@ public class Controller {
             return;
         }
 
-        previewWorker = new FestivalPreviewWorker(ttsPreviewText.getText());
+        String escapedText = ttsPreviewText.getText().replaceAll("\"","\\\\\"");
+        escapedText = escapedText.replaceAll("\\$", "\\\\\\$");
+        previewWorker = new FestivalPreviewWorker(escapedText);
         previewWorker.setOnFinished(
                 WorkerStateEvent -> {
                     ttsCancelPreviewButton.setDisable(true);
