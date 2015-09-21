@@ -9,7 +9,7 @@ import java.lang.reflect.Field;
 /**
  * @author Harsh Chokshi
  */
-abstract public class BashWorker extends Task<Integer> {
+abstract public class BashWorker extends Task<Void> {
     private int processId;
 
     public void runTask() {
@@ -24,10 +24,10 @@ abstract public class BashWorker extends Task<Integer> {
         setOnSucceeded(value);
     }
 
-    protected Integer call() throws Exception {
+    protected Void call() throws Exception {
         // Bash is not available on windows
         if (System.getProperty("os.name").toLowerCase().contains("win")) {
-            return 0;
+            return null;
         }
 
         ProcessBuilder builder = new ProcessBuilder("/bin/bash", "-c", getBashCommand());
@@ -47,10 +47,10 @@ abstract public class BashWorker extends Task<Integer> {
                 }
             }
 
-            return mainProcess.exitValue();
+            return null;
         } catch (Exception e) {
             System.out.printf("%s: %s\n", e.getClass(), e.getMessage());
-            return 1;
+            return null;
         }
     }
 
