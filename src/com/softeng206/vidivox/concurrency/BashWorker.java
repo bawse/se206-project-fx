@@ -57,7 +57,7 @@ abstract public class BashWorker extends Task<Void> {
     /**
      * Escape bash special characters " and $
      */
-    protected String escapeChars(String text) {
+    public static String escapeChars(String text) {
         return text.replaceAll("\"","\\\\\"").replaceAll("\\$", "\\\\\\$");
     }
 
