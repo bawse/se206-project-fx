@@ -7,7 +7,7 @@ import javafx.event.EventHandler;
 import java.lang.reflect.Field;
 
 /**
- * @author Harsh Chokshi
+ * @author Jay Pandya
  */
 abstract public class BashWorker extends Task<Void> {
     private int processId;

@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 /**
- * @author Harsh Chokshi
+ * @author Jay Pandya
  */
 public class FestivalPreviewWorker extends BashWorker {
     private String message;

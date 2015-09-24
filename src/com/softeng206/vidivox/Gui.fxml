@@ -14,13 +14,16 @@
             <MediaView fx:id="mediaView" fitHeight="266.0" fitWidth="600.0" />
          </children>
       </Pane>
-      <ToolBar prefHeight="40.0" prefWidth="200.0" VBox.vgrow="NEVER">
+      <ToolBar VBox.vgrow="NEVER">
         <items>
+            <Slider fx:id="timeSlider" onMouseClicked="#skipVideo" prefHeight="16.0" prefWidth="250.0" />
+            <Label fx:id="timeLabel" text="0:00" />
+            <Region />
           <Button fx:id="browseVideoButton" mnemonicParsing="false" onAction="#browseVideo" text="Browse" />
-            <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="0.0" />
+            <Separator orientation="VERTICAL" />
             <Button fx:id="playPauseButton" mnemonicParsing="false" onAction="#playButtonPressed" text="Play" />
             <Button fx:id="stopVideoButton" mnemonicParsing="false" onAction="#stopVideo" text="Stop" />
-            <Separator orientation="VERTICAL" prefHeight="0.0" prefWidth="0.0" />
+            <Separator orientation="VERTICAL" />
             <Button fx:id="rewindButton" mnemonicParsing="false" onAction="#rewindVideo" text="&lt;&lt;" />
             <Button mnemonicParsing="false" onAction="#fastForwardVideo" text="&gt;&gt;" />
         </items>

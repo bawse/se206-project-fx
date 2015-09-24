@@ -3,7 +3,7 @@ package com.softeng206.vidivox.concurrency;
 import java.io.File;
 
 /**
- * @author Harsh Chokshi
+ * @author Jay Pandya
  */
 public class FestivalMp3Worker extends BashWorker {
     private File destination;

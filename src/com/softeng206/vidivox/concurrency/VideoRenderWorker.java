@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Field;
 
 /**
- * @author Harsh Chokshi
+ * @author Jay Pandya
  */
 public class VideoRenderWorker extends Task<Void> {
     private File audio, destination, video;

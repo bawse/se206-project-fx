@@ -4,6 +4,8 @@ import com.softeng206.vidivox.concurrency.FestivalMp3Worker;
 import com.softeng206.vidivox.concurrency.FestivalPreviewWorker;
 import com.softeng206.vidivox.concurrency.RewindWorker;
 import com.softeng206.vidivox.concurrency.VideoRenderWorker;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.*;
@@ -24,17 +26,32 @@ public class Controller {
     private RewindWorker rewindBackground;
     private File selectedAudio, selectedVideo;
 
-    @FXML public Button browseVideoButton;
-    @FXML public Label currentAudio;
-    @FXML public MediaView mediaView;
-    @FXML public Pane mediaPane;
-    @FXML public Button playPauseButton;
-    @FXML public ProgressBar progressBar;
-    @FXML public Button rewindButton;
-    @FXML public Button stopVideoButton;
-    @FXML public Button ttsCancelPreviewButton;
-    @FXML public Button ttsPreviewButton;
-    @FXML public TextArea ttsPreviewText;
+    @FXML
+    public Button browseVideoButton;
+    @FXML
+    public Label currentAudio;
+    @FXML
+    public MediaView mediaView;
+    @FXML
+    public Pane mediaPane;
+    @FXML
+    public Button playPauseButton;
+    @FXML
+    public ProgressBar progressBar;
+    @FXML
+    public Button rewindButton;
+    @FXML
+    public Button stopVideoButton;
+    @FXML
+    public Button ttsCancelPreviewButton;
+    @FXML
+    public Button ttsPreviewButton;
+    @FXML
+    public TextArea ttsPreviewText;
+    @FXML
+    public Slider timeSlider;
+    @FXML
+    public Label timeLabel;
 
     private void playMedia(File video) {
         player = new MediaPlayer(new Media(video.toURI().toString()));
@@ -67,7 +84,7 @@ public class Controller {
     }
 
     public void fastForwardVideo() {
-        if (mediaView.getMediaPlayer() != null){
+        if (mediaView.getMediaPlayer() != null) {
             player.setMute(true);
             player.setRate(8.0);
         }
@@ -196,5 +213,17 @@ public class Controller {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.show();
+    }
+
+
+    public void skipVideo() {
+        Duration length;
+        if (mediaView.getMediaPlayer() != null) {
+            length = player.getMedia().getDuration();
+
+            player.seek(length.multiply(timeSlider.getValue() / 100.0));
+
+
+        }
     }
 }
