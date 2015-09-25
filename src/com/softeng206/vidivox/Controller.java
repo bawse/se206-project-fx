@@ -9,6 +9,8 @@ import javafx.beans.Observable;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -46,6 +48,10 @@ public class Controller {
     public Button ttsPreviewButton;
     @FXML
     public TextArea ttsPreviewText;
+    @FXML
+    public Button playButton;
+    @FXML
+    public Button pauseButton;
 
     private void playMedia(File video) {
         player = new MediaPlayer(new Media(video.toURI().toString()));
@@ -221,6 +227,15 @@ public class Controller {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.show();
+    }
+    public void setIcons(){
+
+        Image play = new Image(getClass().getResourceAsStream("play.png"));
+        playButton.setGraphic(new ImageView(play));
+
+        Image pause = new Image(getClass().getResourceAsStream("pause.png"));
+        pauseButton.setGraphic(new ImageView(pause));
+
     }
 
 
