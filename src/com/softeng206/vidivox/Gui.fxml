@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.softeng206.vidivox.Controller">
+<VBox xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.softeng206.vidivox.Controller">
     <children>
       <Pane fx:id="mediaPane" style="-fx-background-color: black;" VBox.vgrow="ALWAYS">
          <children>
@@ -16,12 +16,11 @@
       </Pane>
       <ToolBar VBox.vgrow="NEVER">
         <items>
-            <Slider fx:id="timeSlider" onMouseClicked="#skipVideo" prefHeight="16.0" prefWidth="250.0" />
-            <Label fx:id="timeLabel" text="0:00" />
             <Region />
           <Button fx:id="browseVideoButton" mnemonicParsing="false" onAction="#browseVideo" text="Browse" />
             <Separator orientation="VERTICAL" />
-            <Button fx:id="playPauseButton" mnemonicParsing="false" onAction="#playButtonPressed" text="Play" />
+            <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#pauseButtonPressed" text="Pause" />
+            <Button fx:id="playButton" mnemonicParsing="false" onAction="#playButtonPressed" text="Play" />
             <Button fx:id="stopVideoButton" mnemonicParsing="false" onAction="#stopVideo" text="Stop" />
             <Separator orientation="VERTICAL" />
             <Button fx:id="rewindButton" mnemonicParsing="false" onAction="#rewindVideo" text="&lt;&lt;" />
