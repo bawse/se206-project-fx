@@ -35,8 +35,6 @@ public class Controller {
     @FXML
     public Pane mediaPane;
     @FXML
-    public Button playPauseButton;
-    @FXML
     public ProgressBar progressBar;
     @FXML
     public Button rewindButton;
@@ -48,10 +46,6 @@ public class Controller {
     public Button ttsPreviewButton;
     @FXML
     public TextArea ttsPreviewText;
-    @FXML
-    public Slider timeSlider;
-    @FXML
-    public Label timeLabel;
 
     private void playMedia(File video) {
         player = new MediaPlayer(new Media(video.toURI().toString()));
@@ -106,10 +100,24 @@ public class Controller {
                 player.seek(playtime);
             }
 
-            player.setRate(1);
-            player.setMute(false);
-            player.play();
+
+                player.setRate(1);
+                player.setMute(false);
+                player.play();
+
+
+
+
         }
+    }
+
+    public void pauseButtonPressed(){
+    if (mediaView.getMediaPlayer() != null) {
+        if (player.getStatus().equals(MediaPlayer.Status.PLAYING)) {
+            player.pause();
+        }
+    }
+
     }
 
     private boolean checkTextSuitability() {
@@ -216,14 +224,16 @@ public class Controller {
     }
 
 
-    public void skipVideo() {
-        Duration length;
-        if (mediaView.getMediaPlayer() != null) {
-            length = player.getMedia().getDuration();
 
-            player.seek(length.multiply(timeSlider.getValue() / 100.0));
-
-
-        }
-    }
+//
+//    public void skipVideo() {
+//        Duration length;
+//        if (mediaView.getMediaPlayer() != null) {
+//            length = player.getMedia().getDuration();
+//
+//            player.seek(length.multiply(timeSlider.getValue() / 100.0));
+//
+//
+//        }
+//    }
 }
