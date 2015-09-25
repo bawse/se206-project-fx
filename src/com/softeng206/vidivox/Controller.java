@@ -6,8 +6,6 @@ import com.softeng206.vidivox.concurrency.RewindWorker;
 import com.softeng206.vidivox.concurrency.VideoRenderWorker;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.*;
@@ -19,7 +17,6 @@ import javafx.stage.FileChooser;
 import javafx.util.Duration;
 
 import java.io.File;
-import java.text.DecimalFormat;
 
 public class Controller {
     private FileChooser fc = new FileChooser();
@@ -28,8 +25,6 @@ public class Controller {
     private FestivalPreviewWorker previewWorker;
     private RewindWorker rewindBackground;
     private File selectedAudio, selectedVideo;
-    private Duration length;
-    private ProgressBar pgb;
 
     @FXML
     public Button browseVideoButton;
@@ -58,7 +53,6 @@ public class Controller {
     @FXML
     public Label timeLabel;
 
-
     private void playMedia(File video) {
         player = new MediaPlayer(new Media(video.toURI().toString()));
         player.setAutoPlay(true);
@@ -72,9 +66,7 @@ public class Controller {
         mediaView.fitWidthProperty().bind(mediaPane.widthProperty());
 
         mediaPane.setVisible(true);
-
         player.play();
-
     }
 
     public void stopVideo() {
@@ -225,26 +217,13 @@ public class Controller {
 
 
     public void skipVideo() {
-        length = player.getMedia().getDuration();
-//        if (mediaView.getMediaPlayer() != null) {
-//            player.currentTimeProperty().addListener(new ChangeListener<Duration>() {
-//                @Override
-//                public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
-//                    timeSlider.valueProperty().setValue(newValue.divide(length.toMillis()).toMillis() * 100.0);
-//                    timeLabel.setText(String.valueOf(new DecimalFormat("00.00").format(newValue.toSeconds())));
-//
-//                }
-//            });
-//        }
-
+        Duration length;
         if (mediaView.getMediaPlayer() != null) {
+            length = player.getMedia().getDuration();
 
             player.seek(length.multiply(timeSlider.getValue() / 100.0));
-            timeLabel.setText(String.valueOf(new DecimalFormat("00.00").format(length.multiply(timeSlider.getValue() / 100.0).toSeconds())));
 
-        } else {
-            timeSlider.valueProperty().setValue(0);
+
         }
-
     }
 }
