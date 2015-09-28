@@ -240,6 +240,7 @@ public class Controller {
         previewWorker.runTask();
     }
 
+
     public void ttsPreviewCancel() {
         if (previewWorker != null) {
             previewWorker.cancel(true);
@@ -251,23 +252,28 @@ public class Controller {
             return;
         }
 
-        File target = fc.showSaveDialog(ttsPreviewButton.getScene().getWindow());
+        if (ttsPreviewText.getText().isEmpty()) {
+            showAlert(Alert.AlertType.WARNING, "Warning",
+                    "Please enter some text before saving to MP3.");
+        } else {
+            File target = fc.showSaveDialog(ttsPreviewButton.getScene().getWindow());
 
-        if (target == null) {
-            showAlert(Alert.AlertType.WARNING, "Error", "Please select a valid destination file.");
-            return;
+            if (target == null) {
+                showAlert(Alert.AlertType.WARNING, "Error", "Please select a valid destination file.");
+                return;
+            }
+
+            mp3Worker = new FestivalMp3Worker(ttsPreviewText.getText(), target);
+            mp3Worker.setOnSucceeded(
+                    event -> showAlert(Alert.AlertType.INFORMATION, "Done!", "Your MP3 was saved successfully.")
+            );
+
+            mp3Worker.setOnFailed(
+                    event -> System.out.println(event.toString())
+            );
+
+            mp3Worker.runTask();
         }
-
-        mp3Worker = new FestivalMp3Worker(ttsPreviewText.getText(), target);
-        mp3Worker.setOnSucceeded(
-                event -> showAlert(Alert.AlertType.INFORMATION, "Done!", "Your MP3 was saved successfully.")
-        );
-
-        mp3Worker.setOnFailed(
-                event -> System.out.println(event.toString())
-        );
-
-        mp3Worker.runTask();
     }
 
     public void browseAudio() {

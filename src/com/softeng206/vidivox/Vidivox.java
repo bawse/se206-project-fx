@@ -16,8 +16,8 @@ public class Vidivox extends Application {
         Parent root = fxmlLoader.load(getClass().getResource("Gui.fxml"));
 
         Controller controller = fxmlLoader.getController();
-
-
+        //Use the following command to change to a different JavaFX theme. Still needs to be tested on UG4.
+        //System.setProperty( "javafx.userAgentStylesheetUrl", "CASPIAN" );
         primaryStage.setTitle("Vidivox - hcho928 / jpan889");
         primaryStage.setMinWidth(600);
         primaryStage.setMinHeight(450);
