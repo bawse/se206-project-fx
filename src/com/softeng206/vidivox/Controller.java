@@ -4,7 +4,6 @@ import com.softeng206.vidivox.concurrency.FestivalMp3Worker;
 import com.softeng206.vidivox.concurrency.FestivalPreviewWorker;
 import com.softeng206.vidivox.concurrency.RewindWorker;
 import com.softeng206.vidivox.concurrency.VideoRenderWorker;
-import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
@@ -59,31 +58,6 @@ public class Controller {
     @FXML
     public Label timeLabel;
 
-
-    //http://stackoverflow.com/questions/9027317/how-to-convert-milliseconds-to-hhmmss-format
-    public void update() {
-        if (timeLabel != null && timeSlider != null) {
-            Duration currentTime = player.getCurrentTime();
-            totalTime = player.getMedia().getDuration();
-            timeLabel.setText(formatDuration(player.getCurrentTime(), player.getMedia().getDuration()));
-        }
-
-    }
-
-    public String formatDuration(Duration current, Duration total) {
-
-
-        int totalSeconds = (int) current.toSeconds();
-
-        int totalMinutes = totalSeconds / 60;
-
-        int currentSeconds = totalSeconds - (totalMinutes * 60);
-
-
-        return String.format("%02d:%02d", totalMinutes, currentSeconds);
-
-    }
-
     private void playMedia(File video) {
         player = new MediaPlayer(new Media(video.toURI().toString()));
         player.setAutoPlay(true);
@@ -129,6 +103,9 @@ public class Controller {
         });
 
         //http://www.java2s.com/Tutorials/Java/JavaFX/0490__JavaFX_Slider.htm
+        // Link has several examples of adding listeners to properties of a slider,
+        // which helped me in developing this particular listener. Refer to journal for
+        // additional notes on how this listener was designed.
         timeSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -146,12 +123,37 @@ public class Controller {
             }
         });
 
+
         player.currentTimeProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
                 update();
             }
         });
+
+    }
+
+    //http://stackoverflow.com/questions/9027317/how-to-convert-milliseconds-to-hhmmss-format
+    public void update() {
+        if (timeLabel != null && timeSlider != null) {
+            Duration currentTime = player.getCurrentTime();
+            totalTime = player.getMedia().getDuration();
+            timeLabel.setText(formatDuration(player.getCurrentTime(), player.getMedia().getDuration()));
+        }
+
+    }
+
+    public String formatDuration(Duration current, Duration total) {
+
+
+        int totalSeconds = (int) current.toSeconds();
+
+        int totalMinutes = totalSeconds / 60;
+
+        int currentSeconds = totalSeconds - (totalMinutes * 60);
+
+
+        return String.format("%02d:%02d", totalMinutes, currentSeconds);
 
     }
 

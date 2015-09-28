@@ -27,7 +27,7 @@
                <graphic>
                   <ImageView pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@play.png" />
+                        <Image url="@icons/play.png" />
                      </image>
                   </ImageView>
                </graphic></Button>
@@ -35,7 +35,7 @@
                <graphic>
                   <ImageView pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@pause.png" />
+                        <Image url="@icons/pause.png" />
                      </image>
                   </ImageView>
                </graphic></Button>
@@ -43,7 +43,7 @@
                <graphic>
                   <ImageView pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@stop.png" />
+                        <Image url="@icons/stop.png" />
                      </image>
                   </ImageView>
                </graphic></Button>
@@ -52,7 +52,7 @@
                <graphic>
                   <ImageView pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@rewind.png" />
+                        <Image url="@icons/rewind.png" />
                      </image>
                   </ImageView>
                </graphic></Button>
@@ -60,7 +60,7 @@
                <graphic>
                   <ImageView pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@forward.png" />
+                        <Image url="@icons/forward.png" />
                      </image>
                   </ImageView>
                </graphic></Button>
