@@ -145,16 +145,11 @@ public class Controller {
 
     public String formatDuration(Duration current, Duration total) {
 
-
         int totalSeconds = (int) current.toSeconds();
-
         int totalMinutes = totalSeconds / 60;
-
         int currentSeconds = totalSeconds - (totalMinutes * 60);
 
-
         return String.format("%02d:%02d", totalMinutes, currentSeconds);
-
     }
 
     public void stopVideo() {
