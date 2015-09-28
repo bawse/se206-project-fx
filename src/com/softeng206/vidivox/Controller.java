@@ -61,16 +61,11 @@ public class Controller {
 
 
     //http://stackoverflow.com/questions/9027317/how-to-convert-milliseconds-to-hhmmss-format
-    public void updateValues() {
+    public void update() {
         if (timeLabel != null && timeSlider != null) {
-            Platform.runLater(new Runnable() {
-                @SuppressWarnings("deprecation")
-                public void run() {
-                    Duration currentTime = player.getCurrentTime();
-                    totalTime = player.getMedia().getDuration();
-                    timeLabel.setText(formatDuration(player.getCurrentTime(), player.getMedia().getDuration()));
-                }
-            });
+            Duration currentTime = player.getCurrentTime();
+            totalTime = player.getMedia().getDuration();
+            timeLabel.setText(formatDuration(player.getCurrentTime(), player.getMedia().getDuration()));
         }
 
     }
@@ -154,7 +149,7 @@ public class Controller {
         player.currentTimeProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
-                updateValues();
+                update();
             }
         });
 
