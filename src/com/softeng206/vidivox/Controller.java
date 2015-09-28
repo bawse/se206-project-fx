@@ -4,13 +4,14 @@ import com.softeng206.vidivox.concurrency.FestivalMp3Worker;
 import com.softeng206.vidivox.concurrency.FestivalPreviewWorker;
 import com.softeng206.vidivox.concurrency.RewindWorker;
 import com.softeng206.vidivox.concurrency.VideoRenderWorker;
+import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -27,6 +28,7 @@ public class Controller {
     private FestivalPreviewWorker previewWorker;
     private RewindWorker rewindBackground;
     private File selectedAudio, selectedVideo;
+    Duration totalTime;
 
     @FXML
     public Button browseVideoButton;
@@ -52,6 +54,40 @@ public class Controller {
     public Button playButton;
     @FXML
     public Button pauseButton;
+    @FXML
+    public Slider timeSlider;
+    @FXML
+    public Label timeLabel;
+
+
+    //http://stackoverflow.com/questions/9027317/how-to-convert-milliseconds-to-hhmmss-format
+    public void updateValues() {
+        if (timeLabel != null && timeSlider != null) {
+            Platform.runLater(new Runnable() {
+                @SuppressWarnings("deprecation")
+                public void run() {
+                    Duration currentTime = player.getCurrentTime();
+                    totalTime = player.getMedia().getDuration();
+                    timeLabel.setText(formatDuration(player.getCurrentTime(), player.getMedia().getDuration()));
+                }
+            });
+        }
+
+    }
+
+    public String formatDuration(Duration current, Duration total) {
+
+
+        int totalSeconds = (int) current.toSeconds();
+
+        int totalMinutes = totalSeconds / 60;
+
+        int currentSeconds = totalSeconds - (totalMinutes * 60);
+
+
+        return String.format("%02d:%02d", totalMinutes, currentSeconds);
+
+    }
 
     private void playMedia(File video) {
         player = new MediaPlayer(new Media(video.toURI().toString()));
@@ -67,6 +103,61 @@ public class Controller {
 
         mediaPane.setVisible(true);
         player.play();
+
+        // The total duration property will only change once for every video,
+        // therefore adding a listener allows us to set the maximum value of the time slider
+        // as opposed to any arbitrary value that doesn't mean anything.
+        player.totalDurationProperty().addListener(new ChangeListener<Duration>() {
+            @Override
+            public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
+                timeSlider.setMax(newValue.toSeconds());
+            }
+        });
+
+        player.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+            @Override
+            public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
+                if (!timeSlider.isValueChanging()) {
+                    timeSlider.setValue(newValue.toSeconds());
+                }
+            }
+        });
+
+        timeSlider.valueChangingProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (!newValue) {
+                    player.seek(Duration.seconds(timeSlider.getValue()));
+
+                }
+            }
+        });
+
+        //http://www.java2s.com/Tutorials/Java/JavaFX/0490__JavaFX_Slider.htm
+        timeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if (!timeSlider.isValueChanging()) {
+                    double currentTimeInSeconds = player.getCurrentTime().toSeconds();
+
+                    // If the value change is not brought about by the changelistener implemented on the currentTimeProperty
+                    // of the player, then this assumes that the timeslider was dragged to skip to a new section of the video.
+                    // As the changeListener on the currentTimeProperty of the player is "activated" due to minute differences,
+                    // a change value greater than 1.0 (arbitrary) denotes that the user has chosen to skip to a different portion of the video.
+                    if (Math.abs(currentTimeInSeconds - newValue.doubleValue()) > 1.0) {
+                        player.seek(Duration.seconds(newValue.doubleValue()));
+                    }
+                }
+            }
+        });
+
+        player.currentTimeProperty().addListener(new InvalidationListener() {
+            @Override
+            public void invalidated(Observable observable) {
+                updateValues();
+            }
+        });
+
     }
 
     public void stopVideo() {
@@ -107,22 +198,20 @@ public class Controller {
             }
 
 
-                player.setRate(1);
-                player.setMute(false);
-                player.play();
-
-
+            player.setRate(1);
+            player.setMute(false);
+            player.play();
 
 
         }
     }
 
-    public void pauseButtonPressed(){
-    if (mediaView.getMediaPlayer() != null) {
-        if (player.getStatus().equals(MediaPlayer.Status.PLAYING)) {
-            player.pause();
+    public void pauseButtonPressed() {
+        if (mediaView.getMediaPlayer() != null) {
+            if (player.getStatus().equals(MediaPlayer.Status.PLAYING)) {
+                player.pause();
+            }
         }
-    }
 
     }
 
@@ -228,27 +317,5 @@ public class Controller {
         alert.setContentText(message);
         alert.show();
     }
-    public void setIcons(){
 
-        Image play = new Image(getClass().getResourceAsStream("play.png"));
-        playButton.setGraphic(new ImageView(play));
-
-        Image pause = new Image(getClass().getResourceAsStream("pause.png"));
-        pauseButton.setGraphic(new ImageView(pause));
-
-    }
-
-
-
-//
-//    public void skipVideo() {
-//        Duration length;
-//        if (mediaView.getMediaPlayer() != null) {
-//            length = player.getMedia().getDuration();
-//
-//            player.seek(length.multiply(timeSlider.getValue() / 100.0));
-//
-//
-//        }
-//    }
 }

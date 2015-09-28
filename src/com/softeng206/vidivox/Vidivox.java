@@ -12,12 +12,16 @@ import javafx.stage.Stage;
 public class Vidivox extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("Gui.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        Parent root = fxmlLoader.load(getClass().getResource("Gui.fxml"));
+
+        Controller controller = fxmlLoader.getController();
+
 
         primaryStage.setTitle("Vidivox - hcho928 / jpan889");
         primaryStage.setMinWidth(600);
         primaryStage.setMinHeight(450);
-        primaryStage.setScene(new Scene(root, 600, 450));
+        primaryStage.setScene(new Scene(root, 800, 600));
         primaryStage.show();
     }
 
