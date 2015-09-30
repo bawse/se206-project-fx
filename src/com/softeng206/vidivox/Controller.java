@@ -76,6 +76,11 @@ public class Controller {
         setListeners();
 
     }
+    public void configFileChooser(){
+        String s = System.getenv("HOME") + "/Desktop/";
+        File desktop = new File(s);
+        fc.setInitialDirectory(desktop);
+    }
 
     public void setListeners(){
         // The total duration property will only change once for every video,
@@ -161,7 +166,10 @@ public class Controller {
     }
 
     public void browseVideo() {
+        configFileChooser();
+        fc.setTitle("Browse for video");
         selectedVideo = fc.showOpenDialog(browseVideoButton.getScene().getWindow());
+
 
         if (selectedVideo != null) {
             playMedia(selectedVideo);
@@ -255,6 +263,8 @@ public class Controller {
             showAlert(Alert.AlertType.WARNING, "Warning",
                     "Please enter some text before saving to MP3.");
         } else {
+            configFileChooser();
+            fc.setTitle("Save MP3");
             File target = fc.showSaveDialog(ttsPreviewButton.getScene().getWindow());
 
             if (target == null) {
@@ -276,6 +286,8 @@ public class Controller {
     }
 
     public void browseAudio() {
+        configFileChooser();
+        fc.setTitle("Browse for audio file");
         selectedAudio = fc.showOpenDialog(browseVideoButton.getScene().getWindow());
 
         if (selectedAudio == null) {
@@ -289,6 +301,8 @@ public class Controller {
 
     public void renderVideo() {
         if (selectedAudio != null && selectedVideo != null) {
+            configFileChooser();
+            fc.setTitle("Save rendered video to file");
             File destination = fc.showSaveDialog(browseVideoButton.getScene().getWindow());
 
             if (destination == null) {

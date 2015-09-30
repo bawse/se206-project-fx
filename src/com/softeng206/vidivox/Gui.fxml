@@ -19,11 +19,11 @@
       </Pane>
       <ToolBar VBox.vgrow="ALWAYS">
         <items>
-            <Region />
             <Slider fx:id="timeSlider" prefHeight="16.0" prefWidth="261.0">
                <effect>
                   <Glow level="0.63" />
                </effect></Slider>
+            <Region />
             <Label fx:id="timeLabel" text="00:00" />
             <Region prefHeight="34.0" prefWidth="0.0" />
           <Button fx:id="browseVideoButton" mnemonicParsing="false" onAction="#browseVideo" text="Browse" />
@@ -69,6 +69,12 @@
                      </image>
                   </ImageView>
                </graphic></Button>
+            <SplitMenuButton mnemonicParsing="false" text="Advanced">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem mnemonicParsing="false" text="Action 2" />
+              </items>
+            </SplitMenuButton>
         </items>
       </ToolBar>
         <HBox prefHeight="130.0" prefWidth="200.0" VBox.vgrow="NEVER">
