@@ -73,6 +73,11 @@ public class Controller {
         mediaPane.setVisible(true);
         player.play();
 
+        setListeners();
+
+    }
+
+    public void setListeners(){
         // The total duration property will only change once for every video,
         // therefore adding a listener allows us to set the maximum value of the time slider
         // as opposed to any arbitrary value that doesn't mean anything.
@@ -130,7 +135,6 @@ public class Controller {
                 update();
             }
         });
-
     }
 
     //http://stackoverflow.com/questions/9027317/how-to-convert-milliseconds-to-hhmmss-format
@@ -313,7 +317,7 @@ public class Controller {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
-        alert.show();
+        alert.showAndWait();
     }
 
 }
