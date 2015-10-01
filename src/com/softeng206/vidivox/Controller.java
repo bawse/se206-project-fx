@@ -344,7 +344,7 @@ public class Controller {
         }
     }
 
-    private void showAlert(Alert.AlertType type, String title, String message) {
+    public static void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(null);
@@ -355,16 +355,19 @@ public class Controller {
         if (selectedAudio != null && selectedVideo != null) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("advancedsettings.fxml"));
             Parent root1 = fxmlLoader.load();
+
+            AdvancedSettingsController asc = fxmlLoader.getController();
+            asc.initialize(selectedAudio,selectedVideo,progressBar, player);
+
             Stage stage = new Stage();
-            stage.setOpacity(1);
             stage.setTitle("Advanced A/V settings");
             stage.setScene(new Scene(root1, 350, 350));
             stage.setResizable(false);
             stage.showAndWait();
-        }
+       }
         else{
             showAlert(Alert.AlertType.ERROR, "Error", "Please select an audio and video file first.");
-        }
+       }
     }
 
 }

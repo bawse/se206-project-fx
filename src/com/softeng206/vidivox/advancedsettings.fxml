@@ -23,7 +23,7 @@
                      <left>
                         <VBox BorderPane.alignment="CENTER">
                            <children>
-                              <CheckBox fx:id="overlayAtLocation" mnemonicParsing="false" onAction="#overlayLocation" text="Overlay audio at specified location">
+                              <CheckBox fx:id="overlayAtLocation" mnemonicParsing="false" onAction="#overlayLocationCheckBox" text="Overlay audio at specified location">
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
@@ -48,7 +48,7 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
                               </Separator>
-                              <CheckBox fx:id="overlayTrim" mnemonicParsing="false" onAction="#overlayAndTrim" text="Overlay and trim video to audio length">
+                              <CheckBox fx:id="overlayTrim" mnemonicParsing="false" onAction="#overlayAndTrimCheckBox" text="Overlay and trim video to audio length">
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
@@ -61,21 +61,21 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
                               </Separator>
-                              <CheckBox mnemonicParsing="false" text="CheckBox">
+                              <ProgressBar fx:id="overlayPB" prefHeight="20.0" prefWidth="276.0" progress="0.0">
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
                                  <VBox.margin>
-                                    <Insets bottom="10.0" />
+                                    <Insets bottom="5.0" left="15.0" right="5.0" top="5.0" />
                                  </VBox.margin>
-                              </CheckBox>
+                              </ProgressBar>
                            </children>
                         </VBox>
                      </left>
                      <bottom>
                         <ButtonBar BorderPane.alignment="CENTER">
                           <buttons>
-                            <Button mnemonicParsing="false" text="Process video">
+                            <Button mnemonicParsing="false" onAction="#processVideo" text="Render">
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
