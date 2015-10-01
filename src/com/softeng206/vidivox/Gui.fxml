@@ -69,15 +69,10 @@
                      </image>
                   </ImageView>
                </graphic></Button>
-            <SplitMenuButton mnemonicParsing="false" text="Advanced">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-                <MenuItem mnemonicParsing="false" text="Action 2" />
-              </items>
-            </SplitMenuButton>
+            <CheckBox fx:id="toggleMute" mnemonicParsing="false" onAction="#setToggleMute" text="Mute" />
         </items>
       </ToolBar>
-        <HBox prefHeight="130.0" prefWidth="200.0" VBox.vgrow="NEVER">
+        <HBox VBox.vgrow="NEVER">
             <children>
                 <VBox alignment="CENTER" prefHeight="100.0" prefWidth="444.0" HBox.hgrow="ALWAYS">
                     <children>
@@ -100,11 +95,16 @@
                     <children>
                         <Label text="Audio" />
                   <Separator orientation="VERTICAL" prefHeight="200.0" visible="false" />
-                  <Label text="Currently selected:" />
+                  <Label text="Selected:" />
                   <Label fx:id="currentAudio" text="(none)" />
                         <Button mnemonicParsing="false" onAction="#browseAudio" text="Browse" />
                   <Separator orientation="VERTICAL" prefHeight="200.0" visible="false" />
-                        <Button mnemonicParsing="false" onAction="#renderVideo" text="Add to video" />
+                  <MenuButton mnemonicParsing="false" text="Add to video">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#renderVideo" text="Add to start" />
+                      <MenuItem fx:id="advancedButton" mnemonicParsing="false" onAction="#advancedSettings" text="Advanced" />
+                    </items>
+                  </MenuButton>
                   <Separator orientation="VERTICAL" prefHeight="200.0" visible="false" />
                     </children>
                 </VBox>

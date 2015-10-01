@@ -10,15 +10,21 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.io.File;
+import java.io.IOException;
 
 public class Controller {
     private FileChooser fc = new FileChooser();
@@ -57,6 +63,9 @@ public class Controller {
     public Slider timeSlider;
     @FXML
     public Label timeLabel;
+    @FXML
+    public CheckBox toggleMute;
+    @FXML public MenuItem advancedButton;
 
     private void playMedia(File video) {
         player = new MediaPlayer(new Media(video.toURI().toString()));
@@ -80,6 +89,15 @@ public class Controller {
         String s = System.getenv("HOME") + "/Desktop/";
         File desktop = new File(s);
         fc.setInitialDirectory(desktop);
+    }
+
+    public void setToggleMute(){
+        if (toggleMute.isSelected()){
+            player.setMute(true);
+        }
+        else{
+            player.setMute(false);
+        }
     }
 
     public void setListeners(){
@@ -332,6 +350,21 @@ public class Controller {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+    public void advancedSettings() throws IOException {
+        if (selectedAudio != null && selectedVideo != null) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("advancedsettings.fxml"));
+            Parent root1 = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setOpacity(1);
+            stage.setTitle("Advanced A/V settings");
+            stage.setScene(new Scene(root1, 350, 350));
+            stage.setResizable(false);
+            stage.showAndWait();
+        }
+        else{
+            showAlert(Alert.AlertType.ERROR, "Error", "Please select an audio and video file first.");
+        }
     }
 
 }

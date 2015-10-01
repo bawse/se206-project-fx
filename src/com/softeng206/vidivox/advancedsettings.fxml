@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<TitledPane collapsible="false" text="Advanced Audio/Video Settings" underline="true" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.softeng206.vidivox.AdvancedSettingsController">
+   <content>
+      <TabPane tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab closable="false" text="Overlay audio">
+               <content>
+                  <BorderPane>
+                     <top>
+                        <Label text="Audio Overlay Panel" underline="true" BorderPane.alignment="CENTER">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </Label>
+                     </top>
+                     <left>
+                        <VBox BorderPane.alignment="CENTER">
+                           <children>
+                              <CheckBox fx:id="overlayAtLocation" mnemonicParsing="false" onAction="#overlayLocation" text="Overlay audio at specified location">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </CheckBox>
+                              <HBox>
+                                 <children>
+                                    <TextField fx:id="locationBox" disable="true" prefHeight="26.0" prefWidth="87.0" promptText="mm:ss">
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                       <HBox.margin>
+                                          <Insets bottom="5.0" left="30.0" right="5.0" top="5.0" />
+                                       </HBox.margin>
+                                    </TextField>
+                                 </children>
+                              </HBox>
+                              <Separator prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </Separator>
+                              <CheckBox fx:id="overlayTrim" mnemonicParsing="false" onAction="#overlayAndTrim" text="Overlay and trim video to audio length">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </CheckBox>
+                              <Separator prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </VBox.margin>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </Separator>
+                              <CheckBox mnemonicParsing="false" text="CheckBox">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                                 <VBox.margin>
+                                    <Insets bottom="10.0" />
+                                 </VBox.margin>
+                              </CheckBox>
+                           </children>
+                        </VBox>
+                     </left>
+                     <bottom>
+                        <ButtonBar BorderPane.alignment="CENTER">
+                          <buttons>
+                            <Button mnemonicParsing="false" text="Process video">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </Button>
+                              <Button mnemonicParsing="false" text="Cancel">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </Button>
+                          </buttons>
+                           <BorderPane.margin>
+                              <Insets bottom="10.0" left="5.0" right="5.0" top="5.0" />
+                           </BorderPane.margin>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </ButtonBar>
+                     </bottom>
+                     <center>
+                        <Region BorderPane.alignment="CENTER" />
+                     </center>
+                  </BorderPane>
+               </content>
+            </Tab>
+          <Tab text="Strip audio" />
+            <Tab text="Other settings" />
+        </tabs>
+      </TabPane>
+   </content>
+</TitledPane>
