@@ -80,6 +80,7 @@ public class Controller {
         mediaView.fitWidthProperty().bind(mediaPane.widthProperty());
 
         mediaPane.setVisible(true);
+        timeSlider.setDisable(false);
         player.play();
 
         setListeners();
@@ -91,12 +92,13 @@ public class Controller {
         fc.setInitialDirectory(desktop);
     }
 
-    public void setToggleMute(){
-        if (toggleMute.isSelected()){
-            player.setMute(true);
-        }
-        else{
-            player.setMute(false);
+    public void setToggleMute() {
+        if (mediaView.getMediaPlayer() != null) {
+            if (toggleMute.isSelected()) {
+                player.setMute(true);
+            } else {
+                player.setMute(false);
+            }
         }
     }
 
@@ -180,7 +182,9 @@ public class Controller {
     }
 
     public void stopVideo() {
-        player.stop();
+        if (mediaView.getMediaPlayer() != null) {
+            player.stop();
+        }
     }
 
     public void browseVideo() {

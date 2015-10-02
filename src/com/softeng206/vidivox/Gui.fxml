@@ -19,7 +19,7 @@
       </Pane>
       <ToolBar VBox.vgrow="ALWAYS">
         <items>
-            <Slider fx:id="timeSlider" prefHeight="16.0" prefWidth="261.0">
+            <Slider fx:id="timeSlider" disable="true" prefHeight="16.0" prefWidth="261.0">
                <effect>
                   <Glow level="0.63" />
                </effect></Slider>
