@@ -19,7 +19,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -35,36 +34,21 @@ public class Controller {
     private File selectedAudio, selectedVideo;
     Duration totalTime;
 
-    @FXML
-    public Button browseVideoButton;
-    @FXML
-    public Label currentAudio;
-    @FXML
-    public MediaView mediaView;
-    @FXML
-    public Pane mediaPane;
-    @FXML
-    public ProgressBar progressBar;
-    @FXML
-    public Button rewindButton;
-    @FXML
-    public Button stopVideoButton;
-    @FXML
-    public Button ttsCancelPreviewButton;
-    @FXML
-    public Button ttsPreviewButton;
-    @FXML
-    public TextArea ttsPreviewText;
-    @FXML
-    public Button playButton;
-    @FXML
-    public Button pauseButton;
-    @FXML
-    public Slider timeSlider;
-    @FXML
-    public Label timeLabel;
-    @FXML
-    public CheckBox toggleMute;
+    @FXML public Button browseVideoButton;
+    @FXML public Label currentAudio;
+    @FXML public MediaView mediaView;
+    @FXML public Pane mediaPane;
+    @FXML public ProgressBar progressBar;
+    @FXML public Button rewindButton;
+    @FXML public Button stopVideoButton;
+    @FXML public Button ttsCancelPreviewButton;
+    @FXML public Button ttsPreviewButton;
+    @FXML public TextArea ttsPreviewText;
+    @FXML public Button playButton;
+    @FXML public Button pauseButton;
+    @FXML public Slider timeSlider;
+    @FXML public Label timeLabel;
+    @FXML public CheckBox toggleMute;
     @FXML public MenuItem advancedButton;
 
     private void playMedia(File video) {
@@ -78,9 +62,8 @@ public class Controller {
         mediaView.setMediaPlayer(player);
         mediaView.fitHeightProperty().bind(mediaPane.heightProperty());
         mediaView.fitWidthProperty().bind(mediaPane.widthProperty());
-
-        mediaPane.setVisible(true);
         timeSlider.setDisable(false);
+        mediaPane.setVisible(true);
         player.play();
 
         setListeners();

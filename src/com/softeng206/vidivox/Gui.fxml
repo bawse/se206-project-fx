@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
@@ -76,7 +77,13 @@
             <children>
                 <VBox alignment="CENTER" prefHeight="100.0" prefWidth="444.0" HBox.hgrow="ALWAYS">
                     <children>
-                        <Label text="Text to speech" />
+                        <Label alignment="CENTER" text="Text to speech" underline="true">
+                     <font>
+                        <Font name="System Italic" size="13.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin></Label>
                         <TextArea fx:id="ttsPreviewText" prefHeight="46.0" prefWidth="200.0" />
                         <ToolBar prefHeight="40.0" prefWidth="200.0">
                             <items>
@@ -91,13 +98,22 @@
                      </padding></ProgressBar>
                     </children>
                 </VBox>
-                <VBox alignment="CENTER" prefHeight="100.0" prefWidth="157.0" HBox.hgrow="NEVER">
+                <VBox alignment="CENTER" prefHeight="130.0" prefWidth="140.0" HBox.hgrow="ALWAYS">
                     <children>
-                        <Label text="Audio" />
+                        <Label text="Add Audio" underline="true">
+                     <font>
+                        <Font name="System Italic" size="13.0" />
+                     </font></Label>
                   <Separator orientation="VERTICAL" prefHeight="200.0" visible="false" />
+                        <Button mnemonicParsing="false" onAction="#browseAudio" text="Browse for mp3" />
+                  <Separator prefWidth="200.0">
+                     <padding>
+                        <Insets top="2.0" />
+                     </padding>
+                  </Separator>
                   <Label text="Selected:" />
                   <Label fx:id="currentAudio" text="(none)" />
-                        <Button mnemonicParsing="false" onAction="#browseAudio" text="Browse" />
+                  <Separator prefWidth="200.0" />
                   <Separator orientation="VERTICAL" prefHeight="200.0" visible="false" />
                   <MenuButton mnemonicParsing="false" text="Add to video">
                     <items>
