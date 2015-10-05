@@ -71,10 +71,10 @@ public class AdvancedSettingsController {
 
     public void helpDialog(){
         String helpMessage = "Please enter the exact duration at which you want to insert the selected audio file." +
-                "Make sure your input is in the format of \"mm:ss\". E.g. \"01:20\". Any input not given in this format will" +
-                "not be accepted. If you want to decrease the volume of the original video, enter something like \"-10dB\". This " +
+                " Make sure your input is in the format of \"mm:ss\". E.g. \"01:20\". Any input not given in this format will" +
+                " not be accepted. If you want to decrease the volume of the original video, enter something like \"-10dB\". This " +
                 "will decrease the original audio by 10 Decibels. The format of the input is critical, so make sure the capitalisation" +
-                "of the input string is also correct.";
+                " of the input string is also correct.";
         Controller.showAlert(Alert.AlertType.INFORMATION, "Help", helpMessage);
     }
 
