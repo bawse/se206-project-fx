@@ -335,6 +335,10 @@ public class Controller {
         Alert alert = new Alert(type);
         alert.setTitle(title);
         alert.setHeaderText(null);
+        alert.setResizable(true);
+        if (message.length() > 50){
+            alert.getDialogPane().setPrefSize(300,300);
+        }
         alert.setContentText(message);
         alert.showAndWait();
     }

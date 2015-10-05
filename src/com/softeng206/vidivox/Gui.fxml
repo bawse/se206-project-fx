@@ -115,7 +115,7 @@
                   <Label fx:id="currentAudio" text="(none)" />
                   <Separator prefWidth="200.0" />
                   <Separator orientation="VERTICAL" prefHeight="200.0" visible="false" />
-                  <MenuButton mnemonicParsing="false" text="Add to video">
+                  <MenuButton mnemonicParsing="false" text="Add mp3 to video">
                     <items>
                       <MenuItem mnemonicParsing="false" onAction="#renderVideo" text="Add to start" />
                       <MenuItem fx:id="advancedButton" mnemonicParsing="false" onAction="#advancedSettings" text="Advanced" />

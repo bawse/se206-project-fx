@@ -4,6 +4,7 @@ import com.softeng206.vidivox.concurrency.AdvancedVideoWorker;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 
@@ -24,9 +25,11 @@ public class AdvancedSettingsController {
 
 
     @FXML public CheckBox overlayAtLocation;
-    @FXML public CheckBox overlayTrim;
+    @FXML public CheckBox overlayVolume;
     @FXML public TextField locationBox;
     @FXML public ProgressBar overlayPB;
+    @FXML public HBox textFields;
+    @FXML public Button helpLabel;
 
 
     public void initialize(File audio, File video, ProgressBar pbar, MediaPlayer player){
@@ -38,9 +41,10 @@ public class AdvancedSettingsController {
 
 
     public void overlayLocationCheckBox(){
-        if (overlayTrim.isSelected()){
+        if (overlayVolume.isSelected()){
             locationBox.setDisable(false);
-            overlayTrim.setSelected(false);
+            overlayVolume.setSelected(false);
+            textFields.setDisable(true);
         }
         else if (!overlayAtLocation.isSelected()){
             locationBox.setDisable(true);
@@ -50,11 +54,28 @@ public class AdvancedSettingsController {
         }
 
     }
-    public void overlayAndTrimCheckBox(){
+    public void overlayVolumeCheckBox(){
         if (overlayAtLocation.isSelected()){
             overlayAtLocation.setSelected(false);
             locationBox.setDisable(true);
         }
+        if (overlayVolume.isSelected()){
+            textFields.setDisable(false);
+        }
+        else{
+            textFields.setDisable(true);
+        }
+
+
+    }
+
+    public void helpDialog(){
+        String helpMessage = "Please enter the exact duration at which you want to insert the selected audio file." +
+                "Make sure your input is in the format of \"mm:ss\". E.g. \"01:20\". Any input not given in this format will" +
+                "not be accepted. If you want to decrease the volume of the original video, enter something like \"-10dB\". This " +
+                "will decrease the original audio by 10 Decibels. The format of the input is critical, so make sure the capitalisation" +
+                "of the input string is also correct.";
+        Controller.showAlert(Alert.AlertType.INFORMATION, "Help", helpMessage);
     }
 
     public void processVideo(){
