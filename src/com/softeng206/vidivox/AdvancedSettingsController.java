@@ -21,12 +21,10 @@ public class AdvancedSettingsController {
     private FileChooser fc = new FileChooser();
     private MediaPlayer player;
 
-
-
-
     @FXML public CheckBox overlayAtLocation;
     @FXML public CheckBox overlayVolume;
     @FXML public TextField locationBox;
+    @FXML public TextField locationBox2;
     @FXML public ProgressBar overlayPB;
     @FXML public HBox textFields;
     @FXML public Button helpLabel;
@@ -79,7 +77,9 @@ public class AdvancedSettingsController {
     }
 
     public void processVideo(){
-            String location = locationBox.getText();
+        String location = locationBox.getText();
+        String location2 = locationBox2.getText();
+
             if (overlayAtLocation.isSelected() && location != null) {
                 fc.setTitle("Save rendered video to file");
                 File destination = fc.showSaveDialog(locationBox.getScene().getWindow());

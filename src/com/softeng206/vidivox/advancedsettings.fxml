@@ -78,7 +78,7 @@
                               </HBox>
                               <HBox fx:id="textFields" disable="true">
                                  <children>
-                                    <TextField prefHeight="26.0" prefWidth="87.0" promptText="mm:ss">
+                                    <TextField fx:id="locationBox2" prefHeight="26.0" prefWidth="87.0" promptText="mm:ss">
                                        <HBox.margin>
                                           <Insets bottom="5.0" left="30.0" right="5.0" top="5.0" />
                                        </HBox.margin>
@@ -94,21 +94,6 @@
                                           <Insets left="25.0" top="5.0" />
                                        </HBox.margin>
                                     </TextField>
-                                    <Button fx:id="helpLabel" mnemonicParsing="false" onAction="#helpDialog">
-                                       <HBox.margin>
-                                          <Insets bottom="5.0" left="10.0" top="5.0" />
-                                       </HBox.margin>
-                                       <padding>
-                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                       </padding>
-                                       <graphic>
-                                          <ImageView fitHeight="18.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                             <image>
-                                                <Image url="@icons/help.png" />
-                                             </image>
-                                          </ImageView>
-                                       </graphic>
-                                    </Button>
                                  </children>
                               </HBox>
                               <Separator prefWidth="200.0" VBox.vgrow="ALWAYS">
@@ -138,10 +123,17 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
                               </Button>
-                              <Button mnemonicParsing="false" text="Cancel">
+                              <Button fx:id="helpLabel" mnemonicParsing="false" onAction="#helpDialog">
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
+                                 <graphic>
+                                    <ImageView fitHeight="18.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@icons/help.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
                               </Button>
                           </buttons>
                            <BorderPane.margin>
