@@ -51,7 +51,7 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
                               </Separator>
-                              <CheckBox fx:id="overlayVolume" mnemonicParsing="false" onAction="#overlayVolumeCheckBox" text="Overlay audio at location and change &#10;volume level of existing audio" wrapText="true">
+                              <CheckBox fx:id="overlayVolume" mnemonicParsing="false" onAction="#overlayVolumeCheckBox" text="Overlay audio at location and &#10;change volume level of existing &#10;audio" wrapText="true">
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
