@@ -51,9 +51,8 @@ public class Controller {
     @FXML public Label timeLabel;
     @FXML public CheckBox toggleMute;
     @FXML public MenuItem advancedButton;
-    @FXML public Slider volumeSlider;
     @FXML public TitledPane commentaryPanel;
-
+    @FXML public Slider volumeSlider;
 
     private void playMedia(File video) {
         player = new MediaPlayer(new Media(video.toURI().toString()));
@@ -73,6 +72,7 @@ public class Controller {
         commentaryPanel.setExpanded(true);
 
         player.play();
+
         setListeners();
 
     }
@@ -96,7 +96,6 @@ public class Controller {
 
         volumeSlider.valueProperty().bindBidirectional(player.volumeProperty());
         primaryStage = (Stage) volumeSlider.getScene().getWindow();
-
         commentaryPanel.expandedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -105,7 +104,6 @@ public class Controller {
                 }
                 else{
                     primaryStage.setHeight(primaryStage.getHeight() + 196);
-
                 }
             }
         });
@@ -190,6 +188,7 @@ public class Controller {
         int sec = totalSec - (totalMin * 60);
 
         return String.format("%02d:%02d / %02d:%02d", totalMinutes, currentSeconds, totalMin, sec);
+
     }
 
     public void stopVideo() {

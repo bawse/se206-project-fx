@@ -78,7 +78,6 @@ public class AdvancedSettingsController {
 
     public void processVideo(){
         String location = locationBox.getText();
-        String location2 = locationBox2.getText();
 
             if (overlayAtLocation.isSelected() && location != null) {
                 fc.setTitle("Save rendered video to file");
