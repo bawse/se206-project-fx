@@ -33,6 +33,7 @@ public class Controller {
     private RewindWorker rewindBackground;
     private File selectedAudio, selectedVideo;
     Duration totalTime;
+    Stage primaryStage;
 
     @FXML public Button browseVideoButton;
     @FXML public Label currentAudio;
@@ -50,6 +51,9 @@ public class Controller {
     @FXML public Label timeLabel;
     @FXML public CheckBox toggleMute;
     @FXML public MenuItem advancedButton;
+    @FXML public Slider volumeSlider;
+    @FXML public TitledPane commentaryPanel;
+
 
     private void playMedia(File video) {
         player = new MediaPlayer(new Media(video.toURI().toString()));
@@ -64,8 +68,11 @@ public class Controller {
         mediaView.fitWidthProperty().bind(mediaPane.widthProperty());
         timeSlider.setDisable(false);
         mediaPane.setVisible(true);
-        player.play();
 
+        commentaryPanel.setDisable(false);
+        commentaryPanel.setExpanded(true);
+
+        player.play();
         setListeners();
 
     }
@@ -86,6 +93,23 @@ public class Controller {
     }
 
     public void setListeners(){
+
+        volumeSlider.valueProperty().bindBidirectional(player.volumeProperty());
+        primaryStage = (Stage) volumeSlider.getScene().getWindow();
+
+        commentaryPanel.expandedProperty().addListener(new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                if (!newValue){
+                    primaryStage.setHeight(primaryStage.getHeight() - 196);
+                }
+                else{
+                    primaryStage.setHeight(primaryStage.getHeight() + 196);
+
+                }
+            }
+        });
+
         // The total duration property will only change once for every video,
         // therefore adding a listener allows us to set the maximum value of the time slider
         // as opposed to any arbitrary value that doesn't mean anything.
@@ -161,7 +185,11 @@ public class Controller {
         int totalMinutes = totalSeconds / 60;
         int currentSeconds = totalSeconds - (totalMinutes * 60);
 
-        return String.format("%02d:%02d", totalMinutes, currentSeconds);
+        int totalSec = (int) total.toSeconds();
+        int totalMin = totalSec / 60;
+        int sec = totalSec - (totalMin * 60);
+
+        return String.format("%02d:%02d / %02d:%02d", totalMinutes, currentSeconds, totalMin, sec);
     }
 
     public void stopVideo() {

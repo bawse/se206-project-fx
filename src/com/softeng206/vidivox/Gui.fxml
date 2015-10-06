@@ -39,7 +39,7 @@
             </HBox>
          </children>
       </VBox>
-      <ToolBar VBox.vgrow="ALWAYS">
+      <ToolBar VBox.vgrow="NEVER">
         <items>
             <Region prefHeight="34.0" prefWidth="0.0" />
           <Button fx:id="browseVideoButton" mnemonicParsing="false" onAction="#browseVideo" text="Browse" />
@@ -105,7 +105,7 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </Label>
-                  <Slider>
+                  <Slider fx:id="volumeSlider" max="1.0" HBox.hgrow="ALWAYS">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
@@ -119,7 +119,7 @@
             </HBox>
         </items>
       </ToolBar>
-      <TitledPane text="Add text-to-speech commentary" VBox.vgrow="NEVER">
+      <TitledPane fx:id="commentaryPanel" animated="false" disable="true" expanded="false" text="Add text-to-speech commentary" VBox.vgrow="NEVER">
          <content>
               <HBox>
                   <children>
@@ -130,7 +130,14 @@
                                   <items>
                                       <Button fx:id="ttsPreviewButton" mnemonicParsing="false" onAction="#ttsPreview" text="Preview" />
                               <Button fx:id="ttsCancelPreviewButton" disable="true" mnemonicParsing="false" onAction="#ttsPreviewCancel" text="Cancel Preview" />
-                                      <Button mnemonicParsing="false" onAction="#ttsMp3" text="Save to MP3" />
+                                      <Button mnemonicParsing="false" onAction="#ttsMp3" text="Export">
+                                 <graphic>
+                                    <ImageView pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@icons/export.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic></Button>
                                   </items>
                               </ToolBar>
                         <ProgressBar fx:id="progressBar" prefHeight="18.0" prefWidth="1136.0" progress="0.0">
@@ -142,23 +149,18 @@
                       </VBox>
                       <VBox alignment="CENTER" prefHeight="130.0" prefWidth="140.0" HBox.hgrow="ALWAYS">
                           <children>
-                              <Label text="Add Audio" underline="true">
-                           <font>
-                              <Font name="System Italic" size="13.0" />
-                           </font>
-                        </Label>
+                              <Label text="Add Audio" underline="true" />
                         <Separator orientation="VERTICAL" prefHeight="200.0" visible="false" />
-                              <Button mnemonicParsing="false" onAction="#browseAudio" text="Browse for mp3" />
-                        <Separator prefWidth="200.0">
-                           <padding>
-                              <Insets top="2.0" />
-                           </padding>
-                        </Separator>
+                              <Button mnemonicParsing="false" onAction="#browseAudio" text="Browse for mp3">
+                           <VBox.margin>
+                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                           </VBox.margin>
+                        </Button>
+                        <Separator layoutX="77.0" layoutY="26.0" orientation="VERTICAL" prefHeight="200.0" visible="false" />
                         <Label text="Selected:" />
                         <Label fx:id="currentAudio" text="(none)" />
-                        <Separator prefWidth="200.0" />
                         <Separator orientation="VERTICAL" prefHeight="200.0" visible="false" />
-                        <MenuButton mnemonicParsing="false" text="Add mp3 to video">
+                        <MenuButton mnemonicParsing="false" text="Add to video">
                           <items>
                             <MenuItem mnemonicParsing="false" onAction="#renderVideo" text="Add to start" />
                             <MenuItem fx:id="advancedButton" mnemonicParsing="false" onAction="#advancedSettings" text="Advanced" />
@@ -166,6 +168,9 @@
                         </MenuButton>
                         <Separator orientation="VERTICAL" prefHeight="200.0" visible="false" />
                           </children>
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" />
+                     </HBox.margin>
                       </VBox>
                   </children>
               </HBox>
