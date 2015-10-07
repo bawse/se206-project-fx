@@ -364,7 +364,7 @@ public class Controller {
         alert.setHeaderText(null);
         alert.setResizable(true);
         if (message.length() > 50){
-            alert.getDialogPane().setPrefSize(300,300);
+            alert.getDialogPane().setPrefSize(500,300);
         }
         alert.setContentText(message);
         alert.showAndWait();
@@ -379,7 +379,7 @@ public class Controller {
 
             Stage stage = new Stage();
             stage.setTitle("Advanced A/V settings");
-            stage.setScene(new Scene(root1, 350, 350));
+            stage.setScene(new Scene(root1, 350, 450));
             stage.setResizable(false);
             stage.showAndWait();
        }
