@@ -19,6 +19,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
@@ -201,6 +202,9 @@ public class Controller {
     public void browseVideo() {
         configFileChooser();
         fc.setTitle("Browse for video");
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Video file (.mp4)", "*.mp4");
+        fc.getExtensionFilters().removeAll();
+        fc.getExtensionFilters().add(extensionFilter);
         selectedVideo = fc.showOpenDialog(browseVideoButton.getScene().getWindow());
 
 
@@ -321,6 +325,9 @@ public class Controller {
     public void browseAudio() {
         configFileChooser();
         fc.setTitle("Browse for audio file");
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Audio file (.mp3, .wav)", "*.mp3", "*.wav");
+        fc.getExtensionFilters().removeAll();
+        fc.getExtensionFilters().add(extensionFilter);
         selectedAudio = fc.showOpenDialog(browseVideoButton.getScene().getWindow());
 
         if (selectedAudio == null) {
