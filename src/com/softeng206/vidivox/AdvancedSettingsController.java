@@ -25,6 +25,7 @@ public class AdvancedSettingsController {
     @FXML public RadioButton overlayAtLocation;
     @FXML public Button exportButton;
     @FXML public RadioButton overlayVolume;
+    @FXML public RadioButton addStartStrip;
     @FXML public TextField locationBox;
     @FXML public TextField locationBox2;
     @FXML public TextField volumeBox;
@@ -49,6 +50,7 @@ public class AdvancedSettingsController {
         ToggleGroup group = new ToggleGroup();
         overlayVolume.setToggleGroup(group);
         overlayAtLocation.setToggleGroup(group);
+        addStartStrip.setToggleGroup(group);
 
     }
 
@@ -190,9 +192,13 @@ public class AdvancedSettingsController {
         }
 
         if (!isCorrectFormat(location)) {
-            Controller.showAlert(Alert.AlertType.ERROR, "Error", "Incorrect input format.");
+            Controller.showAlert(Alert.AlertType.ERROR, "Error", "Incorrect location format.");
             return false;
         }
+        if (overlayVolume.isSelected() && !isCorrectFormat(location, volumeReduction)){
+            Controller.showAlert(Alert.AlertType.ERROR, "Error", "Incorrect volume reduction format.");
+        }
+
         return true;
 
     }
@@ -211,10 +217,21 @@ public class AdvancedSettingsController {
             } catch (Exception e) {
                 return false;
             }
-
-
             return true;
         }
+    }
+    public boolean isCorrectFormat(String location, String volume){
+        String substring = volume.substring(0,2);
+        try{
+            Integer.parseInt(substring);
+        } catch (Exception e){
+            return false;
+        }
+        if (!volume.substring(2, volume.length()).equalsIgnoreCase("db")){
+            return false;
+        }
+        return true;
+
     }
 
 }
