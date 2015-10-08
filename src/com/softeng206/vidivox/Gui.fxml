@@ -160,12 +160,7 @@
                         <Label text="Selected:" />
                         <Label fx:id="currentAudio" text="(none)" />
                         <Separator orientation="VERTICAL" prefHeight="200.0" visible="false" />
-                        <MenuButton mnemonicParsing="false" text="Add to video">
-                          <items>
-                            <MenuItem mnemonicParsing="false" onAction="#renderVideo" text="Add to start" />
-                            <MenuItem fx:id="advancedButton" mnemonicParsing="false" onAction="#advancedSettings" text="Advanced" />
-                          </items>
-                        </MenuButton>
+                        <Button fx:id="advancedButton" mnemonicParsing="false" onAction="#advancedSettings" text="Add mp3 to video" />
                         <Separator orientation="VERTICAL" prefHeight="200.0" visible="false" />
                           </children>
                      <HBox.margin>

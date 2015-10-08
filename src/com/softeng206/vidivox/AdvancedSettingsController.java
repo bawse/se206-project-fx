@@ -1,6 +1,7 @@
 package com.softeng206.vidivox;
 
 import com.softeng206.vidivox.concurrency.AdvancedVideoWorker;
+import com.softeng206.vidivox.concurrency.VideoRenderWorker;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.TextField;
@@ -25,9 +26,12 @@ public class AdvancedSettingsController {
     @FXML public RadioButton overlayVolume;
     @FXML public TextField locationBox;
     @FXML public TextField locationBox2;
+    @FXML public TextField volumeBox;
     @FXML public ProgressBar overlayPB;
     @FXML public HBox textFields;
     @FXML public Button helpLabel;
+    @FXML public Tab overlayTab;
+    @FXML public Tab stripAudioTab;
 
 
     public void initialize(File audio, File video, ProgressBar pbar, MediaPlayer player){
@@ -67,13 +71,46 @@ public class AdvancedSettingsController {
         Controller.showAlert(Alert.AlertType.INFORMATION, "Help", helpMessage);
     }
 
-    public void processVideo(){
+    public void director(){
+        if (overlayTab.isSelected()){
+            processOverlayVideo();
+        } else if (stripAudioTab.isSelected()){
+            renderVideo();
+        }
+    }
+    public void renderVideo() {
+        if (selectedAudio != null && selectedVideo != null) {
+            fc.setTitle("Choose video save location");
+            File destination = fc.showSaveDialog(locationBox.getScene().getWindow());
+
+            if (destination == null) {
+                Controller.showAlert(Alert.AlertType.WARNING, "Error", "Please select a valid destination file.");
+                return;
+            }
+
+            VideoRenderWorker worker = new VideoRenderWorker(selectedVideo, selectedAudio, destination,
+                    player.getMedia().getDuration().toMillis());
+            overlayPB.progressProperty().bind(worker.progressProperty());
+            worker.setOnSucceeded(
+                    event -> {
+                        overlayPB.progressProperty().unbind();
+                        overlayPB.setProgress(0);
+                        Controller.showAlert(Alert.AlertType.INFORMATION, "Done!", "Your video was saved successfully.");
+                    }
+            );
+            worker.runTask();
+        } else {
+            Controller.showAlert(Alert.AlertType.ERROR, "Error", "You must select a video file and an audio file to combine.");
+        }
+    }
+
+    public void processOverlayVideo(){
         String location = locationBox.getText();
         if (location == null){
             Controller.showAlert(Alert.AlertType.ERROR, "Error", "Please enter a time.");
         }
         if (!isCorrectFormat(location)){
-            Controller.showAlert(Alert.AlertType.ERROR, "Error", "Incorret input format.");
+            Controller.showAlert(Alert.AlertType.ERROR, "Error", "Incorrect input format.");
             return;
         }
 
@@ -96,6 +133,27 @@ public class AdvancedSettingsController {
 
                 worker.runTask();
             }
+        if (overlayVolume.isSelected() && location != null){
+            fc.setTitle("Choose video export location");
+            File destination = fc.showSaveDialog(locationBox.getScene().getWindow());
+            AdvancedVideoWorker worker = new AdvancedVideoWorker(selectedAudio, selectedVideo, destination,
+                    locationBox2.getText(),volumeBox.getText(), 2, player.getMedia().getDuration().toMillis());
+            overlayPB.progressProperty().bind(worker.progressProperty());
+            worker.setOnSucceeded(
+                    event -> {
+                        overlayPB.progressProperty().unbind();
+                        overlayPB.setProgress(0);
+                        Controller.showAlert(Alert.AlertType.INFORMATION, "Done!", "Your video was saved successfully.");
+                    });
+            if (destination == null) {
+                Controller.showAlert(Alert.AlertType.WARNING, "Error", "Please select a valid destination file.");
+                return;
+            }
+
+            worker.runTask();
+
+        }
+
 
     }
 

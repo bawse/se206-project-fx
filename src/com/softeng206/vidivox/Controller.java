@@ -50,7 +50,7 @@ public class Controller {
     @FXML public Slider timeSlider;
     @FXML public Label timeLabel;
     @FXML public CheckBox toggleMute;
-    @FXML public MenuItem advancedButton;
+    @FXML public Button advancedButton;
     @FXML public TitledPane commentaryPanel;
     @FXML public Slider volumeSlider;
 
@@ -329,33 +329,6 @@ public class Controller {
         }
 
         currentAudio.setText(selectedAudio.getName());
-    }
-
-    public void renderVideo() {
-        if (selectedAudio != null && selectedVideo != null) {
-            configFileChooser();
-            fc.setTitle("Save rendered video to file");
-            File destination = fc.showSaveDialog(browseVideoButton.getScene().getWindow());
-
-            if (destination == null) {
-                showAlert(Alert.AlertType.WARNING, "Error", "Please select a valid destination file.");
-                return;
-            }
-
-            VideoRenderWorker worker = new VideoRenderWorker(selectedVideo, selectedAudio, destination,
-                    mediaView.getMediaPlayer().getMedia().getDuration().toMillis());
-            progressBar.progressProperty().bind(worker.progressProperty());
-            worker.setOnSucceeded(
-                    event -> {
-                        progressBar.progressProperty().unbind();
-                        progressBar.setProgress(0);
-                        showAlert(Alert.AlertType.INFORMATION, "Done!", "Your video was saved successfully.");
-                    }
-            );
-            worker.runTask();
-        } else {
-            showAlert(Alert.AlertType.ERROR, "Error", "You must select a video file and an audio file to combine.");
-        }
     }
 
     public static void showAlert(Alert.AlertType type, String title, String message) {

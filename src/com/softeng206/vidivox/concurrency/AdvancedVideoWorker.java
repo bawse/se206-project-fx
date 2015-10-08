@@ -27,7 +27,7 @@ public class AdvancedVideoWorker extends Task<Void> {
         this.option = option;
         this.duration = duration;
     }
-    public AdvancedVideoWorker(File audio, File video, File destination, String time, int option, double duration, String volumeInput) {
+    public AdvancedVideoWorker(File audio, File video, File destination, String time, String volumeInput, int option, double duration) {
         this.selectedAudio = audio;
         this.selectedVideo = video;
         this.destination = destination;
