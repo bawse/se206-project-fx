@@ -26,11 +26,11 @@
                      <left>
                         <VBox BorderPane.alignment="CENTER">
                            <children>
-                              <CheckBox fx:id="overlayAtLocation" mnemonicParsing="false" onAction="#overlayLocationCheckBox" text="Overlay audio at specified location">
+                              <RadioButton fx:id="overlayAtLocation" mnemonicParsing="false" onAction="#activateLocationControls" text="Overlay audio at specified location">
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
-                              </CheckBox>
+                              </RadioButton>
                               <HBox>
                                  <children>
                                     <TextField fx:id="locationBox" disable="true" prefHeight="26.0" prefWidth="87.0" promptText="mm:ss">
@@ -51,11 +51,11 @@
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
                               </Separator>
-                              <CheckBox fx:id="overlayVolume" mnemonicParsing="false" onAction="#overlayVolumeCheckBox" text="Overlay audio at location and &#10;change volume level of existing &#10;audio" wrapText="true">
+                              <RadioButton fx:id="overlayVolume" mnemonicParsing="false" onAction="#activateVolumeControls" text="Overlay audio at location &#10;and change volume level of &#10;existing audio.">
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
-                              </CheckBox>
+                              </RadioButton>
                               <HBox>
                                  <children>
                                     <Label text="Location" underline="true">
@@ -86,7 +86,7 @@
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </padding>
                                     </TextField>
-                                    <TextField prefHeight="26.0" prefWidth="98.0" promptText="e.g. -5dB">
+                                    <TextField fx:id="volumeBox" prefHeight="26.0" prefWidth="98.0" promptText="e.g. -5dB">
                                        <padding>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </padding>

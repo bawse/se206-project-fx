@@ -21,8 +21,8 @@ public class AdvancedSettingsController {
     private FileChooser fc = new FileChooser();
     private MediaPlayer player;
 
-    @FXML public CheckBox overlayAtLocation;
-    @FXML public CheckBox overlayVolume;
+    @FXML public RadioButton overlayAtLocation;
+    @FXML public RadioButton overlayVolume;
     @FXML public TextField locationBox;
     @FXML public TextField locationBox2;
     @FXML public ProgressBar overlayPB;
@@ -35,35 +35,27 @@ public class AdvancedSettingsController {
         this.selectedVideo = video;
         this.progressbar = pbar;
         this.player = player;
+        setupRadioButtons();
     }
 
 
-    public void overlayLocationCheckBox(){
-        if (overlayVolume.isSelected()){
-            locationBox.setDisable(false);
-            overlayVolume.setSelected(false);
-            textFields.setDisable(true);
-        }
-        else if (!overlayAtLocation.isSelected()){
-            locationBox.setDisable(true);
-        }
-        else if (locationBox.isDisabled()){
-            locationBox.setDisable(false);
-        }
+    public void setupRadioButtons(){
+        ToggleGroup group = new ToggleGroup();
+        overlayVolume.setToggleGroup(group);
+        overlayAtLocation.setToggleGroup(group);
 
     }
-    public void overlayVolumeCheckBox(){
-        if (overlayAtLocation.isSelected()){
-            overlayAtLocation.setSelected(false);
-            locationBox.setDisable(true);
-        }
-        if (overlayVolume.isSelected()){
-            textFields.setDisable(false);
-        }
-        else{
-            textFields.setDisable(true);
-        }
 
+    public void activateLocationControls(){
+
+        locationBox.setDisable(false);
+        textFields.setDisable(true);
+
+    }
+
+    public void activateVolumeControls(){
+        textFields.setDisable(false);
+        locationBox.setDisable(true);
 
     }
 
