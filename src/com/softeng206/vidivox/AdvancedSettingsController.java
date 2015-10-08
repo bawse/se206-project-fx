@@ -110,43 +110,63 @@ public class AdvancedSettingsController {
         }
     }
 
-    public void processOverlayVideo(){
-        String location = locationBox.getText();
-        if (location == null){
-            Controller.showAlert(Alert.AlertType.ERROR, "Error", "Please enter a time.");
+    public void processOverlayVideo() {
+        String location;
+        String volumeReduction = "";
+        if (overlayAtLocation.isSelected()) {
+            location = locationBox.getText();
+        } else if (overlayVolume.isSelected()) {
+            location = locationBox2.getText();
+            volumeReduction = volumeBox.getText();
+        } else {
+            location = null;
         }
-        if (!isCorrectFormat(location)){
+
+        if (!overlayVolume.isSelected() && !overlayAtLocation.isSelected()) {
+            Controller.showAlert(Alert.AlertType.ERROR, "Error", "Please select from one of the options.");
+            return;
+        }
+        if (location == null || location.isEmpty()) {
+            Controller.showAlert(Alert.AlertType.ERROR, "Error", "Please specify a location.");
+            return;
+        }
+        if (overlayVolume.isSelected() && volumeReduction.isEmpty()) {
+            Controller.showAlert(Alert.AlertType.ERROR, "Error", "Please specify a reduction in volume.");
+            return;
+        }
+
+        if (!isCorrectFormat(location)) {
             Controller.showAlert(Alert.AlertType.ERROR, "Error", "Incorrect input format.");
             return;
         }
 
-            if (overlayAtLocation.isSelected() && location != null) {
-                fc.setTitle("Choose video export location");
-                File destination = fc.showSaveDialog(locationBox.getScene().getWindow());
-                AdvancedVideoWorker worker = new AdvancedVideoWorker(selectedAudio, selectedVideo, destination,
-                        locationBox.getText(), 1, player.getMedia().getDuration().toMillis());
-                overlayPB.progressProperty().bind(worker.progressProperty());
-                worker.setOnSucceeded(
-                        event -> {
-                            overlayPB.progressProperty().unbind();
-                            overlayPB.setProgress(0);
-                            tabPane.setDisable(false);
-                            exportButton.setDisable(false);
-                            Controller.showAlert(Alert.AlertType.INFORMATION, "Done!", "Your video was saved successfully.");
-                        });
-                if (destination == null) {
-                    Controller.showAlert(Alert.AlertType.WARNING, "Error", "Please select a valid destination file.");
-                    return;
-                }
-                worker.runTask();
-                tabPane.setDisable(true);
-                exportButton.setDisable(true);
-            }
-        if (overlayVolume.isSelected() && location != null){
+        if (overlayAtLocation.isSelected() && location != null) {
             fc.setTitle("Choose video export location");
             File destination = fc.showSaveDialog(locationBox.getScene().getWindow());
             AdvancedVideoWorker worker = new AdvancedVideoWorker(selectedAudio, selectedVideo, destination,
-                    locationBox2.getText(),volumeBox.getText(), 2, player.getMedia().getDuration().toMillis());
+                    locationBox.getText(), 1, player.getMedia().getDuration().toMillis());
+            overlayPB.progressProperty().bind(worker.progressProperty());
+            worker.setOnSucceeded(
+                    event -> {
+                        overlayPB.progressProperty().unbind();
+                        overlayPB.setProgress(0);
+                        tabPane.setDisable(false);
+                        exportButton.setDisable(false);
+                        Controller.showAlert(Alert.AlertType.INFORMATION, "Done!", "Your video was saved successfully.");
+                    });
+            if (destination == null) {
+                Controller.showAlert(Alert.AlertType.WARNING, "Error", "Please select a valid destination file.");
+                return;
+            }
+            worker.runTask();
+            tabPane.setDisable(true);
+            exportButton.setDisable(true);
+        }
+        if (overlayVolume.isSelected() && location != null) {
+            fc.setTitle("Choose video export location");
+            File destination = fc.showSaveDialog(locationBox.getScene().getWindow());
+            AdvancedVideoWorker worker = new AdvancedVideoWorker(selectedAudio, selectedVideo, destination,
+                    locationBox2.getText(), volumeBox.getText(), 2, player.getMedia().getDuration().toMillis());
             overlayPB.progressProperty().bind(worker.progressProperty());
             worker.setOnSucceeded(
                     event -> {
@@ -170,6 +190,9 @@ public class AdvancedSettingsController {
     }
 
     public boolean isCorrectFormat(String text){
+        if (text == null || text.isEmpty()){
+            return false;
+        }
         String[] splitLocation = text.split(":");
         if (splitLocation.length > 2){
             return false;
