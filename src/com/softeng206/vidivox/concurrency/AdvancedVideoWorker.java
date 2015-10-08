@@ -128,16 +128,20 @@ public class AdvancedVideoWorker extends Task<Void> {
             DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
             Date date = new Date();
             String tempFileName = BashWorker.escapeChars(System.getProperty("user.home") + "/" + dateFormat.format(date) + ".mp4");
+
             volumeString = getCorrectFormat(volumeString);
+
             String tempCommand = "ffmpeg -i \"" + BashWorker.escapeChars(selectedVideo.getAbsolutePath()) + "\"" + " -vcodec copy -af \"volume=" + volumeString + "\" "
                     + "\"" + tempFileName + "\" " + "&& ";
+            String removeTempString = " && rm " + tempFileName;
+
             command = tempCommand + "ffmpeg -i \"" + tempFileName + "\" -i \"" +
                     BashWorker.escapeChars(selectedAudio.getAbsolutePath()) + "\" " + "-filter_complex \"[0:a]aformat=sample_" +
                     "fmts=fltp:sample_rates=44100:channel_layouts=mono[aud1];[1:a]aformat=sample_fmts=fltp:sample_rates=44100:channel_layouts=mono[bud2];" +
-                    "[bud2]adelay=" + audioDelay + "[aud2];[aud1][aud2]amix=inputs=2\" " + "-map 0:v \"" + BashWorker.escapeChars(destination.getAbsolutePath()) + "\"";
+                    "[bud2]adelay=" + audioDelay + "[aud2];[aud1][aud2]amix=inputs=2\" " + "-map 0:v \""
+                    + BashWorker.escapeChars(destination.getAbsolutePath()) + "\"" + removeTempString;
 
         }
-        System.out.println(command);
         return command;
     }
 
