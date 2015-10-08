@@ -378,7 +378,7 @@ public class Controller {
             asc.initialize(selectedAudio,selectedVideo,progressBar, player);
 
             Stage stage = new Stage();
-            stage.setTitle("Advanced A/V settings");
+            stage.setTitle("Advanced audio settings");
             stage.setScene(new Scene(root1, 350, 450));
             stage.setResizable(false);
             stage.showAndWait();

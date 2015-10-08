@@ -77,9 +77,16 @@ public class AdvancedSettingsController {
 
     public void processVideo(){
         String location = locationBox.getText();
+        if (location == null){
+            Controller.showAlert(Alert.AlertType.ERROR, "Error", "Please enter a time.");
+        }
+        if (!isCorrectFormat(location)){
+            Controller.showAlert(Alert.AlertType.ERROR, "Error", "Incorret input format.");
+            return;
+        }
 
             if (overlayAtLocation.isSelected() && location != null) {
-                fc.setTitle("Save rendered video to file");
+                fc.setTitle("Choose video export location");
                 File destination = fc.showSaveDialog(locationBox.getScene().getWindow());
                 AdvancedVideoWorker worker = new AdvancedVideoWorker(selectedAudio, selectedVideo, destination,
                         locationBox.getText(), 1, player.getMedia().getDuration().toMillis());
@@ -94,9 +101,27 @@ public class AdvancedSettingsController {
                     Controller.showAlert(Alert.AlertType.WARNING, "Error", "Please select a valid destination file.");
                     return;
                 }
+
                 worker.runTask();
             }
 
+    }
+
+    public boolean isCorrectFormat(String text){
+        String[] splitLocation = text.split(":");
+        if (splitLocation.length > 2){
+            return false;
+        }else {
+            try {
+                int minute = Integer.parseInt(splitLocation[0]);
+                int seconds = Integer.parseInt(splitLocation[1]);
+            } catch (Exception e) {
+                return false;
+            }
+
+
+            return true;
+        }
     }
 
 }
