@@ -6,6 +6,10 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.lang.reflect.Field;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by jay on 1/10/15.
@@ -107,8 +111,9 @@ public class AdvancedVideoWorker extends Task<Void> {
     public String getCommand() {
         String command = "";
 
+        long audioDelay = convertTimeToMilliseconds();
+
         if (option == 1) {
-            long audioDelay = convertTimeToMilliseconds();
 
 //        String command = "ffmpeg -i " + BashWorker.escapeChars(selectedVideo.getAbsolutePath()) + " -i " + BashWorker.escapeChars(selectedAudio.getAbsolutePath()) +
 //                " -filter_complex \\\"[0:a]aformat=sample_fmts=fltp:sample_rates=44100:channel_layouts=mono[aud1];[1:a]aformat=sample_fmts=fltp:sample_rates=44100:channel_layouts=mono[bud2];[bud2]adelay=5000[aud2];[aud1][aud2]amix=inputs=2\\\"  -map 0:v " + BashWorker.escapeChars(destination.getAbsolutePath());
@@ -120,10 +125,20 @@ public class AdvancedVideoWorker extends Task<Void> {
                     "[bud2]adelay=" + audioDelay + "[aud2];[aud1][aud2]amix=inputs=2\" " + "-map 0:v \"" + BashWorker.escapeChars(destination.getAbsolutePath()) + "\"";
         }
         else if (option == 2){
+            DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+            Date date = new Date();
+            String tempFileName = BashWorker.escapeChars(System.getProperty("user.home") + "/" + dateFormat.format(date) + ".mp4");
+            volumeString = getCorrectFormat(volumeString);
+            String tempCommand = "ffmpeg -i \"" + BashWorker.escapeChars(selectedVideo.getAbsolutePath()) + "\"" + " -vcodec copy -af \"volume=" + volumeString + "\" "
+                    + "\"" + tempFileName + "\" " + "&& ";
+            command = tempCommand + "ffmpeg -i \"" + tempFileName + "\" -i \"" +
+                    BashWorker.escapeChars(selectedAudio.getAbsolutePath()) + "\" " + "-filter_complex \"[0:a]aformat=sample_" +
+                    "fmts=fltp:sample_rates=44100:channel_layouts=mono[aud1];[1:a]aformat=sample_fmts=fltp:sample_rates=44100:channel_layouts=mono[bud2];" +
+                    "[bud2]adelay=" + audioDelay + "[aud2];[aud1][aud2]amix=inputs=2\" " + "-map 0:v \"" + BashWorker.escapeChars(destination.getAbsolutePath()) + "\"";
 
         }
+        System.out.println(command);
         return command;
-
     }
 
     private long convertTimeToMilliseconds() {
@@ -134,6 +149,11 @@ public class AdvancedVideoWorker extends Task<Void> {
         int totalSeconds = seconds + (minutes * 60);
 
         return totalSeconds*1000;
+    }
+
+    private String getCorrectFormat(String string){
+        String[] substring = string.split("d");
+        return substring[0] + "dB";
     }
 
 }

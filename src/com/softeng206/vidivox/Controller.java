@@ -1,9 +1,6 @@
 package com.softeng206.vidivox;
 
-import com.softeng206.vidivox.concurrency.FestivalMp3Worker;
-import com.softeng206.vidivox.concurrency.FestivalPreviewWorker;
-import com.softeng206.vidivox.concurrency.RewindWorker;
-import com.softeng206.vidivox.concurrency.VideoRenderWorker;
+import com.softeng206.vidivox.concurrency.*;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
@@ -24,6 +21,10 @@ import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Controller {
     private FileChooser fc = new FileChooser();

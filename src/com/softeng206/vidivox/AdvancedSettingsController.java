@@ -214,20 +214,21 @@ public class AdvancedSettingsController {
             try {
                 int minute = Integer.parseInt(splitLocation[0]);
                 int seconds = Integer.parseInt(splitLocation[1]);
-            } catch (Exception e) {
+            } catch (Exception e) { // exception will get thrown if string can't be converted to an integer
                 return false;
             }
             return true;
         }
     }
     public boolean isCorrectFormat(String location, String volume){
-        String substring = volume.substring(0,2);
+        String[] substring = volume.split("d");
+
         try{
-            Integer.parseInt(substring);
+            Integer.parseInt(substring[0]);
         } catch (Exception e){
             return false;
         }
-        if (!volume.substring(2, volume.length()).equalsIgnoreCase("db")){
+        if (!volume.substring(volume.indexOf("d"), volume.length()).equalsIgnoreCase("db")){
             return false;
         }
         return true;
