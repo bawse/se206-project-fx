@@ -23,6 +23,7 @@ public class AdvancedSettingsController {
     private MediaPlayer player;
 
     @FXML public RadioButton overlayAtLocation;
+    @FXML public Button exportButton;
     @FXML public RadioButton overlayVolume;
     @FXML public TextField locationBox;
     @FXML public TextField locationBox2;
@@ -30,6 +31,7 @@ public class AdvancedSettingsController {
     @FXML public ProgressBar overlayPB;
     @FXML public HBox textFields;
     @FXML public Button helpLabel;
+    @FXML public TabPane tabPane;
     @FXML public Tab overlayTab;
     @FXML public Tab stripAudioTab;
 
@@ -75,10 +77,10 @@ public class AdvancedSettingsController {
         if (overlayTab.isSelected()){
             processOverlayVideo();
         } else if (stripAudioTab.isSelected()){
-            renderVideo();
+            processStripAudio();
         }
     }
-    public void renderVideo() {
+    public void processStripAudio() {
         if (selectedAudio != null && selectedVideo != null) {
             fc.setTitle("Choose video save location");
             File destination = fc.showSaveDialog(locationBox.getScene().getWindow());
@@ -95,10 +97,14 @@ public class AdvancedSettingsController {
                     event -> {
                         overlayPB.progressProperty().unbind();
                         overlayPB.setProgress(0);
+                        tabPane.setDisable(false);
+                        exportButton.setDisable(false);
                         Controller.showAlert(Alert.AlertType.INFORMATION, "Done!", "Your video was saved successfully.");
                     }
             );
             worker.runTask();
+            tabPane.setDisable(true);
+            exportButton.setDisable(true);
         } else {
             Controller.showAlert(Alert.AlertType.ERROR, "Error", "You must select a video file and an audio file to combine.");
         }
@@ -124,14 +130,17 @@ public class AdvancedSettingsController {
                         event -> {
                             overlayPB.progressProperty().unbind();
                             overlayPB.setProgress(0);
+                            tabPane.setDisable(false);
+                            exportButton.setDisable(false);
                             Controller.showAlert(Alert.AlertType.INFORMATION, "Done!", "Your video was saved successfully.");
                         });
                 if (destination == null) {
                     Controller.showAlert(Alert.AlertType.WARNING, "Error", "Please select a valid destination file.");
                     return;
                 }
-
                 worker.runTask();
+                tabPane.setDisable(true);
+                exportButton.setDisable(true);
             }
         if (overlayVolume.isSelected() && location != null){
             fc.setTitle("Choose video export location");
@@ -143,14 +152,17 @@ public class AdvancedSettingsController {
                     event -> {
                         overlayPB.progressProperty().unbind();
                         overlayPB.setProgress(0);
+                        tabPane.setDisable(false);
+                        exportButton.setDisable(false);
                         Controller.showAlert(Alert.AlertType.INFORMATION, "Done!", "Your video was saved successfully.");
                     });
             if (destination == null) {
                 Controller.showAlert(Alert.AlertType.WARNING, "Error", "Please select a valid destination file.");
                 return;
             }
-
             worker.runTask();
+            tabPane.setDisable(true);
+            exportButton.setDisable(true);
 
         }
 

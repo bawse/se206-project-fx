@@ -13,7 +13,7 @@
    <content>
       <VBox>
          <children>
-            <TabPane tabClosingPolicy="UNAVAILABLE">
+            <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                 <Tab fx:id="overlayTab" closable="false" text="Overlay audio">
                      <content>
@@ -175,7 +175,7 @@
             </ProgressBar>
             <HBox alignment="TOP_CENTER">
                <children>
-                <Button mnemonicParsing="false" onAction="#director" text="Export">
+                <Button fx:id="exportButton" mnemonicParsing="false" onAction="#director" text="Export">
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                      </padding>
