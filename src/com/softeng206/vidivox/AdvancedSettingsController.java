@@ -122,21 +122,7 @@ public class AdvancedSettingsController {
             location = null;
         }
 
-        if (!overlayVolume.isSelected() && !overlayAtLocation.isSelected()) {
-            Controller.showAlert(Alert.AlertType.ERROR, "Error", "Please select from one of the options.");
-            return;
-        }
-        if (location == null || location.isEmpty()) {
-            Controller.showAlert(Alert.AlertType.ERROR, "Error", "Please specify a location.");
-            return;
-        }
-        if (overlayVolume.isSelected() && volumeReduction.isEmpty()) {
-            Controller.showAlert(Alert.AlertType.ERROR, "Error", "Please specify a reduction in volume.");
-            return;
-        }
-
-        if (!isCorrectFormat(location)) {
-            Controller.showAlert(Alert.AlertType.ERROR, "Error", "Incorrect input format.");
+        if (!errorChecking(location,volumeReduction)){
             return;
         }
 
@@ -186,6 +172,28 @@ public class AdvancedSettingsController {
 
         }
 
+
+    }
+
+    public boolean errorChecking(String location, String volumeReduction){
+        if (!overlayVolume.isSelected() && !overlayAtLocation.isSelected()) {
+            Controller.showAlert(Alert.AlertType.ERROR, "Error", "Please select from one of the options.");
+            return false;
+        }
+        if (location == null || location.isEmpty()) {
+            Controller.showAlert(Alert.AlertType.ERROR, "Error", "Please specify a location.");
+            return false;
+        }
+        if (overlayVolume.isSelected() && volumeReduction.isEmpty()) {
+            Controller.showAlert(Alert.AlertType.ERROR, "Error", "Please specify a reduction in volume.");
+            return false;
+        }
+
+        if (!isCorrectFormat(location)) {
+            Controller.showAlert(Alert.AlertType.ERROR, "Error", "Incorrect input format.");
+            return false;
+        }
+        return true;
 
     }
 
