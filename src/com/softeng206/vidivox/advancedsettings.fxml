@@ -118,12 +118,19 @@
                      <bottom>
                         <ButtonBar BorderPane.alignment="CENTER">
                           <buttons>
-                            <Button mnemonicParsing="false" onAction="#processVideo" text="Render">
+                            <Button mnemonicParsing="false" onAction="#processVideo" text="Export">
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
+                                 <graphic>
+                                    <ImageView pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@icons/export.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
                               </Button>
-                              <Button fx:id="helpLabel" mnemonicParsing="false" onAction="#helpDialog">
+                              <Button fx:id="helpLabel" mnemonicParsing="false" onAction="#helpDialog" text="Help">
                                  <padding>
                                     <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                  </padding>
@@ -150,7 +157,77 @@
                   </BorderPane>
                </content>
             </Tab>
-          <Tab text="Strip audio" />
+            <Tab closable="false" text="Strip Audio">
+               <content>
+                  <BorderPane>
+                     <top>
+                        <Label text="Audio Strip Panel" underline="true" BorderPane.alignment="CENTER">
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </Label>
+                     </top>
+                     <left>
+                        <VBox BorderPane.alignment="CENTER">
+                           <children>
+                              <RadioButton mnemonicParsing="false" text="Add audio to start of video and strip&#10;existing audio">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </RadioButton>
+                              <ProgressBar fx:id="overlayPB1" prefHeight="20.0" prefWidth="276.0" progress="0.0">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                                 <VBox.margin>
+                                    <Insets bottom="5.0" left="15.0" right="5.0" top="5.0" />
+                                 </VBox.margin>
+                              </ProgressBar>
+                           </children>
+                        </VBox>
+                     </left>
+                     <bottom>
+                        <ButtonBar BorderPane.alignment="CENTER">
+                           <buttons>
+                              <Button mnemonicParsing="false" text="Export">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                                 <graphic>
+                                    <ImageView pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@icons/export.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                              <Button mnemonicParsing="false" onAction="#helpDialog" text="Help">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                                 <graphic>
+                                    <ImageView fitHeight="18.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@icons/help.png" />
+                                       </image>
+                                    </ImageView>
+                                 </graphic>
+                              </Button>
+                           </buttons>
+                           <BorderPane.margin>
+                              <Insets bottom="10.0" left="5.0" right="5.0" top="5.0" />
+                           </BorderPane.margin>
+                           <padding>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                           </padding>
+                        </ButtonBar>
+                     </bottom>
+                     <center>
+                        <Region BorderPane.alignment="CENTER" />
+                     </center>
+                  </BorderPane>
+               </content>
+            </Tab>
             <Tab text="Other settings" />
         </tabs>
       </TabPane>
