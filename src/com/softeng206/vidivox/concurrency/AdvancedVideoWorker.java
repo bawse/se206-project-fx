@@ -22,6 +22,11 @@ public class AdvancedVideoWorker extends Task<Void> {
     private double duration;
     private String volumeString;
 
+
+    // This worker requires two constructors. The first constructor will be used if the user
+    // has selected to just overlay audio at a specific location. The second constructor is used
+    // when the user has selected to overlay audio at a specific location and also decrease the volume
+    // of the original audio. Hence, an extra input is required because this option uses an additional TextField.
     public AdvancedVideoWorker(File audio, File video, File destination, String time, int option, double duration) {
         this.selectedAudio = audio;
         this.selectedVideo = video;
@@ -112,28 +117,36 @@ public class AdvancedVideoWorker extends Task<Void> {
 
         long audioDelay = convertTimeToMilliseconds();
 
+        // If option 1 (just overlay audio) has been selected, then the custom ffmpeg
+        // command with save destinations and escaped characters is returned to the call method.
         if (option == 1) {
-
-//        String command = "ffmpeg -i " + BashWorker.escapeChars(selectedVideo.getAbsolutePath()) + " -i " + BashWorker.escapeChars(selectedAudio.getAbsolutePath()) +
-//                " -filter_complex \\\"[0:a]aformat=sample_fmts=fltp:sample_rates=44100:channel_layouts=mono[aud1];[1:a]aformat=sample_fmts=fltp:sample_rates=44100:channel_layouts=mono[bud2];[bud2]adelay=5000[aud2];[aud1][aud2]amix=inputs=2\\\"  -map 0:v " + BashWorker.escapeChars(destination.getAbsolutePath());
-
 
             command = "ffmpeg -i \"" + BashWorker.escapeChars(selectedVideo.getAbsolutePath()) + "\" -i \"" +
                     BashWorker.escapeChars(selectedAudio.getAbsolutePath()) + "\" " + "-filter_complex \"[0:a]aformat=sample_" +
                     "fmts=fltp:sample_rates=44100:channel_layouts=mono[aud1];[1:a]aformat=sample_fmts=fltp:sample_rates=44100:channel_layouts=mono[bud2];" +
                     "[bud2]adelay=" + audioDelay + "[aud2];[aud1][aud2]amix=inputs=2\" " + "-map 0:v \"" + BashWorker.escapeChars(destination.getAbsolutePath()) + "\"";
+
         }
         else if (option == 2){
+            // If the user has selected to overlay the audio and decrease the original volume, then this branch is executed.
+            // A temporary file is created in the user's home directory (which is named using a DateFormat with the current date/time)
+            // as a sequence of numbers. Ensures that there is no existing file with the same name, otherwise the file will not be saved.
+            // (ffmpeg will be waiting for y/n input for overwriting the existing file, which we cannot provide through the GUI).
             DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
             Date date = new Date();
             String tempFileName = BashWorker.escapeChars(System.getProperty("user.home") + "/" + dateFormat.format(date) + ".mp4");
 
+            // Convert the user input into the correct format. Considers user error as the input is accepted regardless of case. (i.e. "db" = "dB")
+            // ffmpeg is case sensitive, so the correct format must be retrieved.
             volumeString = getCorrectFormat(volumeString);
 
+            // ffmpeg command that will decrease the volume of the original video by the specified amount. Creates a copy of the video, but with
+            // lower volume.
             String tempCommand = "ffmpeg -i \"" + BashWorker.escapeChars(selectedVideo.getAbsolutePath()) + "\"" + " -vcodec copy -af \"volume=" + volumeString + "\" "
                     + "\"" + tempFileName + "\" " + "&& ";
             String removeTempString = " && rm " + tempFileName;
 
+            // All the commands are concatenated into a single command, that will be returned from this method.
             command = tempCommand + "ffmpeg -i \"" + tempFileName + "\" -i \"" +
                     BashWorker.escapeChars(selectedAudio.getAbsolutePath()) + "\" " + "-filter_complex \"[0:a]aformat=sample_" +
                     "fmts=fltp:sample_rates=44100:channel_layouts=mono[aud1];[1:a]aformat=sample_fmts=fltp:sample_rates=44100:channel_layouts=mono[bud2];" +
@@ -144,6 +157,8 @@ public class AdvancedVideoWorker extends Task<Void> {
         return command;
     }
 
+    // The audiodelay parameter in ffmpeg must be in milliseconds.
+    // The mm:ss format entered by the user must be converted to ms.
     private long convertTimeToMilliseconds() {
         String[] split = time.split(":");
         int minutes = Integer.parseInt(split[0]);

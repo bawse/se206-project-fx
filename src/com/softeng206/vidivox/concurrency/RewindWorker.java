@@ -25,6 +25,8 @@ public class RewindWorker extends Task<Void> {
         while (!isCancelled()) {
             player.setMute(true);
             player.seek(player.getCurrentTime().subtract(Duration.seconds(1.5)));
+            // 200ms Thread sleep to give the effect of GUI responsiveness. Without this, the GUI seems to "freeze"
+            // when in reality it is just rewinding really fast.
             Thread.sleep(200);
         }
 
