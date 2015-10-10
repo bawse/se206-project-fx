@@ -19,13 +19,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 public class Controller {
     private FileChooser fc = new FileChooser();
@@ -36,6 +31,8 @@ public class Controller {
     private File selectedAudio, selectedVideo;
     Duration totalTime;
     Stage primaryStage;
+
+    // All the GUI related components are declared here.
 
     @FXML public Button browseVideoButton;
     @FXML public Label currentAudio;
@@ -55,6 +52,29 @@ public class Controller {
     @FXML public Button advancedButton;
     @FXML public TitledPane commentaryPanel;
     @FXML public Slider volumeSlider;
+
+
+
+
+    public void browseVideo() {
+        configFileChooser();
+        fc.setTitle("Browse for video");
+
+        //http://stackoverflow.com/questions/13634576/javafx-filechooser-how-to-set-file-filters
+        FileChooser.ExtensionFilter videoFilter = new FileChooser.ExtensionFilter("Video file (.mp4)", "*.mp4");
+        fc.getExtensionFilters().removeAll();
+        fc.getExtensionFilters().add(videoFilter);
+        fc.setSelectedExtensionFilter(videoFilter);
+
+        selectedVideo = fc.showOpenDialog(browseVideoButton.getScene().getWindow());
+
+
+        if (selectedVideo != null) {
+            playMedia(selectedVideo);
+        } else {
+            showAlert(Alert.AlertType.WARNING, "Error", "Please select a video file to preview.");
+        }
+    }
 
     private void playMedia(File video) {
         player = new MediaPlayer(new Media(video.toURI().toString()));
@@ -199,21 +219,7 @@ public class Controller {
         }
     }
 
-    public void browseVideo() {
-        configFileChooser();
-        fc.setTitle("Browse for video");
-        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Video file (.mp4)", "*.mp4");
-        fc.getExtensionFilters().removeAll();
-        fc.getExtensionFilters().add(extensionFilter);
-        selectedVideo = fc.showOpenDialog(browseVideoButton.getScene().getWindow());
 
-
-        if (selectedVideo != null) {
-            playMedia(selectedVideo);
-        } else {
-            showAlert(Alert.AlertType.WARNING, "Error", "Please select a video file to preview.");
-        }
-    }
 
     public void fastForwardVideo() {
         if (mediaView.getMediaPlayer() != null) {
@@ -325,9 +331,10 @@ public class Controller {
     public void browseAudio() {
         configFileChooser();
         fc.setTitle("Browse for audio file");
-        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("Audio file (.mp3, .wav)", "*.mp3", "*.wav");
+        FileChooser.ExtensionFilter audioFilter = new FileChooser.ExtensionFilter("Audio file (.mp3, .wav)", "*.mp3", "*.wav");
         fc.getExtensionFilters().removeAll();
-        fc.getExtensionFilters().add(extensionFilter);
+        fc.getExtensionFilters().add(audioFilter);
+        fc.setSelectedExtensionFilter(audioFilter);
         selectedAudio = fc.showOpenDialog(browseVideoButton.getScene().getWindow());
 
         if (selectedAudio == null) {
