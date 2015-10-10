@@ -61,6 +61,8 @@ public class Controller {
         fc.setTitle("Browse for video");
 
         //http://stackoverflow.com/questions/13634576/javafx-filechooser-how-to-set-file-filters
+        // Setting an extension filter, so user can only select .mp4 files. Saves a lot of error handling.
+
         FileChooser.ExtensionFilter videoFilter = new FileChooser.ExtensionFilter("Video file (.mp4)", "*.mp4");
         fc.getExtensionFilters().removeAll();
         fc.getExtensionFilters().add(videoFilter);
@@ -68,25 +70,34 @@ public class Controller {
 
         selectedVideo = fc.showOpenDialog(browseVideoButton.getScene().getWindow());
 
-
+        // If a file was selected, play the video.
         if (selectedVideo != null) {
             playMedia(selectedVideo);
         } else {
+            // User pressed cancel (i.e. did not choose a file).
             showAlert(Alert.AlertType.WARNING, "Error", "Please select a video file to preview.");
         }
     }
 
     private void playMedia(File video) {
+        // Initialising a new MediaPlayer to play the file chosen by the user.
         player = new MediaPlayer(new Media(video.toURI().toString()));
         player.setAutoPlay(true);
 
+        // If there is already a video playing, dispose of the existing
+        // media player and replace it with the new.
         if (mediaView.getMediaPlayer() != null) {
             mediaView.getMediaPlayer().dispose();
         }
 
         mediaView.setMediaPlayer(player);
+
+        // HeightProperty and WidthProperty binds so that MediaPlayer resizing works.
+        // Bound to the Pane containing the mediaplayer. Changes to the Pane will be
+        // translated to resizing of the video.
         mediaView.fitHeightProperty().bind(mediaPane.heightProperty());
         mediaView.fitWidthProperty().bind(mediaPane.widthProperty());
+
         timeSlider.setDisable(false);
         mediaPane.setVisible(true);
 
@@ -95,36 +106,28 @@ public class Controller {
 
         player.play();
 
+        // Method which will set all ChangeListeners. Used to update the time stamps as well
+        // as the slider values for the player controls.
         setListeners();
 
-    }
-    public void configFileChooser(){
-        String s = System.getenv("HOME") + "/Desktop/";
-        File desktop = new File(s);
-        fc.setInitialDirectory(desktop);
-    }
-
-    public void setToggleMute() {
-        if (mediaView.getMediaPlayer() != null) {
-            if (toggleMute.isSelected()) {
-                player.setMute(true);
-            } else {
-                player.setMute(false);
-            }
-        }
     }
 
     public void setListeners(){
 
+        // Bidirectional bind on the volume slider. Any changes to slider value results in
+        // player volume being adjusted.
         volumeSlider.valueProperty().bindBidirectional(player.volumeProperty());
         primaryStage = (Stage) volumeSlider.getScene().getWindow();
+
+        // The TTS panel is initially disabled. When a video starts playing, it is automatically enabled.
+        // Enabling of the panel results in window dimensions changing, and hence will affect the video size.
+        // Listener on the expandedProperty ensures that video remains the same size.
         commentaryPanel.expandedProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (!newValue){
-                    primaryStage.setHeight(primaryStage.getHeight() - 196);
-                }
-                else{
+                if (!newValue) {
+                    primaryStage.setHeight(primaryStage.getHeight() - 196); // 196 is the total height of the TTS panel.
+                } else {
                     primaryStage.setHeight(primaryStage.getHeight() + 196);
                 }
             }
@@ -140,6 +143,7 @@ public class Controller {
             }
         });
 
+        // Update the timeslider value to the current value of the player.
         player.currentTimeProperty().addListener(new ChangeListener<Duration>() {
             @Override
             public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
@@ -149,6 +153,8 @@ public class Controller {
             }
         });
 
+
+        // Allows for the user to press anywhere on the slider to skip to a certain part of the video being played.
         timeSlider.valueChangingProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -187,9 +193,12 @@ public class Controller {
                 update();
             }
         });
+
+
     }
 
     //http://stackoverflow.com/questions/9027317/how-to-convert-milliseconds-to-hhmmss-format
+    // Updates the time stamps on the mediaplayer controls with the correctly formatted time.
     public void update() {
         if (timeLabel != null && timeSlider != null) {
             Duration currentTime = player.getCurrentTime();
@@ -199,6 +208,8 @@ public class Controller {
 
     }
 
+    // Simple calculations in order to create a String format, so that time stamps can be updated using
+    // a consistent display format.
     public String formatDuration(Duration current, Duration total) {
 
         int totalSeconds = (int) current.toSeconds();
@@ -213,21 +224,41 @@ public class Controller {
 
     }
 
+    // Sets the initial directory of the file chooser to be the path to the users Desktop.
+    public void configFileChooser(){
+        String s = System.getenv("HOME") + "/Desktop/";
+        File desktop = new File(s);
+        fc.setInitialDirectory(desktop);
+    }
+
+    public void setToggleMute() {
+        if (mediaView.getMediaPlayer() != null) {
+            if (toggleMute.isSelected()) {
+                player.setMute(true);
+            } else {
+                player.setMute(false);
+            }
+        }
+    }
+
     public void stopVideo() {
         if (mediaView.getMediaPlayer() != null) {
             player.stop();
         }
     }
 
-
-
     public void fastForwardVideo() {
+        // Different approach to fast-forwarding a video. The playback rate is just increased to the maximum value of 8.
+        // The player looks much more responsive with this method as opposed to skipping frames.
         if (mediaView.getMediaPlayer() != null) {
             player.setMute(true);
             player.setRate(8.0);
         }
     }
 
+
+    // Unfortunately the same method as fast-forward couldn't be used, as the setRate method does
+    // not accept negative rates as input.
     public void rewindVideo() {
         if (mediaView.getMediaPlayer() != null) {
             rewindBackground = new RewindWorker(player);
@@ -235,6 +266,8 @@ public class Controller {
         }
     }
 
+    // Resume the video. If the video is being rewinded, then the video will continue playback at whichever point
+    // the play button was pressed.
     public void playButtonPressed() {
         if (mediaView.getMediaPlayer() != null) {
             if (rewindBackground != null && rewindBackground.isRunning()) {
@@ -262,6 +295,8 @@ public class Controller {
 
     }
 
+    // Check if any word in the text to speech preview TextField is greater than 35 characters.
+    // If so, then the word is too long and might cause festival to speak funny.
     private boolean checkTextSuitability() {
         if (ttsPreviewText.getText().split(" ").length > 35) {
             showAlert(Alert.AlertType.WARNING, "Warning",
@@ -277,6 +312,8 @@ public class Controller {
             return;
         }
 
+        // Concurrent worker to execute the Festival commands on the linux command line.
+        // Enabling and Disabling of the buttons is handled after the worker has finished executing.
         previewWorker = new FestivalPreviewWorker(ttsPreviewText.getText());
         previewWorker.setOnFinished(
                 WorkerStateEvent -> {
@@ -298,6 +335,7 @@ public class Controller {
     }
 
     public void ttsMp3() {
+        // If the text is not suitable, then the user cannot save to mp3.
         if (!checkTextSuitability()) {
             return;
         }
@@ -315,6 +353,8 @@ public class Controller {
                 return;
             }
 
+            // Executing the save to mp3 commands on a worker thread so GUI remains responsive. The user
+            // is notified once their file has been saved to the desired location.
             mp3Worker = new FestivalMp3Worker(ttsPreviewText.getText(), target);
             mp3Worker.setOnSucceeded(
                     event -> showAlert(Alert.AlertType.INFORMATION, "Done!", "Your MP3 was saved successfully.")
@@ -331,10 +371,14 @@ public class Controller {
     public void browseAudio() {
         configFileChooser();
         fc.setTitle("Browse for audio file");
+
+        // Restrict the user to only be able to choose from .mp3 or .wav files via an Extension Filter applied to
+        // the FileChooser.
         FileChooser.ExtensionFilter audioFilter = new FileChooser.ExtensionFilter("Audio file (.mp3, .wav)", "*.mp3", "*.wav");
         fc.getExtensionFilters().removeAll();
         fc.getExtensionFilters().add(audioFilter);
         fc.setSelectedExtensionFilter(audioFilter);
+
         selectedAudio = fc.showOpenDialog(browseVideoButton.getScene().getWindow());
 
         if (selectedAudio == null) {
@@ -343,9 +387,10 @@ public class Controller {
             return;
         }
 
-        currentAudio.setText(selectedAudio.getName());
+        currentAudio.setText(selectedAudio.getName()); // Label showing the current audio that is selected.
     }
 
+    // Custom method which allows for minor customisation of the alerts shown to the user.
     public static void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
@@ -357,6 +402,10 @@ public class Controller {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    // If the user presses the add mp3 to video button, then a new Stage is created.
+    // New stage consists of the Advanced settings panel, allowing user to choose what audio filters
+    // to apply to their chosen video.
     public void advancedSettings() throws IOException {
         if (selectedAudio != null && selectedVideo != null) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("advancedsettings.fxml"));
