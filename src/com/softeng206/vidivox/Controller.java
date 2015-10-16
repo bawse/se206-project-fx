@@ -68,14 +68,22 @@ public class Controller {
         fc.getExtensionFilters().add(videoFilter);
         fc.setSelectedExtensionFilter(videoFilter);
 
-        selectedVideo = fc.showOpenDialog(browseVideoButton.getScene().getWindow());
+        if (selectedVideo == null) {
+            selectedVideo = fc.showOpenDialog(browseVideoButton.getScene().getWindow());
 
-        // If a file was selected, play the video.
-        if (selectedVideo != null) {
-            playMedia(selectedVideo);
-        } else {
-            // User pressed cancel (i.e. did not choose a file).
-            showAlert(Alert.AlertType.WARNING, "Error", "Please select a video file to preview.");
+            // If a file was selected, play the video.
+            if (selectedVideo != null) {
+                playMedia(selectedVideo);
+            }
+
+        } else { // There is already a video selected. Therefore if the user specifies a new video, then this must be recognised.
+            File newVideo = fc.showOpenDialog(browseVideoButton.getScene().getWindow());
+            if (newVideo == null){
+                return;
+            } else{
+                selectedVideo = newVideo;
+                playMedia(selectedVideo);
+            }
         }
     }
 
