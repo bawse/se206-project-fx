@@ -243,6 +243,13 @@ public class Controller {
 
     public void stopVideo() {
         if (mediaView.getMediaPlayer() != null) {
+            if (rewindBackground != null && rewindBackground.isRunning()){
+                rewindBackground.cancel(true);
+            }
+            if (player.getRate() != 1){
+                player.setRate(1);
+                player.setMute(false);
+            }
             player.stop();
         }
     }
@@ -251,6 +258,10 @@ public class Controller {
         // Different approach to fast-forwarding a video. The playback rate is just increased to the maximum value of 8.
         // The player looks much more responsive with this method as opposed to skipping frames.
         if (mediaView.getMediaPlayer() != null) {
+            // If the video is currently rewinding, then we need to cancel that process before attempting a fast-forward.
+            if (rewindBackground != null && rewindBackground.isRunning()){
+                rewindBackground.cancel(true);
+            }
             player.setMute(true);
             player.setRate(8.0);
         }
@@ -261,8 +272,18 @@ public class Controller {
     // not accept negative rates as input.
     public void rewindVideo() {
         if (mediaView.getMediaPlayer() != null) {
-            rewindBackground = new RewindWorker(player);
-            rewindBackground.runTask();
+            // If the video is being fast-forwarded, we need to restore it to default speed before we rewind.
+            if (player.getRate() != 1){
+                player.setRate(1);
+                player.setMute(false);
+                player.play();
+            }
+            // Only rewind if there is no current rewind worker running or if it is the first time rewind has been pressed
+            // in which case rewindBackground will be null.
+            if (rewindBackground == null || !rewindBackground.isRunning()) {
+                rewindBackground = new RewindWorker(player);
+                rewindBackground.runTask();
+            }
         }
     }
 
@@ -298,7 +319,7 @@ public class Controller {
     // Check if any word in the text to speech preview TextField is greater than 35 characters.
     // If so, then the word is too long and might cause festival to speak funny.
     private boolean checkTextSuitability() {
-        if (ttsPreviewText.getText().split(" ").length > 35) {
+        if (ttsPreviewText.getText().split(" ").length > 34) {
             showAlert(Alert.AlertType.WARNING, "Warning",
                     "Please use less than 35 words in your text. Long phrases tend to sound unnatural.");
             return false;
