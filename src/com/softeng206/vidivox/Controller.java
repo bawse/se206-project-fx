@@ -335,16 +335,16 @@ public class Controller {
                     "Please use less than 35 words in your text. Long phrases tend to sound unnatural.");
             return false;
         }
-        if (ttsPreviewText.getText().length() == 0){
-            showAlert(Alert.AlertType.ERROR, "Error", "Please enter some text before attempting to preview.");
-            return false;
-        }
-
         return true;
     }
 
     public void ttsPreview() {
         if (!checkTextSuitability()) {
+            return;
+        }
+
+        if (ttsPreviewText.getText().isEmpty()){
+            showAlert(Alert.AlertType.WARNING, "Warning", "Please enter some text before attempting to preview.");
             return;
         }
 
@@ -382,10 +382,14 @@ public class Controller {
         } else {
             configFileChooser();
             fc.setTitle("Save MP3");
+            FileChooser.ExtensionFilter audioFilter = new FileChooser.ExtensionFilter("Audio file (.mp3)", "*.mp3");
+            fc.getExtensionFilters().remove(0, fc.getExtensionFilters().size());
+            fc.getExtensionFilters().add(audioFilter);
+            fc.setSelectedExtensionFilter(audioFilter);
             File target = fc.showSaveDialog(ttsPreviewButton.getScene().getWindow());
 
             if (target == null) {
-                showAlert(Alert.AlertType.WARNING, "Error", "Please select a valid destination file.");
+                showAlert(Alert.AlertType.WARNING, "Warning", "Please select a valid destination file.");
                 return;
             }
 
