@@ -35,9 +35,9 @@ public class RewindWorker extends Task<Void> {
             Thread.sleep(200);
 
             // If the video is currently rewinding, and close to the start of the video, then assume that the
-            // rewind has reached the start of the video. Hence, the video is played in this scenario.
+            // rewind has reached the start of the video. Hence, the video is paused in this scenario.
             if (player.getCurrentTime().toSeconds() <= 1.0){
-                player.play();
+                player.pause();
                 break;
             }
         }
