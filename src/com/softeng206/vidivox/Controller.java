@@ -412,7 +412,6 @@ public class Controller {
 
         if (selectedAudio == null) {
             currentAudio.setText("(none)");
-            showAlert(Alert.AlertType.WARNING, "Error", "Please select an audio file to use.");
             return;
         }
 
