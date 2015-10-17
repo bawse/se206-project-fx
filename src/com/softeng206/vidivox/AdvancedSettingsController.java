@@ -261,7 +261,6 @@ public class AdvancedSettingsController {
             } catch (Exception e) { // exception will get thrown if string can't be converted to an integer
                 return false;
             }
-            
             // If none of the other return statements have been called, the input is assumed to be correct.
             return true;
         }
