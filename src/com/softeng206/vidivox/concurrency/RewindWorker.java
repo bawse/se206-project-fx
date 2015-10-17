@@ -22,6 +22,11 @@ public class RewindWorker extends Task<Void> {
 
     @Override
     protected Void call() throws Exception {
+        /*
+        Pausing the player while the video is rewinding, so that the video does not keep playing
+        whilst the rewind button is activated.
+         */
+        player.pause();
         while (!isCancelled()) {
             player.setMute(true);
             player.seek(player.getCurrentTime().subtract(Duration.seconds(1.5)));

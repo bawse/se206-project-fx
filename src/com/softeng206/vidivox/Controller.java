@@ -64,7 +64,7 @@ public class Controller {
         // Setting an extension filter, so user can only select .mp4 files. Saves a lot of error handling.
 
         FileChooser.ExtensionFilter videoFilter = new FileChooser.ExtensionFilter("Video file (.mp4)", "*.mp4");
-        fc.getExtensionFilters().removeAll();
+        fc.getExtensionFilters().remove(0, fc.getExtensionFilters().size());
         fc.getExtensionFilters().add(videoFilter);
         fc.setSelectedExtensionFilter(videoFilter);
 
@@ -404,7 +404,7 @@ public class Controller {
         // Restrict the user to only be able to choose from .mp3 or .wav files via an Extension Filter applied to
         // the FileChooser.
         FileChooser.ExtensionFilter audioFilter = new FileChooser.ExtensionFilter("Audio file (.mp3, .wav)", "*.mp3", "*.wav");
-        fc.getExtensionFilters().removeAll();
+        fc.getExtensionFilters().remove(0, fc.getExtensionFilters().size());
         fc.getExtensionFilters().add(audioFilter);
         fc.setSelectedExtensionFilter(audioFilter);
 
