@@ -47,6 +47,7 @@ public class AdvancedSettingsController {
 
 
     public void setupRadioButtons(){
+        // Creating a group for all of the Radio Buttons, so that only one can be selected at a time.
         ToggleGroup group = new ToggleGroup();
         overlayVolume.setToggleGroup(group);
         overlayAtLocation.setToggleGroup(group);
@@ -54,6 +55,7 @@ public class AdvancedSettingsController {
 
     }
 
+    // Enable the text fields on the selection of a particular radio button.
     public void activateLocationControls(){
 
         locationBox.setDisable(false);
@@ -75,6 +77,7 @@ public class AdvancedSettingsController {
         Controller.showAlert(Alert.AlertType.INFORMATION, "Help", helpMessage);
     }
 
+    // A "director" method that will invoke the correct method based on what radio button is selected.
     public void director(){
         if (overlayTab.isSelected()){
             processOverlayVideo();
@@ -88,15 +91,19 @@ public class AdvancedSettingsController {
             File destination = fc.showSaveDialog(locationBox.getScene().getWindow());
 
             if (destination == null) {
-                Controller.showAlert(Alert.AlertType.WARNING, "Error", "Please select a valid destination file.");
                 return;
             }
 
+            // Create a new instance of the worker that will handle the video processing if the user selects a valid destination file.
             VideoRenderWorker worker = new VideoRenderWorker(selectedVideo, selectedAudio, destination,
                     player.getMedia().getDuration().toMillis());
+
+            // Bind the progressbar to the worker progress, so the worker updates automatically according to the progress of the worker.
             overlayPB.progressProperty().bind(worker.progressProperty());
+
             worker.setOnSucceeded(
                     event -> {
+                        // Unbind and reset the progress bar, as well as inform the user that the video has been saved correctly.
                         overlayPB.progressProperty().unbind();
                         overlayPB.setProgress(0);
                         tabPane.setDisable(false);
@@ -104,9 +111,14 @@ public class AdvancedSettingsController {
                         Controller.showAlert(Alert.AlertType.INFORMATION, "Done!", "Your video was saved successfully.");
                     }
             );
+
+            // Start the task, and disable all other click-ables on the panel except the help button so that there is no
+            // overlapping of workers.
             worker.runTask();
             tabPane.setDisable(true);
             exportButton.setDisable(true);
+
+        // The user does not have BOTH audio and video files selected.
         } else {
             Controller.showAlert(Alert.AlertType.ERROR, "Error", "You must select a video file and an audio file to combine.");
         }
@@ -115,6 +127,8 @@ public class AdvancedSettingsController {
     public void processOverlayVideo() {
         String location;
         String volumeReduction = "";
+
+        // Depending on which option has been selected, the location/volumeReduction strings are populated with user input.
         if (overlayAtLocation.isSelected()) {
             location = locationBox.getText();
         } else if (overlayVolume.isSelected()) {
@@ -124,16 +138,26 @@ public class AdvancedSettingsController {
             location = null;
         }
 
+        // Check for common errors in the user input via the errorChecking method. If it returns true, then the user has entered
+        // incorrect input.
         if (!errorChecking(location,volumeReduction)){
             return;
         }
 
         if (overlayAtLocation.isSelected() && location != null) {
             fc.setTitle("Choose video export location");
+
             File destination = fc.showSaveDialog(locationBox.getScene().getWindow());
+            /*
+            The constructor for the advanced video worker requires an input which lets the worker know what command to run.
+            As seen in the declaration of this worker, "1" is passed in as one of the inputs. This suggests that the first radio
+            button is selected, and hence only an overlay at location needs to be done.
+             */
             AdvancedVideoWorker worker = new AdvancedVideoWorker(selectedAudio, selectedVideo, destination,
                     locationBox.getText(), 1, player.getMedia().getDuration().toMillis());
             overlayPB.progressProperty().bind(worker.progressProperty());
+
+
             worker.setOnSucceeded(
                     event -> {
                         overlayPB.progressProperty().unbind();
@@ -142,20 +166,29 @@ public class AdvancedSettingsController {
                         exportButton.setDisable(false);
                         Controller.showAlert(Alert.AlertType.INFORMATION, "Done!", "Your video was saved successfully.");
                     });
+
+            // No destination specified.
             if (destination == null) {
                 Controller.showAlert(Alert.AlertType.WARNING, "Error", "Please select a valid destination file.");
                 return;
             }
+
+            // Disabling other GUI components whilst worker is running.
             worker.runTask();
             tabPane.setDisable(true);
             exportButton.setDisable(true);
         }
+        // This conditional block is called in the case where the second radio button is selected.
         if (overlayVolume.isSelected() && location != null) {
             fc.setTitle("Choose video export location");
             File destination = fc.showSaveDialog(locationBox.getScene().getWindow());
+
+            // As mentioned above, this worker has "2" as one of the inputs to the constructor. Suggests that the second
+            // radio button has been selected, and overlay at location as well as volume reduction needs to be done.
             AdvancedVideoWorker worker = new AdvancedVideoWorker(selectedAudio, selectedVideo, destination,
                     locationBox2.getText(), volumeBox.getText(), 2, player.getMedia().getDuration().toMillis());
             overlayPB.progressProperty().bind(worker.progressProperty());
+
             worker.setOnSucceeded(
                     event -> {
                         overlayPB.progressProperty().unbind();
@@ -164,10 +197,12 @@ public class AdvancedSettingsController {
                         exportButton.setDisable(false);
                         Controller.showAlert(Alert.AlertType.INFORMATION, "Done!", "Your video was saved successfully.");
                     });
+
             if (destination == null) {
                 Controller.showAlert(Alert.AlertType.WARNING, "Error", "Please select a valid destination file.");
                 return;
             }
+
             worker.runTask();
             tabPane.setDisable(true);
             exportButton.setDisable(true);
@@ -177,6 +212,7 @@ public class AdvancedSettingsController {
 
     }
 
+    // Method which will display error messages for common mistakes made by users such as empty inputs and incorrect format.
     public boolean errorChecking(String location, String volumeReduction){
         if (!overlayVolume.isSelected() && !overlayAtLocation.isSelected()) {
             Controller.showAlert(Alert.AlertType.ERROR, "Error", "Please select from one of the options.");
@@ -203,20 +239,30 @@ public class AdvancedSettingsController {
 
     }
 
+    // Method which checks for correct format for just the overlay audio functionality.
     public boolean isCorrectFormat(String text){
+
         if (text == null || text.isEmpty()){
             return false;
         }
+
+        // The expected format is mm:ss therefore the input is split using the : delimiter.
         String[] splitLocation = text.split(":");
+        // If more than one instance of the delimiter is found, then the format is incorrect.
         if (splitLocation.length > 2){
             return false;
-        }else {
+        }
+        else {
+            // Try and parse the split strings into integers. If they cannot be converted, then they aren't integers.
+            // Hence, we cannot make sense of the input. So the input format is incorrect.
             try {
                 int minute = Integer.parseInt(splitLocation[0]);
                 int seconds = Integer.parseInt(splitLocation[1]);
             } catch (Exception e) { // exception will get thrown if string can't be converted to an integer
                 return false;
             }
+            
+            // If none of the other return statements have been called, the input is assumed to be correct.
             return true;
         }
     }
