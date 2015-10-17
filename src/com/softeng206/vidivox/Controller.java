@@ -335,6 +335,10 @@ public class Controller {
                     "Please use less than 35 words in your text. Long phrases tend to sound unnatural.");
             return false;
         }
+        if (ttsPreviewText.getText().length() == 0){
+            showAlert(Alert.AlertType.ERROR, "Error", "Please enter some text before attempting to preview.");
+            return false;
+        }
 
         return true;
     }
@@ -428,7 +432,9 @@ public class Controller {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setResizable(true);
-        if (message.length() > 50){
+
+        // if the message is longer than 10 words then we need a bigger dialog
+        if (message.split(" ").length > 10){
             alert.getDialogPane().setPrefSize(500,300);
         }
         alert.setContentText(message);
