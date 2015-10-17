@@ -415,6 +415,7 @@ public class Controller {
             return;
         }
 
+
         currentAudio.setText(selectedAudio.getName()); // Label showing the current audio that is selected.
     }
 

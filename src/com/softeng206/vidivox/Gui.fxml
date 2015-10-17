@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
@@ -169,7 +170,10 @@
                         </Button>
                         <Separator layoutX="77.0" layoutY="26.0" orientation="VERTICAL" prefHeight="200.0" visible="false" />
                         <Label text="Selected:" />
-                        <Label fx:id="currentAudio" text="(none)" />
+                        <Label fx:id="currentAudio" text="(none)">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font></Label>
                         <Separator orientation="VERTICAL" prefHeight="200.0" visible="false" />
                         <Button fx:id="advancedButton" mnemonicParsing="false" onAction="#advancedSettings" text="Add mp3 to video" />
                         <Separator orientation="VERTICAL" prefHeight="200.0" visible="false" />
