@@ -162,7 +162,6 @@
                         </BorderPane>
                      </content>
                   </Tab>
-                  <Tab text="Other settings" />
               </tabs>
             </TabPane>
             <ProgressBar fx:id="overlayPB" prefHeight="20.0" prefWidth="276.0" progress="0.0">

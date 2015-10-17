@@ -35,6 +35,7 @@ abstract public class BashWorker extends Task<Void> {
         try {
             Process mainProcess = builder.start();
 
+            // Reflection "hack" as seen in lectures to get access of process ID.
             Field pidField = mainProcess.getClass().getDeclaredField("pid");
             pidField.setAccessible(true);
             processId = (int)pidField.get(mainProcess);
@@ -42,6 +43,7 @@ abstract public class BashWorker extends Task<Void> {
             while (mainProcess.isAlive()) {
                 if (isCancelled()) {
                     try {
+                        // if the cancel command is detected, then the main process will get cancelled.
                         Runtime.getRuntime().exec("kill -INT " + getKillPID(processId));
                     } catch (Exception f) {}
                 }
@@ -58,6 +60,9 @@ abstract public class BashWorker extends Task<Void> {
      * Escape bash special characters " and $
      */
     public static String escapeChars(String text) {
+        /* Prevents the festival functionality being broken if the user decides to use
+        special characters in their input.
+          */
         return text.replaceAll("\"","\\\\\"").replaceAll("\\$", "\\\\\\$");
     }
 
