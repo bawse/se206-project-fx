@@ -52,6 +52,7 @@ public class Controller {
     @FXML public Button advancedButton;
     @FXML public TitledPane commentaryPanel;
     @FXML public Slider volumeSlider;
+    @FXML public Label currentVideoLabel;
 
 
 
@@ -73,6 +74,7 @@ public class Controller {
 
             // If a file was selected, play the video.
             if (selectedVideo != null) {
+                currentVideoLabel.setText(selectedVideo.getName());
                 playMedia(selectedVideo);
             }
 
@@ -82,6 +84,7 @@ public class Controller {
                 return;
             } else{
                 selectedVideo = newVideo;
+                currentVideoLabel.setText(selectedVideo.getName());
                 playMedia(selectedVideo);
             }
         }

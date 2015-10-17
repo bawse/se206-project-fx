@@ -19,7 +19,7 @@ public class Vidivox extends Application {
         //Use the following command to change to a different JavaFX theme. Still needs to be tested on UG4.
         //System.setProperty( "javafx.userAgentStylesheetUrl", "CASPIAN" );
         primaryStage.setTitle("Vidivox Video Commentator");
-        primaryStage.setMinWidth(654);
+        primaryStage.setMinWidth(795);
         primaryStage.setMinHeight(600);
         primaryStage.setScene(new Scene(root, 795, 730));
         primaryStage.show();

@@ -28,7 +28,6 @@ public class FestivalMp3Worker extends BashWorker {
     }
 
     protected int getKillPID(int mainPid) {
-        // TODO: analyse text2wave / ffmpeg process tree, if we want to have cancel functionality
         return mainPid;
     }
 }
