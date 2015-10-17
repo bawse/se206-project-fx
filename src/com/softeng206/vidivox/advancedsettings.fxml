@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.media.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<TitledPane collapsible="false" text="Advanced Audio/Video Settings" underline="true" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.softeng206.vidivox.AdvancedSettingsController">
+   <content>
+      <VBox>
+         <children>
+            <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab fx:id="overlayTab" closable="false" text="Overlay audio">
+                     <content>
+                        <BorderPane>
+                           <top>
+                              <Label text="Audio Overlay Panel" underline="true" BorderPane.alignment="CENTER">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </Label>
+                           </top>
+                           <left>
+                              <VBox BorderPane.alignment="CENTER">
+                                 <children>
+                                    <RadioButton fx:id="overlayAtLocation" mnemonicParsing="false" onAction="#activateLocationControls" text="Overlay audio at specified location">
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </RadioButton>
+                                    <HBox>
+                                       <children>
+                                          <TextField fx:id="locationBox" disable="true" prefHeight="26.0" prefWidth="87.0" promptText="mm:ss">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="30.0" right="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <Separator prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </Separator>
+                                    <RadioButton fx:id="overlayVolume" mnemonicParsing="false" onAction="#activateVolumeControls" text="Overlay audio at location &#10;and change volume level of &#10;existing audio.">
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </RadioButton>
+                                    <HBox>
+                                       <children>
+                                          <Label text="Location" underline="true">
+                                             <HBox.margin>
+                                                <Insets left="30.0" right="5.0" />
+                                             </HBox.margin>
+                                             <font>
+                                                <Font name="System Italic" size="10.0" />
+                                             </font>
+                                          </Label>
+                                          <Label text="Volume change factor" underline="true">
+                                             <font>
+                                                <Font name="System Italic" size="10.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets left="70.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                       </children>
+                                    </HBox>
+                                    <HBox fx:id="textFields" disable="true">
+                                       <children>
+                                          <TextField fx:id="locationBox2" prefHeight="26.0" prefWidth="87.0" promptText="mm:ss">
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="30.0" right="5.0" top="5.0" />
+                                             </HBox.margin>
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                          </TextField>
+                                          <TextField fx:id="volumeBox" prefHeight="26.0" prefWidth="98.0" promptText="e.g. -5dB">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets left="25.0" top="5.0" />
+                                             </HBox.margin>
+                                          </TextField>
+                                       </children>
+                                    </HBox>
+                                    <Separator prefWidth="200.0" VBox.vgrow="ALWAYS">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </VBox.margin>
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </Separator>
+                                 </children>
+                              </VBox>
+                           </left>
+                           <bottom>
+                              <ButtonBar BorderPane.alignment="CENTER">
+                                 <BorderPane.margin>
+                                    <Insets bottom="10.0" left="5.0" right="5.0" top="5.0" />
+                                 </BorderPane.margin>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </ButtonBar>
+                           </bottom>
+                           <center>
+                              <Region BorderPane.alignment="CENTER" />
+                           </center>
+                        </BorderPane>
+                     </content>
+                  </Tab>
+                  <Tab fx:id="stripAudioTab" closable="false" text="Strip Audio">
+                     <content>
+                        <BorderPane>
+                           <top>
+                              <Label text="Audio Strip Panel" underline="true" BorderPane.alignment="CENTER">
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </Label>
+                           </top>
+                           <left>
+                              <VBox BorderPane.alignment="CENTER">
+                                 <children>
+                                    <RadioButton fx:id="addStartStrip" mnemonicParsing="false" text="Add audio to start of video and strip&#10;existing audio">
+                                       <padding>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                       </padding>
+                                    </RadioButton>
+                                 </children>
+                              </VBox>
+                           </left>
+                           <bottom>
+                              <ButtonBar BorderPane.alignment="CENTER">
+                                 <BorderPane.margin>
+                                    <Insets bottom="10.0" left="5.0" right="5.0" top="5.0" />
+                                 </BorderPane.margin>
+                                 <padding>
+                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                 </padding>
+                              </ButtonBar>
+                           </bottom>
+                           <center>
+                              <Region BorderPane.alignment="CENTER" />
+                           </center>
+                        </BorderPane>
+                     </content>
+                  </Tab>
+                  <Tab text="Other settings" />
+              </tabs>
+            </TabPane>
+            <ProgressBar fx:id="overlayPB" prefHeight="20.0" prefWidth="276.0" progress="0.0">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="15.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </ProgressBar>
+            <HBox alignment="TOP_CENTER">
+               <children>
+                <Button fx:id="exportButton" mnemonicParsing="false" onAction="#director" text="Export">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                     <graphic>
+                        <ImageView pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/export.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="helpLabel" mnemonicParsing="false" onAction="#helpDialog" text="Help">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/help.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <HBox.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+   </content>
+</TitledPane>

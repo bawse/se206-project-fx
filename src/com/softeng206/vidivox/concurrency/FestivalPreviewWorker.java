@@ -14,7 +14,8 @@ public class FestivalPreviewWorker extends BashWorker {
     }
 
     protected String getBashCommand() {
-        // TODO: escape message for characters like "
+        // If the user enters input with special characters, then they must be escaped.
+        // If this is not done, then there may not be any output from festival.
         return "echo \"" + escapeChars(message) + "\" | festival --tts";
     }
 
