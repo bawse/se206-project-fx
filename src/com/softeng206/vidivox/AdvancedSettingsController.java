@@ -265,14 +265,20 @@ public class AdvancedSettingsController {
             return true;
         }
     }
+
+    // Method which checks for correct formatting for the second radio button in the audio overlay tab.
     public boolean isCorrectFormat(String location, String volume){
+        // The format expected is "x#dB" where x refers to the sign (+/-) and # refers to an integer value.
+        // Splitting the string at the "d" allows us to get the integer value.
         String[] substring = volume.split("d");
 
         try{
+            // If the string cannot be parsed into an integer, it is of incorrect format and hence will throw an exception.
             Integer.parseInt(substring[0]);
         } catch (Exception e){
             return false;
         }
+        // If the end of the string does not equal "db" (case insensitive) then the format is incorrect.
         if (!volume.substring(volume.indexOf("d"), volume.length()).equalsIgnoreCase("db")){
             return false;
         }
