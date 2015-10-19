@@ -3,10 +3,7 @@ package com.softeng206.vidivox;
 import com.softeng206.vidivox.concurrency.*;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,7 +15,6 @@ import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -287,7 +283,6 @@ public class Controller {
         previewWorker.runTask();
     }
 
-
     public void ttsPreviewCancel() {
         if (previewWorker != null) {
             previewWorker.cancel(true);
@@ -343,15 +338,21 @@ public class Controller {
         fc.getExtensionFilters().add(audioFilter);
         fc.setSelectedExtensionFilter(audioFilter);
 
-        selectedAudio = fc.showOpenDialog(browseVideoButton.getScene().getWindow());
-
         if (selectedAudio == null) {
-            currentAudio.setText("(none)");
-            return;
+            selectedAudio = fc.showOpenDialog(browseVideoButton.getScene().getWindow());
+
+            if (selectedAudio != null){
+                currentAudio.setText(selectedAudio.getName()); // Label showing the current audio that is selected.
+            }
+        } else {
+            File newAudio = fc.showOpenDialog(browseVideoButton.getScene().getWindow());
+            if (newAudio == null){
+                return;
+            } else {
+                selectedAudio = newAudio;
+                currentAudio.setText(newAudio.getName());
+            }
         }
-
-
-        currentAudio.setText(selectedAudio.getName()); // Label showing the current audio that is selected.
     }
 
     // Custom method which allows for minor customisation of the alerts shown to the user.
@@ -390,5 +391,4 @@ public class Controller {
             showAlert(Alert.AlertType.ERROR, "Error", "Please select an audio and video file first.");
        }
     }
-
 }

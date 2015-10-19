@@ -164,14 +164,19 @@
                   </Tab>
               </tabs>
             </TabPane>
-            <ProgressBar fx:id="overlayPB" prefHeight="20.0" prefWidth="276.0" progress="0.0">
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
+            <HBox>
                <VBox.margin>
                   <Insets bottom="5.0" left="15.0" right="5.0" top="5.0" />
                </VBox.margin>
-            </ProgressBar>
+               <children>
+                  <ProgressBar fx:id="overlayPB" prefHeight="20.0" prefWidth="276.0" progress="0.0">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </ProgressBar>
+                  <ProgressIndicator fx:id="progressIndicator" progress="0.0" />
+               </children>
+            </HBox>
             <HBox alignment="TOP_CENTER">
                <children>
                 <Button fx:id="exportButton" mnemonicParsing="false" onAction="#director" text="Export">

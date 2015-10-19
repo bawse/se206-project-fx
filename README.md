@@ -10,7 +10,7 @@ JVM 1.8. It is also possible that the following run instructions may not be appl
 machine. Therefore, you will need to discover the path to your jvm yourself, and run the jar accordingly.
 
 HOW TO RUN VIDIVOX:
-1) Using Terminal, change to the directory where the runnable JAR file is saved.
+1) Using Terminal, change to the directory where the runnable JAR file is saved.\n
 2) Enter the following command into the terminal to run the JAR file:
     /usr/lib/jvm/jre1.8.0_45/bin/java -jar se206-project-fx.jar
 

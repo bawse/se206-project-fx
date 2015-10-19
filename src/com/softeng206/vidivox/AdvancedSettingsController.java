@@ -35,6 +35,7 @@ public class AdvancedSettingsController {
     @FXML public TabPane tabPane;
     @FXML public Tab overlayTab;
     @FXML public Tab stripAudioTab;
+    @FXML public ProgressIndicator progressIndicator;
 
 
     public void initialize(File audio, File video, ProgressBar pbar, MediaPlayer player){
@@ -100,12 +101,10 @@ public class AdvancedSettingsController {
 
             // Bind the progressbar to the worker progress, so the worker updates automatically according to the progress of the worker.
             overlayPB.progressProperty().bind(worker.progressProperty());
-
+            progressIndicator.progressProperty().bind(worker.progressProperty());
             worker.setOnSucceeded(
                     event -> {
-                        // Unbind and reset the progress bar, as well as inform the user that the video has been saved correctly.
-                        overlayPB.progressProperty().unbind();
-                        overlayPB.setProgress(0);
+                        unbindProgress();
                         tabPane.setDisable(false);
                         exportButton.setDisable(false);
                         Controller.showAlert(Alert.AlertType.INFORMATION, "Done!", "Your video was saved successfully.");
@@ -122,6 +121,14 @@ public class AdvancedSettingsController {
         } else {
             Controller.showAlert(Alert.AlertType.ERROR, "Error", "You must select a video file and an audio file to combine.");
         }
+    }
+
+    public void unbindProgress(){
+        // Unbind and reset the progress bar, as well as inform the user that the video has been saved correctly.
+        overlayPB.progressProperty().unbind();
+        overlayPB.setProgress(0);
+        progressIndicator.progressProperty().unbind();
+        progressIndicator.setProgress(0);
     }
 
     public void processOverlayVideo() {
@@ -156,12 +163,11 @@ public class AdvancedSettingsController {
             AdvancedVideoWorker worker = new AdvancedVideoWorker(selectedAudio, selectedVideo, destination,
                     locationBox.getText(), 1, player.getMedia().getDuration().toMillis());
             overlayPB.progressProperty().bind(worker.progressProperty());
-
+            progressIndicator.progressProperty().bind(worker.progressProperty());
 
             worker.setOnSucceeded(
                     event -> {
-                        overlayPB.progressProperty().unbind();
-                        overlayPB.setProgress(0);
+                        unbindProgress();
                         tabPane.setDisable(false);
                         exportButton.setDisable(false);
                         Controller.showAlert(Alert.AlertType.INFORMATION, "Done!", "Your video was saved successfully.");
@@ -188,11 +194,11 @@ public class AdvancedSettingsController {
             AdvancedVideoWorker worker = new AdvancedVideoWorker(selectedAudio, selectedVideo, destination,
                     locationBox2.getText(), volumeBox.getText(), 2, player.getMedia().getDuration().toMillis());
             overlayPB.progressProperty().bind(worker.progressProperty());
+            progressIndicator.progressProperty().bind(worker.progressProperty());
 
             worker.setOnSucceeded(
                     event -> {
-                        overlayPB.progressProperty().unbind();
-                        overlayPB.setProgress(0);
+                        unbindProgress();
                         tabPane.setDisable(false);
                         exportButton.setDisable(false);
                         Controller.showAlert(Alert.AlertType.INFORMATION, "Done!", "Your video was saved successfully.");
