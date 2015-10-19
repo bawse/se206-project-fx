@@ -27,7 +27,9 @@ run on our own machines.
 
 4) When saving a file (whether it be a text-to-speech MP3 or a video), please
 enter the full file name WITH the extension. E.g. "text2speech.mp3",
-"videowithnewaudio.mp4".
+"videowithnewaudio.mp4". If the correct extension is not specified, the name will
+still be accepted, but if a file already exists with the same name, it will be overwritten
+with no warning. PLEASE CHECK YOUR FILE NAME THOROUGHLY.
 
 5) The time label for video only works for mm:ss format, not for hh:mm:ss.
 

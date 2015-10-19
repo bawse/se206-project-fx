@@ -1,6 +1,6 @@
 package com.softeng206.vidivox.gui.controllers;
 
-import com.softeng206.vidivox.gui.controllers.AdvancedSettingsController;
+import com.softeng206.vidivox.util.FileNameChecker;
 import com.softeng206.vidivox.util.Listeners;
 import com.softeng206.vidivox.concurrency.audio.FestivalMp3Worker;
 import com.softeng206.vidivox.concurrency.audio.FestivalPreviewWorker;
@@ -310,6 +310,7 @@ public class Controller {
             fc.getExtensionFilters().add(audioFilter);
             fc.setSelectedExtensionFilter(audioFilter);
             File target = fc.showSaveDialog(ttsPreviewButton.getScene().getWindow());
+            target = FileNameChecker.returnCorrectAudioFile(target);
 
             if (target == null) {
                 showAlert(Alert.AlertType.WARNING, "Warning", "Please select a valid destination file.");

@@ -2,6 +2,7 @@ package com.softeng206.vidivox.gui.controllers;
 
 import com.softeng206.vidivox.concurrency.video.AdvancedVideoWorker;
 import com.softeng206.vidivox.concurrency.video.VideoRenderWorker;
+import com.softeng206.vidivox.util.FileNameChecker;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.TextField;
@@ -74,7 +75,9 @@ public class AdvancedSettingsController {
         String helpMessage = "Please enter the exact duration at which you want to insert the selected audio file." +
                 " Make sure your input is in the format of \"mm:ss\". E.g. \"01:20\".\n\nAny input not given in this format will" +
                 " not be accepted. If you want to decrease the volume of the original video, enter something like \"-10dB\". This " +
-                "will decrease the original audio by 10 Decibels.\n\nThe format of the input is critical.";
+                "will decrease the original audio by 10 Decibels.\n\nThe format of the input is critical.\n\nWhen saving a file, try" +
+                "to add the correct extension to the file name such as .mp4. The file will still be saved if the extension isn't specified," +
+                "but no video will be saved if a file with the same name exists.";
         Controller.showAlert(Alert.AlertType.INFORMATION, "Help", helpMessage);
     }
 
@@ -90,6 +93,7 @@ public class AdvancedSettingsController {
         if (selectedAudio != null && selectedVideo != null) {
             fc.setTitle("Choose video save location");
             File destination = fc.showSaveDialog(locationBox.getScene().getWindow());
+            destination = FileNameChecker.returnCorrectVideoFile(destination);
 
             if (destination == null) {
                 return;
@@ -155,6 +159,7 @@ public class AdvancedSettingsController {
             fc.setTitle("Choose video export location");
 
             File destination = fc.showSaveDialog(locationBox.getScene().getWindow());
+            destination = FileNameChecker.returnCorrectVideoFile(destination);
             /*
             The constructor for the advanced video worker requires an input which lets the worker know what command to run.
             As seen in the declaration of this worker, "1" is passed in as one of the inputs. This suggests that the first radio
@@ -188,6 +193,7 @@ public class AdvancedSettingsController {
         if (overlayVolume.isSelected() && location != null) {
             fc.setTitle("Choose video export location");
             File destination = fc.showSaveDialog(locationBox.getScene().getWindow());
+            destination = FileNameChecker.returnCorrectVideoFile(destination);
 
             // As mentioned above, this worker has "2" as one of the inputs to the constructor. Suggests that the second
             // radio button has been selected, and overlay at location as well as volume reduction needs to be done.
