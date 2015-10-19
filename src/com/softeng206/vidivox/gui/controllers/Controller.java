@@ -1,6 +1,10 @@
-package com.softeng206.vidivox;
+package com.softeng206.vidivox.gui.controllers;
 
-import com.softeng206.vidivox.concurrency.*;
+import com.softeng206.vidivox.gui.controllers.AdvancedSettingsController;
+import com.softeng206.vidivox.util.Listeners;
+import com.softeng206.vidivox.concurrency.audio.FestivalMp3Worker;
+import com.softeng206.vidivox.concurrency.audio.FestivalPreviewWorker;
+import com.softeng206.vidivox.concurrency.video.RewindWorker;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
 import javafx.fxml.FXML;
@@ -375,7 +379,7 @@ public class Controller {
     // to apply to their chosen video.
     public void advancedSettings() throws IOException {
         if (selectedAudio != null && selectedVideo != null) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("advancedsettings.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../advancedsettings.fxml"));
             Parent root1 = fxmlLoader.load();
 
             AdvancedSettingsController asc = fxmlLoader.getController();

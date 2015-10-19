@@ -9,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.softeng206.vidivox.Controller">
+<VBox xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.softeng206.vidivox.gui.controllers.Controller">
     <children>
       <Pane fx:id="mediaPane" style="-fx-background-color: black;" VBox.vgrow="ALWAYS">
          <children>
@@ -44,7 +44,7 @@
                <graphic>
                   <ImageView pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@icons/video.png" />
+                        <Image url="@../icons/video.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -55,7 +55,7 @@
                <graphic>
                   <ImageView pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@icons/play.png" />
+                        <Image url="@../icons/play.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -64,7 +64,7 @@
                <graphic>
                   <ImageView pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@icons/pause.png" />
+                        <Image url="@../icons/pause.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -73,7 +73,7 @@
                <graphic>
                   <ImageView pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@icons/stop.png" />
+                        <Image url="@../icons/stop.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -83,7 +83,7 @@
                <graphic>
                   <ImageView pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@icons/rewind.png" />
+                        <Image url="@../icons/rewind.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -92,7 +92,7 @@
                <graphic>
                   <ImageView pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@icons/forward.png" />
+                        <Image url="@../icons/forward.png" />
                      </image>
                   </ImageView>
                </graphic>
@@ -109,7 +109,7 @@
                      <graphic>
                         <ImageView pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@icons/volume.png" />
+                              <Image url="@../icons/volume.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -166,7 +166,7 @@
                                  <graphic>
                                     <ImageView pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@icons/export.png" />
+                                          <Image url="@../icons/export.png" />
                                        </image>
                                     </ImageView>
                                  </graphic></Button>
@@ -190,7 +190,7 @@
                            <graphic>
                               <ImageView pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@icons/audio.png" />
+                                    <Image url="@../icons/audio.png" />
                                  </image>
                               </ImageView>
                            </graphic>

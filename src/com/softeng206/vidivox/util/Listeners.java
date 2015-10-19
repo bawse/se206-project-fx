@@ -1,4 +1,4 @@
-package com.softeng206.vidivox;
+package com.softeng206.vidivox.util;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;

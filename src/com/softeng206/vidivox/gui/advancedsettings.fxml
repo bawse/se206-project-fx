@@ -9,7 +9,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<TitledPane collapsible="false" text="Advanced Audio/Video Settings" underline="true" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.softeng206.vidivox.AdvancedSettingsController">
+<TitledPane collapsible="false" text="Advanced Audio/Video Settings" underline="true" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.softeng206.vidivox.gui.controllers.AdvancedSettingsController">
    <content>
       <VBox>
          <children>
@@ -186,7 +186,7 @@
                      <graphic>
                         <ImageView pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@icons/export.png" />
+                              <Image url="@../icons/export.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -201,7 +201,7 @@
                      <graphic>
                         <ImageView fitHeight="18.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@icons/help.png" />
+                              <Image url="@../icons/help.png" />
                            </image>
                         </ImageView>
                      </graphic>

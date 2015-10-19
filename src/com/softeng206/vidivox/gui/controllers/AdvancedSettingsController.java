@@ -1,7 +1,7 @@
-package com.softeng206.vidivox;
+package com.softeng206.vidivox.gui.controllers;
 
-import com.softeng206.vidivox.concurrency.AdvancedVideoWorker;
-import com.softeng206.vidivox.concurrency.VideoRenderWorker;
+import com.softeng206.vidivox.concurrency.video.AdvancedVideoWorker;
+import com.softeng206.vidivox.concurrency.video.VideoRenderWorker;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.TextField;
@@ -291,5 +291,4 @@ public class AdvancedSettingsController {
         return true;
 
     }
-
 }

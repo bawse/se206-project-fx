@@ -1,4 +1,4 @@
-package com.softeng206.vidivox.concurrency;
+package com.softeng206.vidivox.concurrency.audio;
 
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
