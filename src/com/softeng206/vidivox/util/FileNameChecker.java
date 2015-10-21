@@ -17,6 +17,9 @@ final public class FileNameChecker {
         } else {
             String parent = selectedFile.getParent();
 
+            // If the file doesn't end with the correct audio extension, then we need to add it.
+            // Upon doing so, a File with the correct file name will be returned.
+
             if (!selectedFile.getName().endsWith(".mp3")){
                 String fileName = selectedFile.getName() + ".mp3";
                 return new File(parent + "/" + fileName);
@@ -30,6 +33,9 @@ final public class FileNameChecker {
             return null;
         } else {
             String parent = selectedFile.getParent();
+
+            // If the file doesn't end with the correct video extension, then we need to add it.
+            // Upon doing so, a File with the correct file name will be returned.
 
             if (!selectedFile.getName().endsWith(".mp4")){
                 String fileName = selectedFile.getName() + ".mp4";

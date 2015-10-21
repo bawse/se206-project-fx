@@ -380,7 +380,7 @@ public class Controller {
     // to apply to their chosen video.
     public void advancedSettings() throws IOException {
         if (selectedAudio != null && selectedVideo != null) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../advancedsettings.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/softeng206/vidivox/gui/advancedsettings.fxml"));
             Parent root1 = fxmlLoader.load();
 
             AdvancedSettingsController asc = fxmlLoader.getController();
