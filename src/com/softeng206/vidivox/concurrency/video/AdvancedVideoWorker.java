@@ -1,7 +1,9 @@
 package com.softeng206.vidivox.concurrency.video;
 
 import com.softeng206.vidivox.concurrency.audio.BashWorker;
+import com.softeng206.vidivox.gui.controllers.Controller;
 import javafx.concurrent.Task;
+import javafx.scene.control.Alert;
 
 import java.io.BufferedReader;
 import java.io.File;

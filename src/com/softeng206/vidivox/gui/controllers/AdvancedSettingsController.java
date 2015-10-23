@@ -154,6 +154,21 @@ public class AdvancedSettingsController {
         progressIndicator.setProgress(0);
     }
 
+    public double toSeconds(String location){
+
+        double totalSeconds = 0;
+        try {
+            String[] split = location.split(":");
+            int minutes = Integer.parseInt(split[0]);
+            int seconds = Integer.parseInt(split[1]);
+
+            totalSeconds = seconds + (minutes * 60);
+        } catch (Exception e){
+
+        }
+        return totalSeconds;
+    }
+
     public void processOverlayVideo() {
         String location;
         String volumeReduction = "";
@@ -161,8 +176,16 @@ public class AdvancedSettingsController {
         // Depending on which option has been selected, the location/volumeReduction strings are populated with user input.
         if (overlayAtLocation.isSelected()) {
             location = locationBox.getText();
+            if (toSeconds(location) > player.getMedia().getDuration().toSeconds()){
+                Controller.showAlert(Alert.AlertType.ERROR, "Error", "The duration you have entered is beyond the video duration.");
+                return;
+            }
         } else if (overlayVolume.isSelected()) {
             location = locationBox2.getText();
+            if (toSeconds(location) > player.getMedia().getDuration().toSeconds()){
+                Controller.showAlert(Alert.AlertType.ERROR, "Error", "The duration you have entered is beyond the video duration.");
+                return;
+            }
             volumeReduction = volumeBox.getText();
         } else {
             location = null;
