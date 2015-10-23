@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
+import javafx.util.Duration;
 
 import java.io.File;
 
@@ -37,6 +38,7 @@ public class AdvancedSettingsController {
     @FXML public Tab overlayTab;
     @FXML public Tab stripAudioTab;
     @FXML public ProgressIndicator progressIndicator;
+    @FXML public Button currentTime;
 
 
     public void initialize(File audio, File video, ProgressBar pbar, MediaPlayer player){
@@ -60,6 +62,7 @@ public class AdvancedSettingsController {
     // Enable the text fields on the selection of a particular radio button.
     public void activateLocationControls(){
 
+        currentTime.setDisable(false);
         locationBox.setDisable(false);
         textFields.setDisable(true);
 
@@ -68,7 +71,23 @@ public class AdvancedSettingsController {
     public void activateVolumeControls(){
         textFields.setDisable(false);
         locationBox.setDisable(true);
+        currentTime.setDisable(true);
 
+    }
+    public void loadCurrentTime(){
+        Duration currentTime = player.getCurrentTime();
+        int currentMinutes = (int)currentTime.toMinutes();
+        String minutes = "" + currentMinutes;
+        int currentSeconds = (int)(currentTime.toSeconds() - (currentMinutes * 60));
+        String seconds = "" + currentSeconds;
+        if (currentMinutes < 10){
+            minutes = "0" + currentMinutes;
+
+        }
+        if (currentSeconds < 10){
+            seconds = "0" + currentSeconds;
+        }
+        locationBox.setText(minutes + ":" + seconds);
     }
 
     public void helpDialog(){
