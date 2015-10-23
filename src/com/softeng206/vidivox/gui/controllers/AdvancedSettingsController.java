@@ -15,6 +15,9 @@ import java.io.File;
 
 /**
  * Created by jay on 1/10/15.
+ * This controller class is directly linked to the advancedsettings FXML, and the FX components used in that FXML
+ * are injected directly into this class. The main functions of this class include the director method, which delegates
+ * video export tasks depending on what the user has chosen.
  */
 public class AdvancedSettingsController {
 

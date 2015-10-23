@@ -10,6 +10,9 @@ import javafx.util.Duration;
 
 /**
  * Created by jay on 19/10/15.
+ * This class was created in order to reduce the overall length of the Controller.java class. There were several methods
+ * within the Controller class that were purely for utility and error checking, so it made sense to create final classes
+ * and access these methods via the static modifier.
  */
  public class Listeners {
     Slider volumeSlider;

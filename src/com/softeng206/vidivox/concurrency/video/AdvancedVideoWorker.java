@@ -15,6 +15,8 @@ import java.util.Date;
 
 /**
  * Created by jay on 1/10/15.
+ * This particular worker is designed to take care of any audio overlay functionalities. These functionalities are triggered
+ * from the "Overlay Audio" tab in the AdvancedSettings Stage.
  */
 public class AdvancedVideoWorker extends Task<Void> {
     private File selectedAudio;

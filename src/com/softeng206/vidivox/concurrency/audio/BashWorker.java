@@ -8,6 +8,9 @@ import java.lang.reflect.Field;
 
 /**
  * @author Jay Pandya
+ * This is an abstract class that will be used to create the other workers relying on BASH/Linux commands.
+ * If another class extends this class, two of the abstract methods will require a concrete implementation.
+ * This is because these methods will be different for each extending class.
  */
 abstract public class BashWorker extends Task<Void> {
     private int processId;
