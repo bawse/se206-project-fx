@@ -99,7 +99,7 @@ public class AdvancedSettingsController {
                 " not be accepted. If you want to decrease the volume of the original video, enter something like \"-10dB\". This " +
                 "will decrease the original audio by 10 Decibels.\n\nThe format of the input is critical.\n\nWhen saving a file, try" +
                 "to add the correct extension to the file name such as .mp4. The file will still be saved if the extension isn't specified," +
-                "but no video will be saved if a file with the same name exists.";
+                " but if a file with the same name exists, it will be overwritten.";
         Controller.showAlert(Alert.AlertType.INFORMATION, "Help", helpMessage);
     }
 

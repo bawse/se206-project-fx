@@ -369,7 +369,7 @@ public class Controller {
 
         // if the message is longer than 10 words then we need a bigger dialog
         if (message.split(" ").length > 10){
-            alert.getDialogPane().setPrefSize(500,300);
+            alert.getDialogPane().setPrefSize(550,300);
         }
         alert.setContentText(message);
         alert.showAndWait();
