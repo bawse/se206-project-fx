@@ -1,12 +1,13 @@
-package com.softeng206.vidivox;
+package com.softeng206.vidivox.gui.controllers;
 
-import com.softeng206.vidivox.concurrency.*;
+import com.softeng206.vidivox.util.FileNameChecker;
+import com.softeng206.vidivox.util.Listeners;
+import com.softeng206.vidivox.concurrency.audio.FestivalMp3Worker;
+import com.softeng206.vidivox.concurrency.audio.FestivalPreviewWorker;
+import com.softeng206.vidivox.concurrency.video.RewindWorker;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,7 +19,6 @@ import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.io.File;
 import java.io.IOException;
 
@@ -52,8 +52,7 @@ public class Controller {
     @FXML public Button advancedButton;
     @FXML public TitledPane commentaryPanel;
     @FXML public Slider volumeSlider;
-
-
+    @FXML public Label currentVideoLabel;
 
 
     public void browseVideo() {
@@ -73,6 +72,7 @@ public class Controller {
 
             // If a file was selected, play the video.
             if (selectedVideo != null) {
+                currentVideoLabel.setText(selectedVideo.getName());
                 playMedia(selectedVideo);
             }
 
@@ -82,6 +82,7 @@ public class Controller {
                 return;
             } else{
                 selectedVideo = newVideo;
+                currentVideoLabel.setText(selectedVideo.getName());
                 playMedia(selectedVideo);
             }
         }
@@ -122,79 +123,10 @@ public class Controller {
 
     public void setListeners(){
 
-        // Bidirectional bind on the volume slider. Any changes to slider value results in
-        // player volume being adjusted.
-        volumeSlider.valueProperty().bindBidirectional(player.volumeProperty());
-        primaryStage = (Stage) volumeSlider.getScene().getWindow();
+        Listeners listeners = new Listeners(volumeSlider, player, primaryStage, commentaryPanel, timeSlider);
+        listeners.setListeners();
 
-        // The TTS panel is initially disabled. When a video starts playing, it is automatically enabled.
-        // Enabling of the panel results in window dimensions changing, and hence will affect the video size.
-        // Listener on the expandedProperty ensures that video remains the same size.
-        commentaryPanel.expandedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (!newValue) {
-                    primaryStage.setHeight(primaryStage.getHeight() - 196); // 196 is the total height of the TTS panel.
-                } else {
-                    primaryStage.setHeight(primaryStage.getHeight() + 196);
-                }
-            }
-        });
-
-        // The total duration property will only change once for every video,
-        // therefore adding a listener allows us to set the maximum value of the time slider
-        // as opposed to any arbitrary value that doesn't mean anything.
-        player.totalDurationProperty().addListener(new ChangeListener<Duration>() {
-            @Override
-            public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
-                timeSlider.setMax(newValue.toSeconds());
-            }
-        });
-
-        // Update the timeslider value to the current value of the player.
-        player.currentTimeProperty().addListener(new ChangeListener<Duration>() {
-            @Override
-            public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
-                if (!timeSlider.isValueChanging()) {
-                    timeSlider.setValue(newValue.toSeconds());
-                }
-            }
-        });
-
-
-        // Allows for the user to press anywhere on the slider to skip to a certain part of the video being played.
-        timeSlider.valueChangingProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                if (!newValue) {
-                    player.seek(Duration.seconds(timeSlider.getValue()));
-
-                }
-            }
-        });
-
-        //http://www.java2s.com/Tutorials/Java/JavaFX/0490__JavaFX_Slider.htm
-        // Link has several examples of adding listeners to properties of a slider,
-        // which helped me in developing this particular listener. Refer to journal for
-        // additional notes on how this listener was designed.
-        timeSlider.valueProperty().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if (!timeSlider.isValueChanging()) {
-                    double currentTimeInSeconds = player.getCurrentTime().toSeconds();
-
-                    // If the value change is not brought about by the changelistener implemented on the currentTimeProperty
-                    // of the player, then this assumes that the timeslider was dragged to skip to a new section of the video.
-                    // As the changeListener on the currentTimeProperty of the player is "activated" due to minute differences,
-                    // a change value greater than 1.0 (arbitrary) denotes that the user has chosen to skip to a different portion of the video.
-                    if (Math.abs(currentTimeInSeconds - newValue.doubleValue()) > 1.0) {
-                        player.seek(Duration.seconds(newValue.doubleValue()));
-                    }
-                }
-            }
-        });
-
-
+        // This listener was kept in the controller because the update() method is not cohesive with the "Listeners" class.
         player.currentTimeProperty().addListener(new InvalidationListener() {
             @Override
             public void invalidated(Observable observable) {
@@ -275,7 +207,6 @@ public class Controller {
         }
     }
 
-
     // Unfortunately the same method as fast-forward couldn't be used, as the setRate method does
     // not accept negative rates as input.
     public void rewindVideo() {
@@ -305,13 +236,9 @@ public class Controller {
                 player.setMute(false);
                 player.seek(playtime);
             }
-
-
             player.setRate(1);
             player.setMute(false);
             player.play();
-
-
         }
     }
 
@@ -332,12 +259,16 @@ public class Controller {
                     "Please use less than 35 words in your text. Long phrases tend to sound unnatural.");
             return false;
         }
-
         return true;
     }
 
     public void ttsPreview() {
         if (!checkTextSuitability()) {
+            return;
+        }
+
+        if (ttsPreviewText.getText().isEmpty()){
+            showAlert(Alert.AlertType.WARNING, "Warning", "Please enter some text before attempting to preview.");
             return;
         }
 
@@ -355,7 +286,6 @@ public class Controller {
 
         previewWorker.runTask();
     }
-
 
     public void ttsPreviewCancel() {
         if (previewWorker != null) {
@@ -375,10 +305,15 @@ public class Controller {
         } else {
             configFileChooser();
             fc.setTitle("Save MP3");
+            FileChooser.ExtensionFilter audioFilter = new FileChooser.ExtensionFilter("Audio file (.mp3)", "*.mp3");
+            fc.getExtensionFilters().remove(0, fc.getExtensionFilters().size());
+            fc.getExtensionFilters().add(audioFilter);
+            fc.setSelectedExtensionFilter(audioFilter);
             File target = fc.showSaveDialog(ttsPreviewButton.getScene().getWindow());
+            target = FileNameChecker.returnCorrectAudioFile(target);
 
             if (target == null) {
-                showAlert(Alert.AlertType.WARNING, "Error", "Please select a valid destination file.");
+                showAlert(Alert.AlertType.WARNING, "Warning", "Please select a valid destination file.");
                 return;
             }
 
@@ -408,15 +343,21 @@ public class Controller {
         fc.getExtensionFilters().add(audioFilter);
         fc.setSelectedExtensionFilter(audioFilter);
 
-        selectedAudio = fc.showOpenDialog(browseVideoButton.getScene().getWindow());
-
         if (selectedAudio == null) {
-            currentAudio.setText("(none)");
-            return;
+            selectedAudio = fc.showOpenDialog(browseVideoButton.getScene().getWindow());
+
+            if (selectedAudio != null){
+                currentAudio.setText(selectedAudio.getName()); // Label showing the current audio that is selected.
+            }
+        } else {
+            File newAudio = fc.showOpenDialog(browseVideoButton.getScene().getWindow());
+            if (newAudio == null){
+                return;
+            } else {
+                selectedAudio = newAudio;
+                currentAudio.setText(newAudio.getName());
+            }
         }
-
-
-        currentAudio.setText(selectedAudio.getName()); // Label showing the current audio that is selected.
     }
 
     // Custom method which allows for minor customisation of the alerts shown to the user.
@@ -425,8 +366,10 @@ public class Controller {
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setResizable(true);
-        if (message.length() > 50){
-            alert.getDialogPane().setPrefSize(500,300);
+
+        // if the message is longer than 10 words then we need a bigger dialog
+        if (message.split(" ").length > 10){
+            alert.getDialogPane().setPrefSize(550,300);
         }
         alert.setContentText(message);
         alert.showAndWait();
@@ -437,7 +380,7 @@ public class Controller {
     // to apply to their chosen video.
     public void advancedSettings() throws IOException {
         if (selectedAudio != null && selectedVideo != null) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("advancedsettings.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/softeng206/vidivox/gui/advancedsettings.fxml"));
             Parent root1 = fxmlLoader.load();
 
             AdvancedSettingsController asc = fxmlLoader.getController();
@@ -453,5 +396,4 @@ public class Controller {
             showAlert(Alert.AlertType.ERROR, "Error", "Please select an audio and video file first.");
        }
     }
-
 }

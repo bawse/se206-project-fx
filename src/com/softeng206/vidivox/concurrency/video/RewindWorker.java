@@ -1,4 +1,4 @@
-package com.softeng206.vidivox.concurrency;
+package com.softeng206.vidivox.concurrency.video;
 
 import javafx.concurrent.Task;
 import javafx.scene.media.MediaPlayer;

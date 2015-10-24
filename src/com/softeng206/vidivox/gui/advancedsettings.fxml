@@ -9,7 +9,7 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<TitledPane collapsible="false" text="Advanced Audio/Video Settings" underline="true" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.softeng206.vidivox.AdvancedSettingsController">
+<TitledPane collapsible="false" text="Advanced Audio/Video Settings" underline="true" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.softeng206.vidivox.gui.controllers.AdvancedSettingsController">
    <content>
       <VBox>
          <children>
@@ -43,6 +43,14 @@
                                                 <Insets bottom="5.0" left="30.0" right="5.0" top="5.0" />
                                              </HBox.margin>
                                           </TextField>
+                                          <Button fx:id="currentTime" disable="true" mnemonicParsing="false" onAction="#loadCurrentTime" text="Load current time" HBox.hgrow="ALWAYS">
+                                             <padding>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </padding>
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </Button>
                                        </children>
                                     </HBox>
                                     <Separator prefWidth="200.0" VBox.vgrow="ALWAYS">
@@ -53,7 +61,7 @@
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </padding>
                                     </Separator>
-                                    <RadioButton fx:id="overlayVolume" mnemonicParsing="false" onAction="#activateVolumeControls" text="Overlay audio at location &#10;and change volume level of &#10;existing audio.">
+                                    <RadioButton fx:id="overlayVolume" mnemonicParsing="false" onAction="#activateVolumeControls" prefHeight="58.0" prefWidth="298.0" text="Overlay audio at location and change &#10;volume level of existing audio.">
                                        <padding>
                                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                        </padding>
@@ -73,7 +81,7 @@
                                                 <Font name="System Italic" size="10.0" />
                                              </font>
                                              <HBox.margin>
-                                                <Insets left="70.0" />
+                                                <Insets left="60.0" />
                                              </HBox.margin>
                                           </Label>
                                        </children>
@@ -93,7 +101,7 @@
                                                 <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                                              </padding>
                                              <HBox.margin>
-                                                <Insets left="25.0" top="5.0" />
+                                                <Insets left="15.0" top="5.0" />
                                              </HBox.margin>
                                           </TextField>
                                        </children>
@@ -109,16 +117,6 @@
                                  </children>
                               </VBox>
                            </left>
-                           <bottom>
-                              <ButtonBar BorderPane.alignment="CENTER">
-                                 <BorderPane.margin>
-                                    <Insets bottom="10.0" left="5.0" right="5.0" top="5.0" />
-                                 </BorderPane.margin>
-                                 <padding>
-                                    <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                                 </padding>
-                              </ButtonBar>
-                           </bottom>
                            <center>
                               <Region BorderPane.alignment="CENTER" />
                            </center>
@@ -164,14 +162,19 @@
                   </Tab>
               </tabs>
             </TabPane>
-            <ProgressBar fx:id="overlayPB" prefHeight="20.0" prefWidth="276.0" progress="0.0">
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
+            <HBox>
                <VBox.margin>
                   <Insets bottom="5.0" left="15.0" right="5.0" top="5.0" />
                </VBox.margin>
-            </ProgressBar>
+               <children>
+                  <ProgressBar fx:id="overlayPB" prefHeight="20.0" prefWidth="276.0" progress="0.0">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </ProgressBar>
+                  <ProgressIndicator fx:id="progressIndicator" progress="0.0" />
+               </children>
+            </HBox>
             <HBox alignment="TOP_CENTER">
                <children>
                 <Button fx:id="exportButton" mnemonicParsing="false" onAction="#director" text="Export">
@@ -181,7 +184,7 @@
                      <graphic>
                         <ImageView pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@icons/export.png" />
+                              <Image url="@../icons/export.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -196,7 +199,7 @@
                      <graphic>
                         <ImageView fitHeight="18.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@icons/help.png" />
+                              <Image url="@../icons/help.png" />
                            </image>
                         </ImageView>
                      </graphic>

@@ -1,5 +1,6 @@
-package com.softeng206.vidivox.concurrency;
+package com.softeng206.vidivox.concurrency.video;
 
+import com.softeng206.vidivox.concurrency.audio.BashWorker;
 import javafx.concurrent.Task;
 
 import java.io.BufferedReader;

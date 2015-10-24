@@ -1,6 +1,9 @@
-package com.softeng206.vidivox.concurrency;
+package com.softeng206.vidivox.concurrency.video;
 
+import com.softeng206.vidivox.concurrency.audio.BashWorker;
+import com.softeng206.vidivox.gui.controllers.Controller;
 import javafx.concurrent.Task;
+import javafx.scene.control.Alert;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -12,6 +15,8 @@ import java.util.Date;
 
 /**
  * Created by jay on 1/10/15.
+ * This particular worker is designed to take care of any audio overlay functionalities. These functionalities are triggered
+ * from the "Overlay Audio" tab in the AdvancedSettings Stage.
  */
 public class AdvancedVideoWorker extends Task<Void> {
     private File selectedAudio;

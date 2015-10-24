@@ -1,18 +1,23 @@
-package com.softeng206.vidivox;
+package com.softeng206.vidivox.gui.controllers;
 
-import com.softeng206.vidivox.concurrency.AdvancedVideoWorker;
-import com.softeng206.vidivox.concurrency.VideoRenderWorker;
+import com.softeng206.vidivox.concurrency.video.AdvancedVideoWorker;
+import com.softeng206.vidivox.concurrency.video.VideoRenderWorker;
+import com.softeng206.vidivox.util.FileNameChecker;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
+import javafx.util.Duration;
 
 import java.io.File;
 
 /**
  * Created by jay on 1/10/15.
+ * This controller class is directly linked to the advancedsettings FXML, and the FX components used in that FXML
+ * are injected directly into this class. The main functions of this class include the director method, which delegates
+ * video export tasks depending on what the user has chosen.
  */
 public class AdvancedSettingsController {
 
@@ -35,6 +40,8 @@ public class AdvancedSettingsController {
     @FXML public TabPane tabPane;
     @FXML public Tab overlayTab;
     @FXML public Tab stripAudioTab;
+    @FXML public ProgressIndicator progressIndicator;
+    @FXML public Button currentTime;
 
 
     public void initialize(File audio, File video, ProgressBar pbar, MediaPlayer player){
@@ -58,6 +65,7 @@ public class AdvancedSettingsController {
     // Enable the text fields on the selection of a particular radio button.
     public void activateLocationControls(){
 
+        currentTime.setDisable(false);
         locationBox.setDisable(false);
         textFields.setDisable(true);
 
@@ -66,14 +74,32 @@ public class AdvancedSettingsController {
     public void activateVolumeControls(){
         textFields.setDisable(false);
         locationBox.setDisable(true);
+        currentTime.setDisable(true);
 
+    }
+    public void loadCurrentTime(){
+        Duration currentTime = player.getCurrentTime();
+        int currentMinutes = (int)currentTime.toMinutes();
+        String minutes = "" + currentMinutes;
+        int currentSeconds = (int)(currentTime.toSeconds() - (currentMinutes * 60));
+        String seconds = "" + currentSeconds;
+        if (currentMinutes < 10){
+            minutes = "0" + currentMinutes;
+
+        }
+        if (currentSeconds < 10){
+            seconds = "0" + currentSeconds;
+        }
+        locationBox.setText(minutes + ":" + seconds);
     }
 
     public void helpDialog(){
         String helpMessage = "Please enter the exact duration at which you want to insert the selected audio file." +
                 " Make sure your input is in the format of \"mm:ss\". E.g. \"01:20\".\n\nAny input not given in this format will" +
                 " not be accepted. If you want to decrease the volume of the original video, enter something like \"-10dB\". This " +
-                "will decrease the original audio by 10 Decibels.\n\nThe format of the input is critical.";
+                "will decrease the original audio by 10 Decibels.\n\nThe format of the input is critical.\n\nWhen saving a file, try" +
+                "to add the correct extension to the file name such as .mp4. The file will still be saved if the extension isn't specified," +
+                " but if a file with the same name exists, it will be overwritten.";
         Controller.showAlert(Alert.AlertType.INFORMATION, "Help", helpMessage);
     }
 
@@ -89,6 +115,7 @@ public class AdvancedSettingsController {
         if (selectedAudio != null && selectedVideo != null) {
             fc.setTitle("Choose video save location");
             File destination = fc.showSaveDialog(locationBox.getScene().getWindow());
+            destination = FileNameChecker.returnCorrectVideoFile(destination);
 
             if (destination == null) {
                 return;
@@ -100,12 +127,10 @@ public class AdvancedSettingsController {
 
             // Bind the progressbar to the worker progress, so the worker updates automatically according to the progress of the worker.
             overlayPB.progressProperty().bind(worker.progressProperty());
-
+            progressIndicator.progressProperty().bind(worker.progressProperty());
             worker.setOnSucceeded(
                     event -> {
-                        // Unbind and reset the progress bar, as well as inform the user that the video has been saved correctly.
-                        overlayPB.progressProperty().unbind();
-                        overlayPB.setProgress(0);
+                        unbindProgress();
                         tabPane.setDisable(false);
                         exportButton.setDisable(false);
                         Controller.showAlert(Alert.AlertType.INFORMATION, "Done!", "Your video was saved successfully.");
@@ -124,6 +149,29 @@ public class AdvancedSettingsController {
         }
     }
 
+    public void unbindProgress(){
+        // Unbind and reset the progress bar, as well as inform the user that the video has been saved correctly.
+        overlayPB.progressProperty().unbind();
+        overlayPB.setProgress(0);
+        progressIndicator.progressProperty().unbind();
+        progressIndicator.setProgress(0);
+    }
+
+    public double toSeconds(String location){
+
+        double totalSeconds = 0;
+        try {
+            String[] split = location.split(":");
+            int minutes = Integer.parseInt(split[0]);
+            int seconds = Integer.parseInt(split[1]);
+
+            totalSeconds = seconds + (minutes * 60);
+        } catch (Exception e){
+
+        }
+        return totalSeconds;
+    }
+
     public void processOverlayVideo() {
         String location;
         String volumeReduction = "";
@@ -131,8 +179,16 @@ public class AdvancedSettingsController {
         // Depending on which option has been selected, the location/volumeReduction strings are populated with user input.
         if (overlayAtLocation.isSelected()) {
             location = locationBox.getText();
+            if (toSeconds(location) > player.getMedia().getDuration().toSeconds()){
+                Controller.showAlert(Alert.AlertType.ERROR, "Error", "The duration you have entered is beyond the video duration.");
+                return;
+            }
         } else if (overlayVolume.isSelected()) {
             location = locationBox2.getText();
+            if (toSeconds(location) > player.getMedia().getDuration().toSeconds()){
+                Controller.showAlert(Alert.AlertType.ERROR, "Error", "The duration you have entered is beyond the video duration.");
+                return;
+            }
             volumeReduction = volumeBox.getText();
         } else {
             location = null;
@@ -148,6 +204,7 @@ public class AdvancedSettingsController {
             fc.setTitle("Choose video export location");
 
             File destination = fc.showSaveDialog(locationBox.getScene().getWindow());
+            destination = FileNameChecker.returnCorrectVideoFile(destination);
             /*
             The constructor for the advanced video worker requires an input which lets the worker know what command to run.
             As seen in the declaration of this worker, "1" is passed in as one of the inputs. This suggests that the first radio
@@ -156,12 +213,11 @@ public class AdvancedSettingsController {
             AdvancedVideoWorker worker = new AdvancedVideoWorker(selectedAudio, selectedVideo, destination,
                     locationBox.getText(), 1, player.getMedia().getDuration().toMillis());
             overlayPB.progressProperty().bind(worker.progressProperty());
-
+            progressIndicator.progressProperty().bind(worker.progressProperty());
 
             worker.setOnSucceeded(
                     event -> {
-                        overlayPB.progressProperty().unbind();
-                        overlayPB.setProgress(0);
+                        unbindProgress();
                         tabPane.setDisable(false);
                         exportButton.setDisable(false);
                         Controller.showAlert(Alert.AlertType.INFORMATION, "Done!", "Your video was saved successfully.");
@@ -182,17 +238,18 @@ public class AdvancedSettingsController {
         if (overlayVolume.isSelected() && location != null) {
             fc.setTitle("Choose video export location");
             File destination = fc.showSaveDialog(locationBox.getScene().getWindow());
+            destination = FileNameChecker.returnCorrectVideoFile(destination);
 
             // As mentioned above, this worker has "2" as one of the inputs to the constructor. Suggests that the second
             // radio button has been selected, and overlay at location as well as volume reduction needs to be done.
             AdvancedVideoWorker worker = new AdvancedVideoWorker(selectedAudio, selectedVideo, destination,
                     locationBox2.getText(), volumeBox.getText(), 2, player.getMedia().getDuration().toMillis());
             overlayPB.progressProperty().bind(worker.progressProperty());
+            progressIndicator.progressProperty().bind(worker.progressProperty());
 
             worker.setOnSucceeded(
                     event -> {
-                        overlayPB.progressProperty().unbind();
-                        overlayPB.setProgress(0);
+                        unbindProgress();
                         tabPane.setDisable(false);
                         exportButton.setDisable(false);
                         Controller.showAlert(Alert.AlertType.INFORMATION, "Done!", "Your video was saved successfully.");
@@ -285,5 +342,4 @@ public class AdvancedSettingsController {
         return true;
 
     }
-
 }

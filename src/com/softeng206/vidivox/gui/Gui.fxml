@@ -9,7 +9,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.softeng206.vidivox.Controller">
+<VBox xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.softeng206.vidivox.gui.controllers.Controller">
     <children>
       <Pane fx:id="mediaPane" style="-fx-background-color: black;" VBox.vgrow="ALWAYS">
          <children>
@@ -37,60 +37,66 @@
             </HBox>
          </children>
       </VBox>
-      <ToolBar VBox.vgrow="NEVER">
+      <ToolBar VBox.vgrow="ALWAYS">
         <items>
             <Region prefHeight="34.0" prefWidth="0.0" />
           <Button fx:id="browseVideoButton" mnemonicParsing="false" onAction="#browseVideo" text="Browse">
                <graphic>
                   <ImageView pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@icons/video.png" />
+                        <Image url="@../icons/video.png" />
                      </image>
                   </ImageView>
-               </graphic></Button>
+               </graphic>
+            </Button>
             <Separator orientation="VERTICAL" />
             <Region />
             <Button fx:id="playButton" mnemonicParsing="false" onAction="#playButtonPressed">
                <graphic>
                   <ImageView pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@icons/play.png" />
+                        <Image url="@../icons/play.png" />
                      </image>
                   </ImageView>
-               </graphic></Button>
+               </graphic>
+            </Button>
             <Button fx:id="pauseButton" mnemonicParsing="false" onAction="#pauseButtonPressed">
                <graphic>
                   <ImageView pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@icons/pause.png" />
+                        <Image url="@../icons/pause.png" />
                      </image>
                   </ImageView>
-               </graphic></Button>
+               </graphic>
+            </Button>
             <Button fx:id="stopVideoButton" mnemonicParsing="false" onAction="#stopVideo">
                <graphic>
                   <ImageView pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@icons/stop.png" />
+                        <Image url="@../icons/stop.png" />
                      </image>
                   </ImageView>
-               </graphic></Button>
+               </graphic>
+            </Button>
             <Separator orientation="VERTICAL" />
             <Button fx:id="rewindButton" mnemonicParsing="false" onAction="#rewindVideo">
                <graphic>
                   <ImageView pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@icons/rewind.png" />
+                        <Image url="@../icons/rewind.png" />
                      </image>
                   </ImageView>
-               </graphic></Button>
+               </graphic>
+            </Button>
             <Button mnemonicParsing="false" onAction="#fastForwardVideo">
                <graphic>
                   <ImageView pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@icons/forward.png" />
+                        <Image url="@../icons/forward.png" />
                      </image>
                   </ImageView>
-               </graphic></Button>
+               </graphic>
+            </Button>
             <Separator>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -98,11 +104,12 @@
             </Separator>
             <HBox>
                <children>
+                  <Region HBox.hgrow="ALWAYS" />
                   <Label HBox.hgrow="ALWAYS">
                      <graphic>
                         <ImageView pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@icons/volume.png" />
+                              <Image url="@../icons/volume.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -120,6 +127,26 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </CheckBox>
+                  <VBox HBox.hgrow="ALWAYS">
+                     <children>
+                        <Label text="Playing:" textAlignment="RIGHT">
+                           <font>
+                              <Font name="System Italic" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="currentVideoLabel" alignment="CENTER" text="(none)" textAlignment="RIGHT" VBox.vgrow="ALWAYS">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </VBox>
                </children>
             </HBox>
         </items>
@@ -139,7 +166,7 @@
                                  <graphic>
                                     <ImageView pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@icons/export.png" />
+                                          <Image url="@../icons/export.png" />
                                        </image>
                                     </ImageView>
                                  </graphic></Button>
@@ -163,7 +190,7 @@
                            <graphic>
                               <ImageView pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@icons/audio.png" />
+                                    <Image url="@../icons/audio.png" />
                                  </image>
                               </ImageView>
                            </graphic>

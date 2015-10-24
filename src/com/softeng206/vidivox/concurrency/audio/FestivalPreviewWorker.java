@@ -1,4 +1,4 @@
-package com.softeng206.vidivox.concurrency;
+package com.softeng206.vidivox.concurrency.audio;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
